@@ -6,12 +6,17 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
       login:false,
-      show:false
+      show:false,
+      userTitle:''
   },
   mutations: {
-
+    setUserTitle(context,data){
+      state.userTitle = data;
+    }
   },
   actions: {
-
+    getUserTitle(context,data){
+      context.commit('setUserTitle',data)
+    }
   }
 })

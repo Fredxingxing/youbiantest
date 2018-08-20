@@ -18,10 +18,12 @@
             <div>榜单</div>
         </div>
         </router-link>
+        <router-link to="/User" tag="div">
         <div class="item">
             <i class="iconfont icon-myselected"></i>
             <div>我的</div>
         </div>
+        </router-link>
     </div>
 </template>
 

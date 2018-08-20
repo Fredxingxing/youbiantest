@@ -6,35 +6,48 @@ import Activity from './components/Activity/Activity'
 import ActivityDetail from './components/Activity/ActivityDetail'
 import List from './components/List/List'
 import HomeTabDetail from './components/Home/HomeTabDetail'
+//个人中心
+import User from '@/components/User/home'
+//个人中心下子路由
+
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
+      path: '/',
+      name: 'Home',
+      component: Home
+    },
+    {
       path: '/Home',
       name: 'Home',
       component: Home
     },
-      {
-          path: '/Activity',
-          name: 'Activity',
-          component: Activity
-      },
-      {
-          path: '/Activity/Detail',
-          name: 'ActivityDetail',
-          component: ActivityDetail
-      },
-      {
-          path: '/List',
-          name: 'List',
-          component: List
-      },
-      {
-          path:'/HomeTabDetail',
-          name:'HomeTabDetail',
-          component:HomeTabDetail
-      }
+    {
+      path: '/Activity',
+      name: 'Activity',
+      component: Activity
+    },
+    {
+      path: '/Activity/Detail',
+      name: 'ActivityDetail',
+      component: ActivityDetail
+    },
+    {
+      path: '/List',
+      name: 'List',
+      component: List
+    },
+    {
+      path: '/HomeTabDetail',
+      name: 'HomeTabDetail',
+      component: HomeTabDetail
+    },
+    {
+      path: '/user',
+      component: User
+    }
     // {
     //   path: '/about',
     //   name: 'about',
