@@ -2,7 +2,9 @@
     <div id="Home" class="Home">
         <topBar/>
         <HomeTab/>
+          <div class="SwiperContainer" style="height: 4rem;">
         <HomeSwiper/>
+          </div>
         <HomeHot/>
         <div class="blank">
         </div>

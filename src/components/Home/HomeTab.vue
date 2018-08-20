@@ -68,7 +68,7 @@
         },
         methods:{
           HomeTabView:function () {
-              var _this = this
+           var _this = this
            this.$axios.get('/index/all_cate')
                .then(function (response) {
                    var CateRes = response.data.data

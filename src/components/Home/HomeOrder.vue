@@ -154,7 +154,7 @@
     margin-top: .08rem;
     margin-left: -.05rem;
     display: flex;
-    width: 4.40rem;
+    /*width: 4.40rem;*/
     justify-content: space-around;
     align-items: baseline;
     font-size: .15rem;
@@ -187,7 +187,7 @@
     margin-right: .45rem;
     margin-top: .25rem;
     color: #DD5519;
-    width: 1.80rem;
+    /*width: 1.80rem;*/
     height: .9rem;
     margin-left: .15rem;
  }

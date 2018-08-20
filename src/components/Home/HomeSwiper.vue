@@ -58,8 +58,8 @@
 
 <style scoped>
 .swiper-container{
-    width: 7.50rem;
-    height: 4.00rem;
+    width: 100%;
+    height: 100%;
     font-size: .50rem;
 }
 </style>
