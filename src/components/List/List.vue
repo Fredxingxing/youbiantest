@@ -4,11 +4,11 @@
             <div class="ListName">榜单</div>
             <div class="Tab">
                 <mt-navbar class="TabList" v-model="selected">
-                    <div class="TabName ">
-                      <mt-tab-item id="1" class="mint-tab-item-label">发布榜单</mt-tab-item>
+                    <div class="TabContainer ">
+                      <mt-tab-item id="1" class="TabName mint-tab-item-label">发布榜单</mt-tab-item>
                      </div>
-                    <div class="TabName">
-                      <mt-tab-item id="2" class="mint-tab-item-label">接单榜单</mt-tab-item>
+                    <div class="TabContainer ">
+                      <mt-tab-item id="2" class="TabName mint-tab-item-label">接单榜单</mt-tab-item>
                      </div>
                 </mt-navbar>
             </div>
@@ -133,8 +133,10 @@
     font-size: .24rem;
     margin-bottom: .1rem;
 }
-.TabName{
+.TabContainer{
  margin: 0 .1rem 0 .3rem;
+}
+.TabName {
 }
 .mint-navbar .mint-tab-item.is-selected {
     border-bottom: .04rem solid #DD5519;
@@ -189,7 +191,8 @@
 .img{
     color: #B53026;
     width: 1rem;
-    height: .38rem;
+    height: 100%;
+    line-height: .5rem;
     background: url("../../assets/List/medal.png") center center no-repeat;
 }
 .ListTime{

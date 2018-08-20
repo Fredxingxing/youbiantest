@@ -23,16 +23,19 @@
                 </div>
             </div>
         </div>
+        <bottomBar/>
     </div>
 </template>
 
 <script>
     import topBar from '../topBar'
     import HomeSwiper from './HomeSwiper'
+    import bottomBar from '../bottomBar'
     export default {
         name: "HomeTabDetail",
         components:{
             topBar,
+            bottomBar,
             HomeSwiper
         } ,
         data(){
@@ -42,6 +45,10 @@
                 MenuDetail: [
                     {"title": "二级分类",
                     "Content":["三级分类","三级分类","三级分类","三级分类","三级分类","三级分类","三级分类","三级分类","三级分类",]},
+                    {"title": "二级分类",
+                        "Content":["三级分类","三级分类","三级分类","三级分类","三级分类","三级分类","三级分类","三级分类","三级分类",]},
+                    {"title": "二级分类",
+                        "Content":["三级分类","三级分类","三级分类","三级分类","三级分类","三级分类","三级分类","三级分类","三级分类",]},
                     {"title": "二级分类",
                         "Content":["三级分类","三级分类","三级分类","三级分类","三级分类","三级分类","三级分类","三级分类","三级分类",]},
                     {"title": "二级分类",
@@ -82,6 +89,8 @@
     display: flex;
     flex-direction: column;
     width: 20%;
+    /*height: 100%;*/
+    background: #F6F5F0;
  }
 .activeTab{
     color: #DD5519;
@@ -94,7 +103,7 @@
     color: #595959;
     font-size: .23rem;
     height: .8rem;
-    background: #F6F5F0;
+    /*background: #F6F5F0;*/
     line-height: .7rem;
  }
 .MenuDetail{
@@ -131,6 +140,7 @@
     font-size: .24rem;
     font-weight: bold;
     border-radius: 0.15rem;
+    margin:0.15rem 0 0.15rem 0;
 }
 .Btn{
     width: 1.2rem;

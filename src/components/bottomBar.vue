@@ -1,18 +1,18 @@
 <template>
     <div class="bottomBar">
-        <router-link to="/Home" tag="div">
+        <router-link to="/Home" tag="div" active-class="iconActive">
         <div class="item">
             <i class="iconfont icon-home"></i>
             <div>首页</div>
         </div>
         </router-link>
-        <router-link to="/Activity" tag="div">
+        <router-link to="/Activity" tag="div" active-class="iconActive">
         <div class="item">
             <i class="iconfont icon-hot"></i>
             <div>活动</div>
         </div>
         </router-link>
-        <router-link to="/List" tag="div">
+        <router-link to="/List" tag="div" active-class="iconActive">
         <div class="item">
             <i class="iconfont icon-diamond"></i>
             <div>榜单</div>
@@ -35,7 +35,7 @@
 .bottomBar{
     display: flex;
     width:7.50rem;
-    height: 1.70rem;
+    height: 1.05rem;
     justify-content: space-around;
     background: #ffff;
     font-size: .25rem;
@@ -46,14 +46,16 @@
     z-index: 1;
 }
 .iconfont{
-    font-size: .55rem;
-    color: #8a8a8a;
+    font-size: .40rem;
 }
-.iconfont:hover{
-   color: darkorange;
+.iconActive{
+    color: darkorange;
 }
+/*.iconfont:hover{*/
+   /*color: darkorange;*/
+/*}*/
 .item{
-   margin-top: .40rem;
+   margin-top: .10rem;
    margin-bottom: .05rem;
 }
 
