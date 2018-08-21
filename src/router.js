@@ -6,11 +6,23 @@ import Activity from './components/Activity/Activity'
 import ActivityDetail from './components/Activity/ActivityDetail'
 import List from './components/List/List'
 import HomeTabDetail from './components/Home/HomeTabDetail'
+/*******************************************/
 //个人中心
 import User from '@/components/User/home'
 import Other from '@/components/User/other'
 //个人中心下子路由
+//登录注册找密码
 import Login from '@/components/User/login'
+import Register from '@/components/User/register'
+import GetLose from '@/components/User/getlose'
+//订单和评价
+import Bjsd from '@/components/User/bjsd'
+import Wjsd from '@/components/User/wjsd'
+import Wfbd from '@/components/User/wfbd'
+import Comments from '@/components/User/comment'
+//充值提现
+import Cz from '@/components/User/cz'
+import Tx from '@/components/User/tx'
 
 Vue.use(Router)
 
@@ -62,6 +74,38 @@ export default new Router({
         {
           path: 'login',
           component: Login,
+        },
+        {
+          path: 'register',
+          component: Register,
+        },
+        {
+          path: 'getlose',
+          component: GetLose,
+        },
+        {
+          path: 'wjsd',
+          component: Wjsd,
+        }, 
+        {
+          path: 'wfbd',
+          component: Wfbd,
+        },
+        {
+          path: 'bjsd',
+          component: Bjsd,
+        },
+        {
+          path:'comment',
+          component:Comments
+        },
+        {
+          path: 'cz',
+          component: Cz,
+        },
+        {
+          path:'tx',
+          component:Tx
         }
       ]
     }

@@ -7,10 +7,16 @@
             <input type="text" v-model="username" placeholder="手机号/用户名">
         </div>
         <div class="iptbox">
-            <input type="password" v-model="password" placeholder="输入密码"><span class='repwd'>忘记密码？</span>
+            <input type="text" v-model="checknum" placeholder="输入验证码" ><button class='repwd' :disabled="disabled" @click='getCheck'>{{check}}</button>
         </div>
-        <button class='login' @click='login'>登录</button>
-        <div class="register">没有账号？去注册</div>
+         <div class="iptbox">
+            <input type="password" v-model="password" placeholder="设置密码">
+        </div>
+         <div class="iptbox">
+            <input type="password" v-model="repassword" placeholder="确认密码">
+        </div>
+        <button class='login' @click='repwd'>重置密码</button>
+        <div class="register">登录/注册</div>
     </div>
 </template>
 <script>
@@ -19,10 +25,33 @@
             return {
                 username:'',
                 password:'',
+                repassword:'',
+                checknum:'',
+                disabled:false,
+                check:'获取验证码'
+            }
+        },
+        methods:{
+             getCheck(){
+                var time = 60;
+                var timer = setInterval(()=>{    
+                    time--;
+                    console.log(time)
+                    this.check = time + "秒后重试";
+                    this.disabled = true;
+                    if (time==0) {
+                    clearInterval(timer); 
+                    this.check = "获取验证码";
+                    this.disabled = false;
+                    }
+                },1000);
+            },
+            repwd(){
+
             }
         },
         mounted(){
-            this.$store.dispatch('getUserTitle','登录')
+            this.$store.dispatch('getUserTitle','忘记密码')
         }
     }
 </script>
@@ -50,6 +79,9 @@
             font-size:.24rem;
             color:#727272;
             float: right;
+            border:0;
+            background-color: #fff;
+
         }
     }
     .login{

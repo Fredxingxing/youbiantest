@@ -30,17 +30,17 @@
         <div class="list order">
             <p class='title'>我的订单</p>
             <ul>
-                <li>我发布的
+                <router-link to="/other/wfbd" tag='li'>我发布的
                     <span>0<i class='iconfont icon-right'></i></span>
-                </li>
-                <li>
+                </router-link>
+                <router-link to='/other/bjsd' tag='li'>
                     被接收的
                     <span>0<i class='iconfont icon-right'></i></span>
-                </li>
-                <li>
+                </router-link>
+                <router-link to='/other/wjsd' tag='li'>
                     我接收的
                     <span>0<i class='iconfont icon-right'></i></span>
-                </li>
+                </router-link>
             </ul>
         </div>
         <div class="list">
