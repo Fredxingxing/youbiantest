@@ -1,8 +1,8 @@
 <template>
     <div class="other">
-        <header>
+        <div class='header'>
             <i class='iconfont icon-left'>{{title}}</i>
-        </header>
+        </div>
         <router-view>
 
         </router-view>
@@ -18,5 +18,10 @@
     }
 </script>
 <style lang="less" scoped>
-
+.other{
+    .header{
+        height: 2.8rem;
+        background-color: #FCA62F;
+    }
+}
 </style>

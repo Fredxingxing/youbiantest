@@ -8,12 +8,19 @@ import List from './components/List/List'
 import HomeTabDetail from './components/Home/HomeTabDetail'
 //个人中心
 import User from '@/components/User/home'
+import Other from '@/components/User/other'
 //个人中心下子路由
+import Login from '@/components/User/login'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
+      {
+          path: '/',
+          name: 'Home',
+          component: Home
+      },
     {
       path: '/',
       name: 'Home',
@@ -47,6 +54,16 @@ export default new Router({
     {
       path: '/user',
       component: User
+    },
+    {
+      path: '/other',
+      component: Other,
+      children:[
+        {
+          path: 'login',
+          component: Login,
+        }
+      ]
     }
     // {
     //   path: '/about',

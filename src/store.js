@@ -11,6 +11,7 @@ export default new Vuex.Store({
   },
   mutations: {
     setUserTitle(context,data){
+      console.log(data)
       state.userTitle = data;
     }
   },
