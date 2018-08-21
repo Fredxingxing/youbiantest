@@ -28,6 +28,7 @@ export default new Vuex.Store({
     },
     setTopBarShow(state,ChangeShow){
       state.TopBarCityShow = ChangeShow
+      this.state.userTitle = data;
     }
   },
   actions: {

@@ -26,17 +26,22 @@
     /*}*/
   /*}*/
 /*}*/
+#app{
+  margin:0;
+  padding:0;
+}
 *{
   padding:0;
   margin:0
 }
 body{
   background-color: #EFF3F6;
+  font-size:.28rem;
 }
 li{
   list-style:none;
 }
-input{
+input,button{
   outline: none
 }
 html {
@@ -54,6 +59,12 @@ html {
 }
 .color-FCA62F{
     color:#FCA62F
+}
+.color-E47E59{
+  color:#E47E59;
+}
+.color-85CCA1{
+  color:#85CCA1;
 }
 .fat{
     font-weight: 600
