@@ -29,6 +29,7 @@
         display: flex;
         width: 7.50rem;
         flex-direction: column;
+        background: #ffffff;
 }
 .ActivityTitle{
     width: 7.50rem;

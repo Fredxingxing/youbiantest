@@ -8,28 +8,28 @@
              </div>
                 <mt-button class="Btndetail">查看详情</mt-button>
          </div>
-           <div class="orderdetail">
-            <div class="detailText">
-                <div class="orderTitle">标题标题标题标题标题标题标题</div>
-                  <div class="orderInfo">
-                    <div class="orderCate">
-                        <i class="iconfont icon-cate"></i>
-                        <div>生活类-货运快递-中通快递</div>
-                    </div>
-                  <div class="orderDate">
-                        <i class="iconfont icon-date"></i>
-                        <div>2018-12-25</div>
-                  </div>
-                </div>
-                <div class="orderIntegral">120积分</div>
-            </div>
-            <div class="detailNumberBorder">
-                <div class="detailNum">
-                   <div class="orderNum">次数 : 2/10</div>
-                   <div class="orderTime">周期 : 1个月</div>
-               </div>
-            </div>
-           </div>
+          <div class="orderdetail">
+             <div class="detailText">
+                 <div class="orderTitle">标题标题标题标题标题标题标题</div>
+                 <div class="orderInfo">
+                     <div class="orderCate">
+                         <i class="iconfont icon-cate FontSize"></i>
+                         <div class="FontSize">生活类-货运快递-中通快递</div>
+                     </div>
+                     <div class="orderDate">
+                         <i class="iconfont icon-date FontSize"></i>
+                         <div class="FontSize" >2018-12-25</div>
+                     </div>
+                 </div>
+                 <div class="orderIntegral">120积分</div>
+             </div>
+             <div class="detailNumberBorder">
+                 <div class="detailNum">
+                     <div class="orderNum">次数 : 2/10</div>
+                     <div class="orderTime">周期 : 1个月</div>
+                 </div>
+             </div>
+         </div>
         </div>
      <div class="order">
             <div class="orderTop">
@@ -44,12 +44,12 @@
                     <div class="orderTitle">标题标题标题标题标题标题标题</div>
                     <div class="orderInfo">
                         <div class="orderCate">
-                            <i class="iconfont icon-cate"></i>
-                            <div>生活类-货运快递-中通快递</div>
+                            <i class="iconfont icon-cate FontSize"></i>
+                            <div class="FontSize">生活类-货运快递-中通快递</div>
                         </div>
                         <div class="orderDate">
-                            <i class="iconfont icon-date"></i>
-                            <div>2018-12-25</div>
+                            <i class="iconfont icon-date FontSize"></i>
+                            <div class="FontSize" >2018-12-25</div>
                         </div>
                     </div>
                     <div class="orderIntegral">120积分</div>
@@ -75,12 +75,12 @@
                     <div class="orderTitle">标题标题标题标题标题标题标题</div>
                     <div class="orderInfo">
                         <div class="orderCate">
-                            <i class="iconfont icon-cate"></i>
-                            <div>生活类-货运快递-中通快递</div>
+                            <i class="iconfont icon-cate FontSize"></i>
+                            <div class="FontSize">生活类-货运快递-中通快递</div>
                         </div>
                         <div class="orderDate">
-                            <i class="iconfont icon-date"></i>
-                            <div>2018-12-25</div>
+                            <i class="iconfont icon-date FontSize"></i>
+                            <div class="FontSize" >2018-12-25</div>
                         </div>
                     </div>
                     <div class="orderIntegral">120积分</div>
@@ -108,6 +108,7 @@
     width: 7.50rem;
     height: 2.40rem;
     flex-direction: column;
+    background: #ffffff;
 }
 .orderTop{
     width: 7.50rem;
@@ -128,7 +129,7 @@
 .orderdetail{
     width: 7.50rem;
     height: 1.63rem;
-    box-shadow: 0rem .02rem 0rem 0rem #bbbbbb;
+    /*box-shadow: 0rem .02rem 0rem 0rem #bbbbbb;*/
     display: flex;
     justify-content: space-between;
 }
@@ -164,6 +165,7 @@
 }
 .orderDate{
     display: flex;
+    margin-left: 0.1rem;
 }
 .icon-cate{
     margin-top: .03rem;
@@ -203,5 +205,8 @@
 }
 .orderTime{
     padding-left: .15rem;
+}
+.FontSize{
+    font-size: 0.12rem;
 }
 </style>

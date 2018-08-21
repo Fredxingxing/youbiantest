@@ -34,7 +34,7 @@
                 <div class="ListItem" v-bind:class="index < 3  ? 'ListTop3':'ListTop7'">{{item.UserName}}</div>
             </div>
         </div>
-        <div style="height: 1.7rem"></div>
+        <div style="height: 1.7rem;background: #ffffff"></div>
         <bottom-bar/>
     </div>
 
@@ -109,6 +109,7 @@
 .List{
     display: flex;
     flex-direction: column;
+    background: #ffffff;
 }
 .ListTop{
     height: .9rem;

@@ -12,9 +12,10 @@ Vue.config.productionTip = false
 axios.defaults.baseURL = 'http://www.youbian.link/api/v2';
 // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-Vue.prototype.$axios = axios
+Vue.prototype.$axios = axios//替代了vue.use
 Vue.use(VueAwesomeSwiper)
 Vue.use(Mint)
+//Vue.use(axios)
 new Vue({
   router,
   axios,

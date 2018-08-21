@@ -114,8 +114,9 @@
 
 <style scoped>
 .ActivityNavbar{
-    margin-left: .35rem;
-    margin-right: .35rem;
+    margin-left: .25rem;
+    margin-right: .5rem;
+    background: #ffffff;
 }
 .ActProgress{
     font-size: 0.3rem;

@@ -6,8 +6,6 @@
         <HomeSwiper/>
           </div>
         <HomeHot/>
-        <div class="blank">
-        </div>
         <HomeOrder/>
         <bottomBar/>
     </div>
