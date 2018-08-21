@@ -5,8 +5,8 @@
           <i class="iconfont icon-jiantou" style="color: white"></i>
       </div>
         <div class="City" v-if="TopBarCityShow === false" v-on:click="Back()">
-            <i class="iconfont icon-Left Back" ></i>
-        </div>
+        <i class="iconfont icon-Left Back" ></i>
+    </div>
       <div class="Search">
            <i class="iconfont icon-search" style="margin-top: 0.1rem;"></i>
           <input class="SearchInput" placeholder="文献翻译">

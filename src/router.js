@@ -12,7 +12,6 @@ import List from './components/List/List'
 //分类进
 import OrderList from './components/Order/OrderList'
 import OrderDetail from './components/Order/OrderDetail'
-import HomeTabDetail from './components/Home/HomeTabDetail'
 //个人中心
 import User from '@/components/User/home'
 import Other from '@/components/User/other'

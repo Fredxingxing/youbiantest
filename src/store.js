@@ -28,7 +28,8 @@ export default new Vuex.Store({
     },
     setTopBarShow(state,ChangeShow){
       state.TopBarCityShow = ChangeShow
-      this.state.userTitle = data;
+     // data来源不明 报错
+     // this.state.userTitle = data;
     }
   },
   actions: {
