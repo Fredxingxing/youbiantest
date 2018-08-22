@@ -65,15 +65,15 @@ export default new Router({
       component: HomeTabDetail
     },
     {
-          path: '/OrderList',
-          name: 'OrderList',
-          component: OrderList
+      path: '/OrderList',
+      name: 'OrderList',
+      component: OrderList
     },
-      {
-          path: '/OrderDetail',
-          name: 'OrderDetail',
-          component: OrderDetail
-      },
+    {
+      path: '/OrderDetail',
+      name: 'OrderDetail',
+      component: OrderDetail
+    },
     {
       path: '/user',
       component: User

@@ -27,6 +27,7 @@
                   // some swiper options/callbacks
                   // 所有的参数同 swiper 官方 api 参数
                   // ...
+                  slidesPerView:1,
                   loop:true,
                   autoplay:true,
                   speed:100
