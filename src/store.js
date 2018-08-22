@@ -15,8 +15,9 @@ export default new Vuex.Store({
       OrderId:0,
       OrderDetail:{},
       TopBarCityShow:false,
-      //个人中心头部标题
+      //个人中心头部
       userTitle:'',
+      hasSrh:'',
       //订单管理:''
       wfbd:'',
       wjsd:'',
@@ -24,8 +25,10 @@ export default new Vuex.Store({
   },
   mutations: {
     setUserTitle(state,data){
-      console.log(data)
       state.userTitle = data;
+    },
+    setHasSrh(state,data){
+      state.hasSrh = data;
     },
     HomeTabSelected(state,SelectedId){
       state.HomeTabSelected = SelectedId
@@ -68,6 +71,9 @@ export default new Vuex.Store({
   actions: {
     getUserTitle(context,data){
       context.commit('setUserTitle',data)
+    },
+    getHasSrh(context,data){
+      context.commit('setHasSrh',data)
     },
     getHomeCategory(context){
         axios.get('/index/all_cate')

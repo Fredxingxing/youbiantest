@@ -38,6 +38,7 @@
         },
         mounted(){
             this.$store.dispatch('getUserTitle','发表评价')
+            this.$store.dispatch('getHasSrh',false)
         }
     }
 </script>

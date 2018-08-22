@@ -25,6 +25,8 @@ import Bjsd from '@/components/User/bjsd'
 import Wjsd from '@/components/User/wjsd'
 import Wfbd from '@/components/User/wfbd'
 import Comments from '@/components/User/comment'
+//个人资料和修改密码
+import SetPwd from '@/components/User/setpwd'
 //充值提现
 import Cz from '@/components/User/cz'
 import Tx from '@/components/User/tx'
@@ -117,6 +119,10 @@ export default new Router({
         {
           path:'tx',
           component:Tx
+        },
+        {
+          path:'setpwd',
+          component:SetPwd
         }
       ]
     }

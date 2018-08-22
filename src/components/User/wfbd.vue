@@ -54,6 +54,7 @@
         },
         mounted(){
             this.$store.dispatch('getUserTitle','我发布的')
+            this.$store.dispatch('getHasSrh',false)
             this.$store.dispatch('getWfbd',this.tabs)
         }
     }

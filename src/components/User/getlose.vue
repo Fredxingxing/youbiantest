@@ -73,6 +73,7 @@
         },
         mounted(){
             this.$store.dispatch('getUserTitle','忘记密码')
+            this.$store.dispatch('getHasSrh',false)
         }
     }
 </script>
