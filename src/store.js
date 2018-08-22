@@ -7,16 +7,21 @@ export default new Vuex.Store({
   state: {
       login:false,
       show:false,
-      userTitle:'',
       HomeTabSelected:0,
       HomeCategory:[],
       HomeDetail:[],
       TopBarCityShow:false,
+      //个人中心头部标题
+      userTitle:'',
+      //订单管理:''
+      wfbd:'',
+      wjsd:'',
+      bjsd:''
   },
   mutations: {
-    setUserTitle(context,data){
+    setUserTitle(state,data){
       console.log(data)
-      this.state.userTitle = data;
+      state.userTitle = data;
     },
     HomeTabSelected(state,SelectedId){
       state.HomeTabSelected = SelectedId
@@ -28,7 +33,16 @@ export default new Vuex.Store({
     },
     setTopBarShow(state,ChangeShow){
       state.TopBarCityShow = ChangeShow
-    }
+    },
+    setBjsd(state,data){
+      state.bjsd = data
+    },
+    setWjsd(state,data){
+      state.wjsd = data
+    },
+    setWfbd(state,data){
+      state.wfbd = data
+    },
   },
   actions: {
     getUserTitle(context,data){
@@ -50,5 +64,56 @@ export default new Vuex.Store({
                 console.log(error)
             });
     },
+    getWfbd(context,type){
+      var data={
+        type
+      }
+      axios.post(
+        '/order/release_order',
+        data,
+        {
+          headers:{
+            token:window.sessionStorage.getItem('token')
+          }
+        }
+      ).then(res=>{
+        var data =res.data;
+        console.log(data);
+      })
+    },
+    getWjsd(context,type){
+      var data={
+        type
+      }
+      axios.post(
+        '/order/received',
+        data,
+        {
+          headers:{
+            token:window.sessionStorage.getItem('token')
+          }
+        }
+      ).then(res=>{
+        var data =res;
+        console.log(data);
+      })
+    },
+    getBjsd(context,type){
+      var data={
+        type
+      }
+      axios.post(
+        '/order/be_received',
+        data,
+        {
+          headers:{
+            token:window.sessionStorage.getItem('token')
+          }
+        }
+      ).then(res=>{
+        var data =res.data.data;
+        console.log(data);
+      })
+    }
   }
 })

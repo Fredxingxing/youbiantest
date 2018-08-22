@@ -7,18 +7,41 @@
             <input type="text" v-model="username" placeholder="手机号/用户名">
         </div>
         <div class="iptbox">
-            <input type="password" v-model="password" placeholder="输入密码"><span class='repwd'>忘记密码？</span>
+            <input type="password" v-model="password" placeholder="输入密码"><router-link tag='span' to="/other/getlose" class='repwd'>忘记密码？</router-link>
         </div>
         <button class='login' @click='login'>登录</button>
-        <div class="register">没有账号？去注册</div>
+        <router-link tag='div' to="/other/register" class="register">没有账号？去注册</router-link>
     </div>
 </template>
 <script>
+import { Toast } from 'mint-ui';
     export default{
         data(){
             return {
                 username:'',
                 password:'',
+            }
+        },
+        methods:{
+            login(){
+                var data = {
+                    phone:this.username,
+                    password:this.password
+                }
+                this.$axios.post(
+                    '/member/login',
+                    data
+                ).then(res=>{
+                    console.log(res)
+                    if(res.data.code==200){
+                        window.sessionStorage.setItem('token',res.data.data.token);
+                        window.sessionStorage.setItem('username',res.data.data.user.name);
+                        window.sessionStorage.setItem('img',res.data.data.user.img)
+                        this.$router.push('/user')
+                    }else{
+                        alert('账号或密码错误')
+                    }
+                })
             }
         },
         mounted(){

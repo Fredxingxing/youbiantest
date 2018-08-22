@@ -4,7 +4,7 @@
             <img src="../../assets/img/logo.png" alt="">
         </div>
         <div class="iptbox">
-            <input type="text" v-model="username" placeholder="手机号/用户名">
+            <input type="text" v-model="phone" placeholder="手机号/用户名">
         </div>
         <div class="iptbox">
             <input type="text" v-model="checknum" placeholder="输入验证码" ><button class='repwd' :disabled="disabled" @click='getCheck'>{{check}}</button>
@@ -23,7 +23,7 @@
     export default{
         data(){
             return {
-                username:'',
+                phone:'',
                 password:'',
                 repassword:'',
                 checknum:'',
@@ -33,6 +33,15 @@
         },
         methods:{
              getCheck(){
+                var data = {
+                    phone:this.phone
+                }
+                this.$axios.post(
+                    '/member/sendSms',
+                    data
+                ).then(res=>{
+                    console.log(res)
+                })
                 var time = 60;
                 var timer = setInterval(()=>{    
                     time--;
@@ -47,7 +56,19 @@
                 },1000);
             },
             repwd(){
-
+                var data = {
+                    phone:this.phone,
+                    code:this.checknum,
+                    password:this.password,
+                    password_confirm:this.repassword
+                }
+                console.log(data)
+                this.$axios.post(
+                    '/member/retrieve_password',
+                    data
+                ).then(res=>{
+                    console.log(res)
+                })
             }
         },
         mounted(){

@@ -3,11 +3,16 @@
         <div class="userinfo">
             <div class="infobox">
                 <div class="touxiang">
-                    
+                    <img :src="img" alt="" v-if='img!="null"'>
+                    <img src="../../assets/img/default.jpg" alt="" v-else='img=="null"'>
                 </div>
                 <div class="top">
-                    <div class="username">
-                        用户名：haha
+                    <div class="username" v-if="username">
+                        用户名：{{username}}
+                    </div>
+                    <div class="username" v-else="username">
+                        <router-link tag='span' to="/other/login" >登录</router-link>/
+                        <router-link tag='span' to="/other/register" >注册</router-link>
                     </div>
                     <div class="points">
                         <span>积分余额</span>
@@ -30,15 +35,22 @@
         <div class="list order">
             <p class='title'>我的订单</p>
             <ul>
-                <router-link to="/other/wfbd" tag='li'>我发布的
+                <router-link to="/other/wfbd" tag='li'>
+                    <span>
+                        <img class='icon' src="../../assets/img/icon-wfbd.png" alt="">我发布的
+                    </span>
                     <span>0<i class='iconfont icon-right'></i></span>
                 </router-link>
                 <router-link to='/other/bjsd' tag='li'>
-                    被接收的
+                    <span>
+                         <img class='icon' src="../../assets/img/icon-bjsd.png" alt="">被接收的
+                    </span>
                     <span>0<i class='iconfont icon-right'></i></span>
                 </router-link>
                 <router-link to='/other/wjsd' tag='li'>
-                    我接收的
+                    <span>
+                        <img class='icon' src="../../assets/img/icon-wjsd.png" alt="">我接收的
+                    </span>
                     <span>0<i class='iconfont icon-right'></i></span>
                 </router-link>
             </ul>
@@ -46,9 +58,24 @@
         <div class="list">
             <p class='title'>账号设置</p>
              <ul>
-                <li>个人资料<span><i class='iconfont icon-right'></i></span></li>
-                <li>密码设置<span><i class='iconfont icon-right'></i></span></li>
-                <li>联系客服<span><i class='iconfont icon-right'></i></span></li>
+                <li>
+                    <span>
+                        <img class='icon' src="../../assets/img/icon-grzl.png" alt="">个人资料
+                    </span>
+                    <span><i class='iconfont icon-right'></i></span>
+                </li>
+                <li>
+                    <span>
+                        <img class='icon' src="../../assets/img/icon-mmsz.png" alt="">密码设置
+                    </span>
+                    <span><i class='iconfont icon-right'></i></span>
+                </li>
+                <li>
+                    <span>
+                        <img class='icon' src="../../assets/img/icon-lxkf.png" alt="">联系客服
+                    </span>
+                    <span><i class='iconfont icon-right'></i></span>
+                </li>
             </ul>
         </div>
         <bottom-bar />
@@ -57,13 +84,25 @@
 <script>
     import BottomBar from '@/components/bottomBar'
     export default{
+        data(){
+            return {
+                username:window.sessionStorage.getItem('username'),
+                img:window.sessionStorage.getItem('img'),
+            }
+        },
         components:{
             BottomBar
-        }
+        },
+        
     }
 </script>
 <style lang="less" scoped>
-
+.icon{
+    width: 0.36rem;
+    height: 0.36rem;
+    vertical-align: middle;
+    margin-right:.1rem;
+}
 .main{
     .userinfo{
         height: 2.6rem;
@@ -120,6 +159,9 @@
                 border-radius:50%;
                 overflow: hidden;
                 background-color: #666;
+                img{
+                    width: 100%;
+                }
             }
             .vip{
                 text-indent:.26rem;
@@ -138,6 +180,7 @@
         margin-top:1.3rem;
     }
     .list{
+
         .title{
             font-size:.34rem;
             text-indent: .4rem;
@@ -156,6 +199,7 @@
                 border-bottom:.01rem solid #eaeaea;
                 display: flex;
                 justify-content: space-between;
+                position: relative;
             }
         }
     }

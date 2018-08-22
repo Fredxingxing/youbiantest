@@ -49,10 +49,12 @@
         methods:{
             changeTab(num){
                 this.tabs=num;
+                this.$store.dispatch('getWfbd',this.tabs)
             }
         },
         mounted(){
             this.$store.dispatch('getUserTitle','我发布的')
+            this.$store.dispatch('getWfbd',this.tabs)
         }
     }
 </script>

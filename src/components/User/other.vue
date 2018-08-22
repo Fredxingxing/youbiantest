@@ -20,7 +20,13 @@
         },
         methods:{
             back:function(){
-                this.$router.back();
+                this.$router.push('/user');
+            }
+        },
+        created(){
+            var token = window.sessionStorage.getItem('token');
+            if(!token){
+                this.$router.push('/other/login')
             }
         }
     }

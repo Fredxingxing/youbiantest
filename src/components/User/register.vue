@@ -18,8 +18,8 @@
          <div class="iptbox">
             <input type="password" v-model="repassword" placeholder="确认密码">
         </div>
-        <button class='login' >注册</button>
-        <div class="register">已有账号？去登录</div>
+        <button class='login' @click='register'>注册</button>
+        <router-link tag='div' to='/other/login' class="register">已有账号？去登录</router-link>
     </div>
 </template>
 <script>
@@ -37,6 +37,15 @@
         },
         methods:{
             getCheck(){
+                var data = {
+                    phone:this.phone
+                }
+                this.$axios.post(
+                    '/member/sendSms',
+                    data
+                ).then(res=>{
+                    console.log(res)
+                })
                 var time = 60;
                 var timer = setInterval(()=>{    
                     time--;
@@ -49,6 +58,21 @@
                     this.disabled = false;
                     }
                 },1000);
+            },
+            register(){
+                var data = {
+                    name:this.username,
+                    phone:this.phone,
+                    password:this.password,
+                    password_confirm:this.repassword,
+                    code:this.checknum
+                }
+                this.$axios.post(
+                    '/member/register',
+                    data
+                ).then(res=>{
+                    console.log(res)
+                })
             }
         },
         mounted(){
