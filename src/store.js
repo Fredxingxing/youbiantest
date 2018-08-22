@@ -7,15 +7,21 @@ export default new Vuex.Store({
   state: {
       login:false,
       show:false,
+      //主页
       HomeTabSelected:0,
       HomeCategory:[],
       HomeDetail:[],
+      //订单
       OrderList:[],
       OrderSelected:{},
       OrderId:0,
       OrderDetail:{},
+      //活动
       ActivityList:[],
       ActivityDetail:{},
+      //榜单
+      PublishList:[],
+      TakenList:[],
       TopBarCityShow:false,
       //个人中心头部
       userTitle:'',
@@ -47,22 +53,29 @@ export default new Vuex.Store({
         for(var a in list){
             list[a].update_time = list[a].update_time.substring(0,10)
         }
-        state.OrderList = list
-        console.log(state.OrderList)
+      state.OrderList = list
+      console.log(state.OrderList)
     },
     setOrderId(state,OrderId){
-          state.OrderId = OrderId
+      state.OrderId = OrderId
     },
     setOrderDetail(state,OrderDetail){
-        OrderDetail.update_time = OrderDetail.update_time.substring(0,10)
-        state.OrderDetail = OrderDetail
+      OrderDetail.update_time = OrderDetail.update_time.substring(0,10)
+      state.OrderDetail = OrderDetail
     },
     setActivityList(state,List){
-        state.ActivityList = List
+      state.ActivityList = List
     },
     setActivityDetail(state,Detail){
-        state.ActivityDetail = Detail
+      state.ActivityDetail = Detail
     },
+      //PublishList TakenList
+    setPublishList(state,PublishList){
+      tate.PublishList = PublishList
+   },
+   setTakenList(state,TakenList){
+      state.TakenList = TakenList
+   },
     setTopBarShow(state,ChangeShow){
       state.TopBarCityShow = ChangeShow
     },
@@ -133,7 +146,9 @@ export default new Vuex.Store({
      },
     getActivityList(context,type){
           axios.post('/activity/index',{
-              type:type  //0为进行中，1为长期，2为已过期，默认传0
+              params:{
+                  type:type
+              }
           })
               .then(function (response) {
                   var ActivityList = response.data.data
@@ -144,12 +159,40 @@ export default new Vuex.Store({
               });
      },
     getActivityDetail(context,id){
-        axios.post('/activity/index',{
+        axios.get('/index/release_list',{
             id:id  //0为进行中，1为长期，2为已过期，默认传0
         })
             .then(function (response) {
                 var ActivityDetail = response.data.data
                 context.commit('setActivityDetail',ActivityDetail)
+            })
+            .catch(function (error) {
+                console.log(error)
+            });
+    },
+    getPublishList(context,type){
+        axios.post('index/release_list',{
+            params:{
+                type:type
+            }
+        })
+            .then(function (response) {
+                var PublishList = response.data.data
+                context.commit('PublishList',PublishList)
+            })
+            .catch(function (error) {
+                console.log(error)
+            });
+    },
+    getTakenList(context,type){
+        axios.post('index/list_orders',{
+            params:{
+                type:type
+            }
+        })
+            .then(function (response) {
+                var TakenList = response.data.data
+                context.commit('TakenList',TakenList)
             })
             .catch(function (error) {
                 console.log(error)
