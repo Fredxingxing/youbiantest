@@ -59,6 +59,7 @@
 .item{
    margin-top: .10rem;
    margin-bottom: .05rem;
+    text-align: center;
 }
 
 

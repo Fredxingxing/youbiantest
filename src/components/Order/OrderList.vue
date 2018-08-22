@@ -14,128 +14,35 @@
             <div class="SortName">发布数量</div>
         </div>
         <div class="OrderList">
-            <div class="order">
+            <div class="order" v-for="(Order,Orderindex) in OrderList">
                 <div class="orderdetail">
                     <div class="detailText">
-                        <div class="orderTitle">标题标题标题标题标题标题标题</div>
+                        <div class="orderTitle">{{Order.title}}</div>
                         <div class="orderInfo">
                             <div class="orderCate">
                                 <i class="iconfont icon-cate FontSize"></i>
-                                <div class="FontSize">生活类-货运快递-中通快递</div>
+                                <div class="FontSize">{{Order.get_one.name}}-{{Order.get_two.name}}-{{Order.get_three.name}}</div>
                             </div>
                             <div class="orderDate">
                                 <i class="iconfont icon-date FontSize"></i>
-                                <div class="FontSize" >2018-12-25</div>
+                                <div class="FontSize" >{{Order.update_time}}</div>
                             </div>
                         </div>
-                        <div class="orderIntegral">120积分</div>
+                        <div class="orderIntegral">{{Order.price}}积分</div>
                     </div>
                     <div class="detailNumberBorder">
                         <div class="detailNum">
-                            <div class="orderNum">次数 : 2/10</div>
-                            <div class="orderTime">周期 : 1个月</div>
+                            <div class="orderNum">次数 : {{Order.singular}}/{{Order.number}}</div>
+                            <div class="orderTime">周期 : {{Order.cycle}}</div>
                         </div>
                     </div>
                 </div>
                 <div class="orderTop">
                     <div class="user">
                         <i class="iconfont icon-icon_user"></i>
-                        <span style="font-size: .25rem;margin-left: .15rem;">用户名</span>
+                        <span style="font-size: .25rem;margin-left: .15rem;">{{Order.get_user.name}}</span>
                     </div>
-                    <mt-button class="Btndetail" v-on:click="GoToDetail()">查看详情</mt-button>
-                </div>
-            </div>
-            <div class="order">
-                <div class="orderdetail">
-                    <div class="detailText">
-                        <div class="orderTitle">标题标题标题标题标题标题标题</div>
-                        <div class="orderInfo">
-                            <div class="orderCate">
-                                <i class="iconfont icon-cate FontSize"></i>
-                                <div class="FontSize">生活类-货运快递-中通快递</div>
-                            </div>
-                            <div class="orderDate">
-                                <i class="iconfont icon-date FontSize"></i>
-                                <div class="FontSize" >2018-12-25</div>
-                            </div>
-                        </div>
-                        <div class="orderIntegral">120积分</div>
-                    </div>
-                    <div class="detailNumberBorder">
-                        <div class="detailNum">
-                            <div class="orderNum">次数 : 2/10</div>
-                            <div class="orderTime">周期 : 1个月</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="orderTop">
-                    <div class="user">
-                        <i class="iconfont icon-icon_user"></i>
-                        <span style="font-size: .25rem;margin-left: .15rem;">用户名</span>
-                    </div>
-                    <mt-button class="Btndetail">查看详情</mt-button>
-                </div>
-            </div>
-            <div class="order">
-                <div class="orderdetail">
-                    <div class="detailText">
-                        <div class="orderTitle">标题标题标题标题标题标题标题</div>
-                        <div class="orderInfo">
-                            <div class="orderCate">
-                                <i class="iconfont icon-cate FontSize"></i>
-                                <div class="FontSize">生活类-货运快递-中通快递</div>
-                            </div>
-                            <div class="orderDate">
-                                <i class="iconfont icon-date FontSize"></i>
-                                <div class="FontSize" >2018-12-25</div>
-                            </div>
-                        </div>
-                        <div class="orderIntegral">120积分</div>
-                    </div>
-                    <div class="detailNumberBorder">
-                        <div class="detailNum">
-                            <div class="orderNum">次数 : 2/10</div>
-                            <div class="orderTime">周期 : 1个月</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="orderTop">
-                    <div class="user">
-                        <i class="iconfont icon-icon_user"></i>
-                        <span style="font-size: .25rem;margin-left: .15rem;">用户名</span>
-                    </div>
-                    <mt-button class="Btndetail">查看详情</mt-button>
-                </div>
-            </div>
-            <div class="order">
-                <div class="orderdetail">
-                    <div class="detailText">
-                        <div class="orderTitle">标题标题标题标题标题标题标题</div>
-                        <div class="orderInfo">
-                            <div class="orderCate">
-                                <i class="iconfont icon-cate FontSize"></i>
-                                <div class="FontSize">生活类-货运快递-中通快递</div>
-                            </div>
-                            <div class="orderDate">
-                                <i class="iconfont icon-date FontSize"></i>
-                                <div class="FontSize" >2018-12-25</div>
-                            </div>
-                        </div>
-                        <div class="orderIntegral">120积分</div>
-                    </div>
-                    <div class="detailNumberBorder">
-                        <div class="detailNum">
-                            <div class="orderNum">次数 : 2/10</div>
-                            <div class="orderTime">周期 : 1个月</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="orderTop">
-                    <div class="user">
-                        <i class="iconfont icon-icon_user"></i>
-                        <span style="font-size: .25rem;margin-left: .15rem;">用户名</span>
-                    </div>
-                    <mt-button class="Btndetail">查看详情</mt-button>
+                    <mt-button class="Btndetail" v-on:click="GoToDetail(Orderindex)">查看详情</mt-button>
                 </div>
             </div>
         </div>
@@ -144,13 +51,32 @@
 
 <script>
     import topBar from '../topBar'
+    import { mapState } from 'vuex'
     export default {
         name: "OrderList",
         components:{
             topBar
         },
+        data(){
+            return{
+            }
+        },
+        created:function(){
+            this.$store.dispatch('getOrderList',this.$store.state.OrderSelected)
+        },
+        watch:{
+            OrderList:function (val) {
+                //do method again
+            }
+        },
+        computed:{
+            ...mapState({
+                OrderList:'OrderList',
+            })
+        },
         methods:{
-            GoToDetail:function () {
+            GoToDetail:function (index) {
+                this.$store.dispatch('getOrderDetail',this.OrderList[index].id)
                 this.$router.push('/OrderDetail')
             }
         }
@@ -210,7 +136,6 @@
 }
 .user{
     margin-left: .25rem;
-    margin-bottom: .25rem;
 }
 .detailText{
     margin-left: 0.1rem;

@@ -16,7 +16,7 @@
                         <div class="DetailTitle BtnTitle ">{{menudetail.name}}</div>
                         <div class="DetailContentContainer">
                             <div class="DetailContent" v-for="(content,contentindex) in menudetail.sons">
-                                <div class="Btn" v-on:click="GoToOrder(contentindex)">{{content.name}}</div>
+                                <div class="Btn" v-on:click="GoToOrder(titleindex,contentindex)">{{content.name}}</div>
                           </div>
                         </div>
                     </div>
@@ -41,6 +41,7 @@
         } ,
         data(){
             return{
+                Tabindex:0,
             }
         },
         watch:{
@@ -48,7 +49,6 @@
                 //do method again
             },
             HomeDetail:function (val) {
-
             }
         },
         created:function(){
@@ -61,23 +61,20 @@
                 HomeDetail:'HomeDetail'
             })
         },
-        // mounted: function () {
-        //     this.$nextTick(function () {
-        //         this.$axios.get('/index/index')
-        //             .then(function (response) {
-        //               console.log(response.data.data)
-        //             })
-        //             .catch(function (error) {
-        //                 console.log(error)
-        //             });
-        //     })
-        // },
         methods:{
             tab(index){
                 this.$store.commit('HomeTabSelected',index);
             },
-            GoToOrder(index){
-                console.log(index)
+            GoToOrder(titleindex,contentindex){
+                var Getobject = new Object()
+               this.Tabindex = this.$store.state.HomeTabSelected
+                console.log(this.Tabindex)
+                console.log(titleindex)
+                console.log(contentindex)
+                Getobject.levelone = this.Tabindex
+                Getobject.leveltwo = titleindex
+                Getobject.levelthree = contentindex
+                this.$store.dispatch('getOrderList',Getobject)
                 this.$router.push('./OrderList')
             },
         },
@@ -160,5 +157,9 @@
     background: #F6F5F0;
     border-radius: 0.15rem;
     margin: .2rem 0.1rem 0.2rem 0.2rem;
+}
+.Btn:hover{
+        background: #DD5519;
+        color: #ffff;
 }
 </style>

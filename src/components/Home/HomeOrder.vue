@@ -6,7 +6,7 @@
              <i class="iconfont icon-icon_user"></i>
               <span style="font-size: .25rem;margin-left: .15rem;">用户名</span>
              </div>
-                <mt-button class="Btndetail">查看详情</mt-button>
+                <mt-button class="Btndetail" v-on:click="GoToDetail()">查看详情</mt-button>
          </div>
           <div class="orderdetail">
              <div class="detailText">
@@ -98,7 +98,12 @@
 
 <script>
     export default {
-        name: "HomeOrder"
+        name: "HomeOrder",
+        methods:{
+            GoToDetail:function(){
+                this.$router.push('/OrderDetail')
+            },
+        },
     }
 </script>
 
@@ -120,7 +125,6 @@
 }
 .user{
     margin-left: .25rem;
-    margin-bottom: .25rem;
 }
 .detailText{
     margin-left: 0.1rem;

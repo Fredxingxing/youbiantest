@@ -9,29 +9,29 @@
             <div class="orderTop">
                 <div class="user">
                     <i class="iconfont icon-icon_user oderTopFont"></i>
-                    <span style="font-size: .25rem;margin-left: .15rem;">用户名</span>
+                    <span style="font-size: .25rem;margin-left: .15rem;">{{OrderDetail.get_user.name}}</span>
                 </div>
                 <mt-button class="Btndetail">快速接单</mt-button>
             </div>
             <div class="orderdetail">
                 <div class="detailText">
-                    <div class="orderTitle">标题标题标题标题标题标题标题</div>
+                    <div class="orderTitle">{{OrderDetail.get_user.title}}</div>
                     <div class="orderInfo">
                         <div class="orderCate">
                             <i class="iconfont icon-cate FontSize"></i>
-                            <div class="FontSize">生活类-货运快递-中通快递</div>
+                            <div class="FontSize">{{Order.get_one.name}}-{{Order.get_two.name}}-{{Order.get_three.name}}</div>
                         </div>
                         <div class="orderDate">
                             <i class="iconfont icon-date FontSize"></i>
-                            <div class="FontSize" >2018-12-25</div>
+                            <div class="FontSize" >{{OrderDetail.update_time}}</div>
                         </div>
                     </div>
-                    <div class="orderIntegral">120积分</div>
+                    <div class="orderIntegral">{{OrderDetail.price}}积分</div>
                 </div>
                 <div class="detailNumberBorder">
                     <div class="detailNum">
-                        <div class="orderNum">次数 : 2/10</div>
-                        <div class="orderTime">周期 : 1个月</div>
+                        <div class="orderNum">次数 : {{OrderDetail.singular}}/{{OrderDetail.number}}</div>
+                        <div class="orderTime">周期 : {{OrderDetail.cycle}}</div>
                     </div>
                 </div>
             </div>
@@ -100,6 +100,7 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex'
     export default {
         name: "OrderDetail",
         data(){
@@ -108,6 +109,19 @@
                 videoImg:'',
                 playStatus:'autoplay'
             }
+        },
+        created:function(){
+            this.$store.dispatch('getOrderDetail',this.$store.state.OrderId)
+        },
+        watch:{
+            OrderDetail:function (val) {
+                //do method again
+            }
+        },
+        computed:{
+            ...mapState({
+                OrderDetail:'OrderDetail',
+            })
         },
         methods:{
             Back:function () {

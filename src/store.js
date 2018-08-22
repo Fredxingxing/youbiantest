@@ -10,6 +10,10 @@ export default new Vuex.Store({
       HomeTabSelected:0,
       HomeCategory:[],
       HomeDetail:[],
+      OrderList:[],
+      OrderSelected:{},
+      OrderId:0,
+      OrderDetail:{},
       TopBarCityShow:false,
       //个人中心头部标题
       userTitle:'',
@@ -26,10 +30,27 @@ export default new Vuex.Store({
     HomeTabSelected(state,SelectedId){
       state.HomeTabSelected = SelectedId
       state.HomeDetail = state.HomeCategory[state.HomeTabSelected].SecCate
-        console.log(state.HomeDetail)
     },
     setHomeCategory(state,HomeCate){
-     state.HomeCategory = HomeCate
+      state.HomeCategory = HomeCate
+    },
+    setOrderSelected(state,OrderSelected){
+        state.OrderSelected = OrderSelected
+    },
+    setOrderList(state,OrderList){
+        var list = OrderList.data
+        for(var a in list){
+            list[a].update_time = list[a].update_time.substring(0,10)
+        }
+        state.OrderList = list
+        console.log(state.OrderList)
+    },
+    setOrderId(state,OrderId){
+          state.OrderId = OrderId
+    },
+    setOrderDetail(state,OrderDetail){
+        OrderDetail.update_time = OrderDetail.update_time.substring(0,10)
+        state.OrderDetail = OrderDetail
     },
     setTopBarShow(state,ChangeShow){
       state.TopBarCityShow = ChangeShow
@@ -49,21 +70,54 @@ export default new Vuex.Store({
       context.commit('setUserTitle',data)
     },
     getHomeCategory(context){
-      console.log("im in getHomeCategory")
         axios.get('/index/all_cate')
             .then(function (response) {
                 var HomeCate = []
                 var CateRes = response.data.data.cate
                 for(var i in CateRes){
-                    HomeCate.push({Name:CateRes[i].name,Image:CateRes[i].id+'.png',SecCate:CateRes[i].son})
+                    HomeCate.push({Name:CateRes[i].name,Image:CateRes[i].id + '.png',SecCate:CateRes[i].son})
                 }
-                context.commit('setHomeCategory',HomeCate)
-                context.commit('HomeTabSelected',0)
+                context.commit('setHomeCategoHomeTabSelectedry',HomeCate)
+                context.commit('',0)
             })
             .catch(function (error) {
                 console.log(error)
             });
     },
+    getOrderList(context,Getobject){
+        context.commit('setOrderSelected',Getobject)
+        axios.post('index/same_city',{
+            level_one: Getobject.levelone,
+            level_two: Getobject.leveltwo,
+            level_three: Getobject.levelthree,
+            price: Getobject.price,
+            time: Getobject.time,
+            type: Getobject.type
+            })
+            .then(function (response) {
+                var OrderList = response.data.data.order_list
+                context.commit('setOrderList',OrderList)
+            })
+            .catch(function (error) {
+                console.log(error)
+            });
+    },
+    getOrderDetail(context,OrderId){
+        context.commit('setOrderId',OrderId)
+        axios.get('/index/order_details',{  //url?order_id=
+            params:{
+                order_id:OrderId
+            }
+        })
+        .then(function (response) {
+            var detail = response.data.data
+            console.log(detail)
+            context.commit('setOrderDetail',detail)
+        })
+        .catch(function (error) {
+            console.log(error)
+        })
+     },
     getWfbd(context,type){
       var data={
         type
