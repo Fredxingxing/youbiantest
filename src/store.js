@@ -14,6 +14,8 @@ export default new Vuex.Store({
       OrderSelected:{},
       OrderId:0,
       OrderDetail:{},
+      ActivityList:[],
+      ActivityDetail:{},
       TopBarCityShow:false,
       //个人中心头部
       userTitle:'',
@@ -54,6 +56,12 @@ export default new Vuex.Store({
     setOrderDetail(state,OrderDetail){
         OrderDetail.update_time = OrderDetail.update_time.substring(0,10)
         state.OrderDetail = OrderDetail
+    },
+    setActivityList(state,List){
+        state.ActivityList = List
+    },
+    setActivityDetail(state,Detail){
+        state.ActivityDetail = Detail
     },
     setTopBarShow(state,ChangeShow){
       state.TopBarCityShow = ChangeShow
@@ -123,6 +131,30 @@ export default new Vuex.Store({
             console.log(error)
         })
      },
+    getActivityList(context,type){
+          axios.post('/activity/index',{
+              type:type  //0为进行中，1为长期，2为已过期，默认传0
+          })
+              .then(function (response) {
+                  var ActivityList = response.data.data
+                  context.commit('setActivityList',ActivityList)
+              })
+              .catch(function (error) {
+                  console.log(error)
+              });
+     },
+    getActivityDetail(context,id){
+        axios.post('/activity/index',{
+            id:id  //0为进行中，1为长期，2为已过期，默认传0
+        })
+            .then(function (response) {
+                var ActivityDetail = response.data.data
+                context.commit('setActivityDetail',ActivityDetail)
+            })
+            .catch(function (error) {
+                console.log(error)
+            });
+    },
     getWfbd(context,type){
       var data={
         type
