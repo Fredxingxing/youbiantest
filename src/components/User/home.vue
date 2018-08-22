@@ -64,12 +64,12 @@
                     </span>
                     <span><i class='iconfont icon-right'></i></span>
                 </li>
-                <li>
+                <router-link tag='li' to="/other/setpwd">
                     <span>
                         <img class='icon' src="../../assets/img/icon-mmsz.png" alt="">密码设置
                     </span>
                     <span><i class='iconfont icon-right'></i></span>
-                </li>
+                </router-link>
                 <li>
                     <span>
                         <img class='icon' src="../../assets/img/icon-lxkf.png" alt="">联系客服

@@ -56,6 +56,7 @@
         },
         mounted(){
             this.$store.dispatch('getUserTitle','被接收的')
+            this.$store.dispatch('getHasSrh',true)
         }
     }
 </script>

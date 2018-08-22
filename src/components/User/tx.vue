@@ -1,19 +1,75 @@
 <template>
     <div class="main">
-        <div class="top">
-
+        <div class="czbox">
+            <p>
+                　可提金额：<span class='points color-FCA62F font-16 fat'>111</span> 积分
+            </p>
+            　提现积分：<input type="text" class="czipt" placeholder="请输入数值" v-model='recharge'><br />
+                支付宝账号：<input type="text" class="czipt" placeholder="单行输入" v-model='alipay'><br />
+            　真实姓名：<input type="text" class="czipt" placeholder="单行输入" v-model="rel_name">
         </div>
+        <div class="static">
+            <p class='static-title'>积分提现说明：</p>
+            <p class='static-content'>
+                1、积分提现唯一途径为支付宝交易。
+            </p>
+            <p class='static-content'>
+                2、“可提金额” 为用户最大可提金额。
+            </p>
+            <p class='static-content'>
+                3、“提现积分” 处填写本次提现金额。
+            </p>
+            <p class='static-content'>
+                4、“支付宝账号” 处填写本次提现金额到账支付宝账户。
+            </p>
+            <p class='static-content'>
+                5、“真实姓名” 处填写本次提现金额到账支付宝账户真实用姓名。
+            </p>
+            <p class='static-content'>
+                6、提交成功后，后台审核通过，即转账到指定账户。
+            </p>
+        </div>
+        <button class='czbtn' @click='tixian'>确认提现</button>
     </div>
 </template>
 <script>
     export default{
         data(){
             return {
-
+                 alipay:'',
+                recharge:'',
+                rel_name:''
             }
         },
         mounted(){
-            this.$store.dispatch('getUserTitle','提现')
+            this.$store.dispatch('getUserTitle','积分提现')
+            this.$store.dispatch('getHasSrh',false)
+        },
+        methods:{
+            tixian(){
+                var data= {
+                    alipay:this.alipay,
+                    recharge:this.recharge,
+                    rel_name:this.rel_name
+                }
+                this.$http.post(
+                    '/money/withdrawal',
+                    data,
+                    {headers:{token:Token.fetch()}}
+                ).then(res=>{
+                    if(res.data.code==400){
+                        this.$message({
+                                message: res.data.message,
+                                type: 'warning'
+                            });
+                    }else{
+                        this.$message({
+                                message: '提现成功，请等待审核',
+                                type: 'success'
+                            });
+                    }
+                })
+            }
         }
     }
 </script>
@@ -21,7 +77,34 @@
 .main{
     height: calc(100vh - 0.8rem);
     background: #fff;
-   
+    .czbox{
+        border-bottom:.02rem solid #eaeaea;
+        padding:.8rem;
+        line-height: .6rem;
+        .czipt{
+             width: 3rem;
+            height: 0.4rem;
+            border-radius:.1rem;
+            border:.02rem solid #eaeaea;
+            text-indent: .06rem;
+            font-size:.2rem;
+        }
+    }
+    .static{
+        padding:.8rem;
+        font-size:.2rem;
+    }
+    .czbtn{
+        display: block;
+        margin:auto;
+        width: 6rem;
+        border-radius:.1rem;
+        border:0;
+        background-color: #dd5519;
+        color:#fff;
+        height: 0.6rem;
+        margin-top:1rem;
+    }
 }
 </style>
 

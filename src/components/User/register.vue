@@ -77,6 +77,7 @@
         },
         mounted(){
             this.$store.dispatch('getUserTitle','注册')
+            this.$store.dispatch('getHasSrh',false)
         }
     }
 </script>

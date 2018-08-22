@@ -46,6 +46,7 @@ import { Toast } from 'mint-ui';
         },
         mounted(){
             this.$store.dispatch('getUserTitle','登录')
+            this.$store.dispatch('getHasSrh',false)
         }
     }
 </script>
