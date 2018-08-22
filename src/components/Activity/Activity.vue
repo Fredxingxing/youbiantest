@@ -33,13 +33,13 @@
 }
 .ActivityTitle{
     width: 7.50rem;
-    height: .90rem;
-    background: darkorange;
+    height: .80rem;
+    background: #FCA62F;
     font-size: 0.40rem;
     color: #ffff;
     text-align: center;
 }
 .Title{
-    margin-top: .15rem;
+    margin-top: .1rem;
 }
 </style>

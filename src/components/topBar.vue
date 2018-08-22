@@ -44,7 +44,7 @@
       height: .80rem;
       display: flex;
       justify-content: space-evenly;
-      background: darkorange;
+      background: #FCA62F;
   }
   .City{
       flex-direction: row;

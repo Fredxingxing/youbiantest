@@ -1,14 +1,14 @@
 <template>
-    <div class="OrderDetail">
+    <div class="Order">
         <div class="TopBar"  v-on:click="Back()">
                 <i class="iconfont icon-Left Back TopSize" ></i>
                 <div class="TopSize" >&nbsp详情</div>
         </div>
-        <div class="orderdetail">
+        <div class="OrderDetail">
             <div class="order">
             <div class="orderTop">
                 <div class="user">
-                    <i class="iconfont icon-icon_user"></i>
+                    <i class="iconfont icon-icon_user oderTopFont"></i>
                     <span style="font-size: .25rem;margin-left: .15rem;">用户名</span>
                 </div>
                 <mt-button class="Btndetail">快速接单</mt-button>
@@ -38,14 +38,61 @@
         </div>
             <div class="DetailInfo">
                 <div class="InfoTitle">详细信息</div>
-                <div class="InfoVideo"></div>
-                <img class="InfoPicture">
-                <div class="InfoDescription"></div>
+                <video :src = "videoUrl" class="InfoVideo" :poster="videoImg"  controls="controls" width="100%"></video>
+                <div class="DownloadShare">
+                   <div class="Download">下载</div>
+                   <div class="Share">分享</div>
+                 </div>
+                <img class="InfoPicture" src="../../assets/OderDetail.png">
+                <div class="InfoDescription">
+                    <span>三个法师法师方法撒打算ad</span>
+                    <span>萨达所撒多阿斯顿撒阿斯</span>
+                    <span>a卫栖梧的奥所大所多 的 a</span>
+                </div>
             </div>
             <div class="DetailComment">
-                <div class="CommentTopBar"></div>
+                <div class="CommentTopBar">全部评论(3)</div>
                 <div class="Comment">
-                    <div></div>
+                    <i class="iconfont UserImage icon-icon_user "></i>
+                    <div class="UserContent">
+                        <div class="UserTop">
+                            <div class="UserName">用户名用户名</div>
+                            <div class="CommentTime">三天前</div>
+                        </div>
+                        <div class="UserComment">
+                            不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错
+                            不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错
+                            不错不错不错不错不错不错不错不错不错不错不错不错不错不错
+                        </div>
+                    </div>
+                </div>
+                <div class="Comment">
+                    <i class="iconfont UserImage icon-icon_user "></i>
+                    <div class="UserContent">
+                        <div class="UserTop">
+                            <div class="UserName">用户名用户名</div>
+                            <div class="CommentTime">三天前</div>
+                        </div>
+                        <div class="UserComment">
+                            不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错
+                            不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错
+                            不错不错不错不错不错不错不错不错不错不错不错不错不错不错
+                        </div>
+                    </div>
+                </div>
+                <div class="Comment">
+                    <i class="iconfont UserImage icon-icon_user "></i>
+                    <div class="UserContent">
+                        <div class="UserTop">
+                            <div class="UserName">用户名用户名</div>
+                            <div class="CommentTime">三天前</div>
+                        </div>
+                        <div class="UserComment">
+                            不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错
+                            不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错
+                            不错不错不错不错不错不错不错不错不错不错不错不错不错不错
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -55,6 +102,13 @@
 <script>
     export default {
         name: "OrderDetail",
+        data(){
+            return{
+                videoUrl:'http://vjs.zencdn.net/v/oceans.mp4',
+                videoImg:'',
+                playStatus:'autoplay'
+            }
+        },
         methods:{
             Back:function () {
                 this.$router.go(-1)
@@ -64,7 +118,7 @@
 </script>
 
 <style scoped>
-.OrderDetail{
+.Order{
     display: flex;
     flex-direction: column;
 }
@@ -84,6 +138,81 @@
 .FontSize{
     font-size: 0.12rem;
 }
+.OrderDetail{
+    display: flex;
+    flex-direction: column;
+}
+.DetailInfo{
+    display: flex;
+    flex-direction: column;
+}
+.InfoTitle{
+    background: #ffffff;
+    font-size: .28rem;
+    padding: 0.3rem;
+}
+.DownloadShare{
+    display: flex;
+    flex-direction: row;
+    background: #ffff;
+    padding: 0.3rem 0 0.5rem 0.2rem;
+}
+.InfoPicture{
+
+}
+.InfoDescription{
+    display: flex;
+    flex-direction: column;
+    background: #ffff;
+    padding: 0.8rem 0 0.7rem 0.3rem;
+    color: #4D4D4D;
+}
+.DetailComment{
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.3rem;
+    background: #ffff;
+}
+.CommentTopBar{
+    padding: 0.3rem 0.5rem;
+    /*background: #ffff;*/
+     font-size: .28rem;
+    border-bottom: 0.02rem solid #F4F7F8;
+ }
+.Comment{
+    margin: 0.4rem 0.3rem 0.05rem 0.4rem;
+    padding-bottom: 0.25rem;
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid #EFF3F5;
+}
+.UserImage{
+    padding-right: 0.2rem;
+    font-size: 0.55rem;
+}
+.UserContent{
+    display: flex;
+    flex-direction: column;
+ }
+.UserTop{
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    margin-bottom: 0.2rem;
+}
+.UserName{
+     font-size: 0.28rem;
+     font-weight: bold;
+     color: #3F3F3F;
+}
+.CommentTime{
+    font-size: 0.2rem;
+    color: #B1B1B1;
+    margin-left: 0.3rem;
+}
+.UserComment{
+    color: #565656;
+}
 /*****************order样式************/
 .order{
     display: flex;
@@ -91,7 +220,7 @@
     height: 2.40rem;
     flex-direction: column;
     background: #ffffff;
-    margin-top: 0.12rem;
+    margin: 0.12rem 0 0.3rem 0;
 }
 .orderTop{
     width: 7.50rem;
@@ -123,7 +252,7 @@
     border-radius: .15rem;
     margin-right: .25rem;
 }
-.icon-icon_user{
+.oderTopFont{
     font-size: .45rem;
 }
 .orderTitle{

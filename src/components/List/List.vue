@@ -182,6 +182,7 @@
 }
 .ListItem{
     width: 1rem;
+    text-align: center;
 }
 .ListTop3{
     color: #FCA62F;
