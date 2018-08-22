@@ -83,8 +83,7 @@ export default new Vuex.Store({
                 for(var i in CateRes){
                     HomeCate.push({Name:CateRes[i].name,Image:CateRes[i].id + '.png',SecCate:CateRes[i].son})
                 }
-                context.commit('setHomeCategoHomeTabSelectedry',HomeCate)
-                context.commit('',0)
+                context.commit('setHomeCategory',HomeCate)
             })
             .catch(function (error) {
                 console.log(error)

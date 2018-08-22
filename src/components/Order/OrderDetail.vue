@@ -19,7 +19,7 @@
                     <div class="orderInfo">
                         <div class="orderCate">
                             <i class="iconfont icon-cate FontSize"></i>
-                            <div class="FontSize">{{Order.get_one.name}}-{{Order.get_two.name}}-{{Order.get_three.name}}</div>
+                            <div class="FontSize">{{OrderDetail.get_one.name}}-{{OrderDetail.get_two.name}}-{{OrderDetail.get_three.name}}</div>
                         </div>
                         <div class="orderDate">
                             <i class="iconfont icon-date FontSize"></i>
@@ -38,16 +38,14 @@
         </div>
             <div class="DetailInfo">
                 <div class="InfoTitle">详细信息</div>
-                <video :src = "videoUrl" class="InfoVideo" :poster="videoImg"  controls="controls" width="100%"></video>
+                <video v-if="OrderDetail.video_url!=''" :src = "OrderDetail.video_url" class="InfoVideo" :poster="videoImg"  controls="controls" width="100%"></video>
                 <div class="DownloadShare">
-                   <div class="Download">下载</div>
-                   <div class="Share">分享</div>
+                   <div class="Download" v-if="OrderDetail.file!=null">下载附件</div>
+                   <div class="Share">分享订单</div>
                  </div>
                 <img class="InfoPicture" src="../../assets/OderDetail.png">
-                <div class="InfoDescription">
-                    <span>三个法师法师方法撒打算ad</span>
-                    <span>萨达所撒多阿斯顿撒阿斯</span>
-                    <span>a卫栖梧的奥所大所多 的 a</span>
+                <div class="InfoDescription" v-if="OrderDetail.describe!=''">
+                   {{OrderDetail.describe}}
                 </div>
             </div>
             <div class="DetailComment">
@@ -105,7 +103,7 @@
         name: "OrderDetail",
         data(){
             return{
-                videoUrl:'http://vjs.zencdn.net/v/oceans.mp4',
+                // videoUrl:'http://vjs.zencdn.net/v/oceans.mp4',
                 videoImg:'',
                 playStatus:'autoplay'
             }
