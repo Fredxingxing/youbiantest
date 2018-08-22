@@ -16,7 +16,7 @@ export default new Vuex.Store({
   mutations: {
     setUserTitle(context,data){
       console.log(data)
-      state.userTitle = data;
+      this.state.userTitle = data;
     },
     HomeTabSelected(state,SelectedId){
       state.HomeTabSelected = SelectedId
@@ -28,8 +28,6 @@ export default new Vuex.Store({
     },
     setTopBarShow(state,ChangeShow){
       state.TopBarCityShow = ChangeShow
-     // data来源不明 报错
-     // this.state.userTitle = data;
     }
   },
   actions: {
