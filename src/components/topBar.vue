@@ -32,7 +32,15 @@
             Back:function(){
                 console.log("back")
                 //后退-1 前进+1
-                this.$router.go(-1);
+                if(this.$route.name === 'HomeTabDetail'){
+                     this.$router.push('/Home')
+                }
+                if(this.$route.name === 'OrderList'){
+                    this.$router.push('/HomeTabDetail')
+                }
+                // else{
+                //     this.$router.go(-1);
+                // }
             },
         },
     }

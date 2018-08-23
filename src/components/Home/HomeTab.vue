@@ -1,10 +1,11 @@
 <template>
     <div id="HomeTab" class="HomeTab">
      <div class="HomeTab HomeCate">
-         <div to="/HomeTabDetail" tag="span" class="cate" v-for="(item,index) in HomeCategory" v-on:click="ToTabDetail(index)">
+         <router-link :to="{path:'/HomeTabDetail',query:{id:item.Id}}" tag="span" class="cate" v-for="(item,index) in HomeCategory"
+                      v-on:click="ToTabDetail(index)">
          <img  class="CateImage" :src="imgUrl(item.Image)">
          <div>{{item.Name}}</div>
-         </div>
+         </router-link>
      </div>
     </div>
 </template>
@@ -38,8 +39,6 @@
               this.$store.dispatch('getHomeCategory')
           },
           ToTabDetail(index){
-             this.$store.commit('HomeTabSelected',index);
-             this.$router.push('/HomeTabDetail')
           },
           imgUrl:function (path) {
                 return images('./'+path)

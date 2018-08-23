@@ -4,7 +4,7 @@
         <div class="blank" style="height: .1rem;background: #EFF3F5"></div>
         <div class="Menu">
             <div class="MenuTab">
-             <div  v-for="(MenuTab,index) in HomeCategory" :class="index === $store.state.HomeTabSelected ? 'activeTab' : 'Tab'"
+             <div  v-for="(MenuTab,index) in HomeCategory" :class="index+1 == TabId ? 'activeTab' : 'Tab'"
                  v-on:click="tab(index)" >{{MenuTab.Name}}</div>
             </div>
             <div class="MenuDetail">
@@ -15,9 +15,10 @@
                     <div class="DetailClass" v-for="(menudetail,titleindex) in HomeDetail">
                         <div class="DetailTitle BtnTitle ">{{menudetail.name}}</div>
                         <div class="DetailContentContainer">
-                            <div class="DetailContent" v-for="(content,contentindex) in menudetail.sons">
+                            <router-link :to="{path:'/OrderList',query:{level_one:TabId,level_two:menudetail.id,level_three:content.id}}"
+                                         tag="span"    class="DetailContent" v-for="(content,contentindex) in menudetail.sons">
                                 <div class="Btn" v-on:click="GoToOrder(titleindex,contentindex)">{{content.name}}</div>
-                          </div>
+                          </router-link>
                         </div>
                     </div>
                 </div>
@@ -42,6 +43,7 @@
         data(){
             return{
                 Tabindex:0,
+                TabId:0,
             }
         },
         watch:{
@@ -51,8 +53,12 @@
             HomeDetail:function (val) {
             }
         },
-        created:function(){
-            this.$store.dispatch('getHomeCategory')
+        created:function () {
+            this.TabId = this.$route.query.id
+        },
+        mounted(){
+            console.log(this.$route)
+            this.$store.dispatch('getHomeCategory',this.$route.query.id)
             this.$store.commit('setTopBarShow',false)
         },
         computed:{
@@ -63,19 +69,15 @@
         },
         methods:{
             tab(index){
+                this.TabId = index +  1
                 this.$store.commit('HomeTabSelected',index);
+                this.$router.push({
+                    query:{
+                        id:this.TabId
+                    }
+                })
             },
             GoToOrder(titleindex,contentindex){
-                var Getobject = new Object()
-               this.Tabindex = this.$store.state.HomeTabSelected
-                console.log(this.Tabindex)
-                console.log(titleindex)
-                console.log(contentindex)
-                Getobject.levelone = this.Tabindex
-                Getobject.leveltwo = titleindex
-                Getobject.levelthree = contentindex
-                this.$store.dispatch('getOrderList',Getobject)
-                this.$router.push('./OrderList')
             },
         },
     }
@@ -90,6 +92,7 @@
     display: flex;
     flex-direction: row;
     background: #ffffff;
+    padding-bottom: 1.05rem;
 }
 .MenuTab{
     display: flex;

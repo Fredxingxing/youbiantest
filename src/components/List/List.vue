@@ -3,7 +3,7 @@
         <div class="ListTop">
             <div class="ListName">榜单</div>
             <div class="Tab">
-                <mt-navbar class="TabList" v-model="selected">
+                <mt-navbar class="TabList" v-model="Listselected">
                     <div class="TabContainer ">
                       <mt-tab-item id="1" class="TabName mint-tab-item-label">发布榜单</mt-tab-item>
                      </div>
@@ -13,28 +13,57 @@
                 </mt-navbar>
             </div>
         </div>
-        <img class="banner" src="../../assets/List/banner.png">
-        <div class="ListTime">
-            <img class="DateBtn" @click="ClickTime(1)" :src="type===1 ? DayShow : Day">
-            <img class="DateBtn" @click="ClickTime(2)" :src="type===2 ? WeekShow : Week">
-            <img class="DateBtn" @click="ClickTime(3)" :src="type===3 ? MonthShow : Month">
-        </div>
-        <div class="ListTop10">
-                <div class="ListTopTitle">
-                    <div class="ListItem">排名</div>
-                    <div class="ListItem">发布订单</div>
-                    <div class="ListItem">用户名称</div>
+        <mt-tab-container v-model="Listselected">
+            <mt-tab-container-item id="1">
+                <!--<mt-cell v-for="n in 10" :title="'内容 ' + n" />-->
+                <img class="banner" src="../../assets/List/banner.png">
+                <div class="ListTime">
+                    <img class="DateBtn" @click="ClickTime(1)" :src="Listtype===1 ? DayShow : Day">
+                    <img class="DateBtn" @click="ClickTime(2)" :src="Listtype===2 ? WeekShow : Week">
+                    <img class="DateBtn" @click="ClickTime(3)" :src="Listtype===3 ? MonthShow : Month">
                 </div>
-            <div class="ListTopUser" v-for="(item,index) in Publishusers">
-                <div class="ListItem" v-bind:class=" index < 3 ? 'ListTop3 img':'ListTop7'">
-                    {{index+1}}
-                     <!--<img v-if = "index < 3 && index > -1"  src="../../assets/medal.png">-->
+                <div class="ListTop10">
+                    <div class="ListTopTitle">
+                        <div class="ListItem">排名</div>
+                        <div class="ListItem">发布订单</div>
+                        <div class="ListItem">用户名称</div>
+                    </div>
+                    <div class="ListTopUser" v-for="(users,index) in PublishList">
+                        <div class="ListItem" v-bind:class=" index < 3 ? 'ListTop3 img':'ListTop7'">
+                            {{index+1}}
+                            <!--<img v-if = "index < 3 && index > -1"  src="../../assets/medal.png">-->
+                        </div>
+                        <div class="ListItem" v-bind:class="index < 3  ? 'ListTop3':'ListTop7'">{{users.sum}}</div>
+                        <div class="ListItem" v-bind:class="index < 3  ? 'ListTop3':'ListTop7'">{{users.get_user.name}}</div>
+                    </div>
                 </div>
-                <div class="ListItem" v-bind:class="index < 3  ? 'ListTop3':'ListTop7'">{{item.OderNum}}</div>
-                <div class="ListItem" v-bind:class="index < 3  ? 'ListTop3':'ListTop7'">{{item.UserName}}</div>
-            </div>
-        </div>
-        <div style="height: 1.7rem;background: #ffffff"></div>
+            </mt-tab-container-item>
+            <mt-tab-container-item id="2">
+                <!--<mt-cell v-for="n in 4" :title="'测试 ' + n" />-->
+                <img class="banner" src="../../assets/List/banner.png">
+                <div class="ListTime">
+                    <img class="DateBtn" @click="ClickTime(1)" :src="Listtype===1 ? DayShow : Day">
+                    <img class="DateBtn" @click="ClickTime(2)" :src="Listtype===2 ? WeekShow : Week">
+                    <img class="DateBtn" @click="ClickTime(3)" :src="Listtype===3 ? MonthShow : Month">
+                </div>
+                <div class="ListTop10">
+                    <div class="ListTopTitle">
+                        <div class="ListItem">排名</div>
+                        <div class="ListItem">接单订单</div>
+                        <div class="ListItem">用户名称</div>
+                    </div>
+                    <div class="ListTopUser" v-for="(users,index) in TakenList">
+                        <div class="ListItem" v-bind:class=" index < 3 ? 'ListTop3 img':'ListTop7'">
+                            {{index+1}}
+                            <!--<img v-if = "index < 3 && index > -1"  src="../../assets/medal.png">-->
+                        </div>
+                        <div class="ListItem" v-bind:class="index < 3  ? 'ListTop3':'ListTop7'">{{users.sum}}</div>
+                        <div class="ListItem" v-bind:class="index < 3  ? 'ListTop3':'ListTop7'">{{users.get_user.name}}</div>
+                    </div>
+                </div>
+            </mt-tab-container-item>
+        </mt-tab-container>
+        <div style="height: 1.05rem;background: #ffffff"></div>
         <bottom-bar/>
     </div>
 
@@ -42,6 +71,7 @@
 
 <script>
     import bottomBar from '../bottomBar'
+    import { mapState } from 'vuex'
     export default {
         name: "List",
         components:{
@@ -49,9 +79,8 @@
         },
         data(){
             return{
-                type:1,
-                selected:'1',
-                Listtype:1,
+                Listselected:'1',
+                Listtype:3,
                 Publishusers:[
                     {
                         "OderNum": "15231",
@@ -86,19 +115,60 @@
                 MonthShow:require('../../assets/List/MonthShow.png')
             }
         },
-        watcher:{
+        watch:{
+            PublishList:function (val) {
+                //user_id
+            },
+            TakenList:function (val) {
+            },
+            Listselected:function (val) {
+                if(val==1){
+                    this.$store.dispatch('getPublishList',this.Listtype)
+                }
+                if(val==2){
+                    this.$store.dispatch('getTakenList',this.Listtype)
+                }
+            }
+        },
+        computed:{
+            ...mapState({
+                PublishList:'PublishList',
+                TakenList:'TakenList'
+            })
+        },
+        mounted(){
+            if(this. Listselected === '1'){ //发布
+                this.$store.dispatch('getPublishList',this.Listtype)
+            }
+            if(this. Listselected === '2'){ //接单
+                this.$store.dispatch('getTakenList',this.Listtype)
+            }
         },
         methods:{
           ClickTime:function (i) {
-              this.type = i
-              if(this.type === 1 ){
-                  console.log("Day is show")
-              }
-              if(this.type === 2 ){
-                  console.log("Week is show")
-              }
-              if(this.type === 3 ){
-                  console.log("Month is show")
+              if(this. Listselected === '1'){//发布
+                  this.Listtype = i
+                  if(this.Listtype === 1 ){
+                      this.$store.dispatch('getPublishList',this.Listtype)
+                  }
+                  if(this.Listtype === 2 ){
+                      this.$store.dispatch('getPublishList',this.Listtype)
+                  }
+                  if(this.Listtype === 3 ){
+                      this.$store.dispatch('getPublishList',this.Listtype)
+                  }
+          }
+              if(this. Listselected=== '2'){//接单
+                  this.Listtype = i
+                  if(this.Listtype === 1 ){
+                      this.$store.dispatch('getTakenList',this.Listtype)
+                  }
+                  if(this.Listtype === 2 ){
+                      this.$store.dispatch('getTakenList',this.Listtype)
+                  }
+                  if(this.Listtype === 3 ){
+                      this.$store.dispatch('getTakenList',this.Listtype)
+                  }
               }
           }
         },

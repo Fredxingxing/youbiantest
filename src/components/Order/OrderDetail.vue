@@ -15,7 +15,7 @@
             </div>
             <div class="orderdetail">
                 <div class="detailText">
-                    <div class="orderTitle">{{OrderDetail.get_user.title}}</div>
+                    <div class="orderTitle">{{OrderDetail.title}}</div>
                     <div class="orderInfo">
                         <div class="orderCate">
                             <i class="iconfont icon-cate FontSize"></i>
@@ -41,55 +41,23 @@
                 <video v-if="OrderDetail.video_url!=''" :src = "OrderDetail.video_url" class="InfoVideo" :poster="videoImg"  controls="controls" width="100%"></video>
                 <div class="DownloadShare">
                    <div class="Download" v-if="OrderDetail.file!=null">下载附件</div>
-                   <div class="Share">分享订单</div>
+                   <!--<div class="Share">分享订单</div>-->
                  </div>
-                <img class="InfoPicture" src="../../assets/OderDetail.png">
-                <div class="InfoDescription" v-if="OrderDetail.describe!=''">
+                <!--<img class="InfoPicture" src="../../assets/OderDetail.png">-->
+                <div v-html="OrderDetail.describe" class="InfoDescription" v-if="OrderDetail.describe!=''">
                    {{OrderDetail.describe}}
                 </div>
             </div>
             <div class="DetailComment">
-                <div class="CommentTopBar">全部评论(3)</div>
-                <div class="Comment">
+                <div class="CommentTopBar">全部评论({{OrderComments.length}})</div>
+                <div class="Comment" v-for="(Comments,CommentsIndex) in OrderComments">
                     <i class="iconfont UserImage icon-icon_user "></i>
                     <div class="UserContent">
                         <div class="UserTop">
-                            <div class="UserName">用户名用户名</div>
-                            <div class="CommentTime">三天前</div>
+                            <div class="UserName">{{Comments.get_user.name}}</div>
+                            <div class="CommentTime">{{Comments.DateDiff}}</div>
                         </div>
-                        <div class="UserComment">
-                            不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错
-                            不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错
-                            不错不错不错不错不错不错不错不错不错不错不错不错不错不错
-                        </div>
-                    </div>
-                </div>
-                <div class="Comment">
-                    <i class="iconfont UserImage icon-icon_user "></i>
-                    <div class="UserContent">
-                        <div class="UserTop">
-                            <div class="UserName">用户名用户名</div>
-                            <div class="CommentTime">三天前</div>
-                        </div>
-                        <div class="UserComment">
-                            不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错
-                            不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错
-                            不错不错不错不错不错不错不错不错不错不错不错不错不错不错
-                        </div>
-                    </div>
-                </div>
-                <div class="Comment">
-                    <i class="iconfont UserImage icon-icon_user "></i>
-                    <div class="UserContent">
-                        <div class="UserTop">
-                            <div class="UserName">用户名用户名</div>
-                            <div class="CommentTime">三天前</div>
-                        </div>
-                        <div class="UserComment">
-                            不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错
-                            不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错不错
-                            不错不错不错不错不错不错不错不错不错不错不错不错不错不错
-                        </div>
+                        <div class="UserComment">{{Comments.content_receive}}</div>
                     </div>
                 </div>
             </div>
@@ -108,23 +76,73 @@
                 playStatus:'autoplay'
             }
         },
-        created:function(){
-            this.$store.dispatch('getOrderDetail',this.$store.state.OrderId)
+        mounted(){
+            console.log(this.$route)
+            this.$store.dispatch('getOrderDetail',this.$route.query.OrderId)
+            // for(var i in this.OrderComments){
+            //     this.OrderComments[i].DateDiff = this.getDateDiff(this.getDateTimeStamp(this.OrderComments[i].get_user.update_time))
+            // }
+            // this.$store.commit('setOrderComments',this.OrderComments)
+        },
+        updated:function(){
+
         },
         watch:{
             OrderDetail:function (val) {
-                //do method again
+            },
+            OrderComments:function (val) {
+                for(var i in val){
+                    val[i].DateDiff = this.getDateDiff(this.getDateTimeStamp(val[i].get_user.update_time))
+                }
+                console.log("updated")
+                console.log(val)
+                this.$store.commit('setOrderComments',this.OrderComments)
             }
         },
         computed:{
             ...mapState({
                 OrderDetail:'OrderDetail',
-            })
+                OrderComments:'OrderComments'
+            }),
         },
         methods:{
             Back:function () {
-                this.$router.go(-1)
-            }
+                this.$router.push('/OrderList')
+            },
+            getDateTimeStamp:function (dateStr){
+                   return Date.parse(dateStr.replace(/-/gi,"/"));
+            },
+            getDateDiff:function(dateTimeStamp){
+         var minute = 1000 * 60;
+         var hour = minute * 60;
+         var day = hour * 24;
+         var halfamonth = day * 15;
+         var month = day * 30;
+         var now = new Date().getTime();
+         var diffValue = now - dateTimeStamp;
+         if(diffValue < 0){return;}
+         var monthC =diffValue/month;
+         var weekC =diffValue/(7*day);
+         var dayC =diffValue/day;
+         var hourC =diffValue/hour;
+         var minC =diffValue/minute;
+         if(monthC>=1){
+            return("" + parseInt(monthC) + "月前");
+           }
+          else if(weekC>=1){
+             return("" + parseInt(weekC) + "周前");
+           }
+           else if(dayC>=1){
+             return(""+ parseInt(dayC) +"天前");
+           }
+           else if(hourC>=1){
+             return(""+ parseInt(hourC) +"小时前");
+           }
+           else if(minC>=1){
+             return(""+ parseInt(minC) +"分钟前");
+           }else
+             return("刚刚");
+          }
         },
     }
 </script>
@@ -139,13 +157,13 @@
     display: flex;
     background: #FCA62F;
 }
-.Back{
-    margin-left: 0.3rem;
-}
 .TopSize{
     font-size: 0.32rem;
     color: #ffff;
     line-height: 0.8rem;
+}
+.Back{
+    margin-left: 0.3rem;
 }
 .FontSize{
     font-size: 0.12rem;
@@ -167,7 +185,13 @@
     display: flex;
     flex-direction: row;
     background: #ffff;
-    padding: 0.3rem 0 0.5rem 0.2rem;
+    padding: 0.3rem 0 0.5rem 0.4rem;
+}
+.Download{}
+.Share{
+    color: #E68763;
+    font-size: 0.24rem;
+    margin-left: 0.2rem;
 }
 .InfoPicture{
 

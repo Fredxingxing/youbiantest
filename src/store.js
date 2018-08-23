@@ -11,14 +11,17 @@ export default new Vuex.Store({
       HomeTabSelected:0,
       HomeCategory:[],
       HomeDetail:[],
+      HomeBanner:[],
       //订单
       OrderList:[],
       OrderSelected:{},
       OrderId:0,
       OrderDetail:{},
+      OrderComments:[],
       //活动
       ActivityList:[],
       ActivityDetail:{},
+      ActivityType:'1',
       //榜单
       PublishList:[],
       TakenList:[],
@@ -44,6 +47,11 @@ export default new Vuex.Store({
     },
     setHomeCategory(state,HomeCate){
       state.HomeCategory = HomeCate
+        //console.log(HomeCate)
+    },
+    setHomeBanner(state,Banner){
+        state.HomeBanner = Banner
+        console.log(state.HomeBanner)
     },
     setOrderSelected(state,OrderSelected){
         state.OrderSelected = OrderSelected
@@ -63,15 +71,21 @@ export default new Vuex.Store({
       OrderDetail.update_time = OrderDetail.update_time.substring(0,10)
       state.OrderDetail = OrderDetail
     },
+    setOrderComments(state,Comments){
+        state.OrderComments = Comments
+    },
     setActivityList(state,List){
       state.ActivityList = List
     },
     setActivityDetail(state,Detail){
       state.ActivityDetail = Detail
     },
+    setActivityType(state,type){
+      state.ActivityType = type
+    },
       //PublishList TakenList
     setPublishList(state,PublishList){
-      tate.PublishList = PublishList
+      state.PublishList = PublishList
    },
    setTakenList(state,TakenList){
       state.TakenList = TakenList
@@ -96,15 +110,30 @@ export default new Vuex.Store({
     getHasSrh(context,data){
       context.commit('setHasSrh',data)
     },
-    getHomeCategory(context){
+    getHomeCategory(context,id){
         axios.get('/index/all_cate')
             .then(function (response) {
                 var HomeCate = []
                 var CateRes = response.data.data.cate
                 for(var i in CateRes){
-                    HomeCate.push({Name:CateRes[i].name,Image:CateRes[i].id + '.png',SecCate:CateRes[i].son})
+                    HomeCate.push({Name:CateRes[i].name,Image:CateRes[i].id + '.png',SecCate:CateRes[i].son,Id:CateRes[i].id})
                 }
                 context.commit('setHomeCategory',HomeCate)
+                if(isNaN(id)) {
+                }
+                else{
+                    context.commit('HomeTabSelected', id - 1);
+                }
+            })
+            .catch(function (error) {
+                console.log(error)
+            });
+    },
+    getHomeBanner(context){
+        axios.get('/index/index')
+            .then(function (response) {
+                var Banner = response.data.data.banner
+                context.commit('setHomeBanner',Banner)
             })
             .catch(function (error) {
                 console.log(error)
@@ -123,6 +152,7 @@ export default new Vuex.Store({
             .then(function (response) {
                 var OrderList = response.data.data.order_list
                 context.commit('setOrderList',OrderList)
+                console.log(response)
             })
             .catch(function (error) {
                 console.log(error)
@@ -137,8 +167,8 @@ export default new Vuex.Store({
         })
         .then(function (response) {
             var detail = response.data.data
-            console.log(detail)
             context.commit('setOrderDetail',detail)
+            context.commit('setOrderComments',detail.order_comments)
         })
         .catch(function (error) {
             console.log(error)
@@ -146,12 +176,11 @@ export default new Vuex.Store({
      },
     getActivityList(context,type){
           axios.post('/activity/index',{
-              params:{
-                  type:type
-              }
+                  type:type-1
           })
               .then(function (response) {
-                  var ActivityList = response.data.data
+                  var ActivityList = response.data.data.activity_list.data
+                  console.log(ActivityList)
                   context.commit('setActivityList',ActivityList)
               })
               .catch(function (error) {
@@ -159,11 +188,13 @@ export default new Vuex.Store({
               });
      },
     getActivityDetail(context,id){
-        axios.get('/index/release_list',{
-            id:id  //0为进行中，1为长期，2为已过期，默认传0
-        })
+        axios.get('/activity/activity_details',{
+            params: {
+                id: id  //0为进行中，1为长期，2为已过期，默认传0
+            }})
             .then(function (response) {
                 var ActivityDetail = response.data.data
+                console.log(ActivityDetail)
                 context.commit('setActivityDetail',ActivityDetail)
             })
             .catch(function (error) {
@@ -171,28 +202,28 @@ export default new Vuex.Store({
             });
     },
     getPublishList(context,type){
-        axios.post('index/release_list',{
+        axios.get('index/release_list',{
             params:{
                 type:type
             }
-        })
+           })
             .then(function (response) {
                 var PublishList = response.data.data
-                context.commit('PublishList',PublishList)
+                context.commit('setPublishList',PublishList)
             })
             .catch(function (error) {
                 console.log(error)
             });
     },
     getTakenList(context,type){
-        axios.post('index/list_orders',{
+        axios.get('index/list_orders',{
             params:{
                 type:type
             }
         })
             .then(function (response) {
                 var TakenList = response.data.data
-                context.commit('TakenList',TakenList)
+                context.commit('setTakenList',TakenList)
             })
             .catch(function (error) {
                 console.log(error)

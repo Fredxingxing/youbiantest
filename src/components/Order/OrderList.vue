@@ -42,7 +42,9 @@
                         <i class="iconfont icon-icon_user"></i>
                         <span style="font-size: .25rem;margin-left: .15rem;">{{Order.get_user.name}}</span>
                     </div>
+                    <router-link :to="{path:'/OrderDetail',query:{OrderId:Order.id}}">
                     <mt-button class="Btndetail" v-on:click="GoToDetail(Orderindex)">查看详情</mt-button>
+                    </router-link>
                 </div>
             </div>
         </div>
@@ -55,14 +57,21 @@
     export default {
         name: "OrderList",
         components:{
-            topBar
+            topBar,
         },
         data(){
             return{
             }
         },
-        created:function(){
-            this.$store.dispatch('getOrderList',this.$store.state.OrderSelected)
+        mounted() {
+            if (this.Getobject == undefined) {
+                var Getobject = new Object()
+            Getobject.levelone = this.$route.query.level_one
+            Getobject.leveltwo = this.$route.query.level_two
+            Getobject.levelthree = this.$route.query.level_three
+        }
+            console.log(Getobject)
+            this.$store.dispatch('getOrderList',Getobject)
         },
         watch:{
             OrderList:function (val) {
@@ -77,7 +86,7 @@
         methods:{
             GoToDetail:function (index) {
                 this.$store.dispatch('getOrderDetail',this.OrderList[index].id)
-                this.$router.push('/OrderDetail')
+               // this.$router.push('/OrderDetail')
             }
         }
     }

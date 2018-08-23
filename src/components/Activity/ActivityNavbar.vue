@@ -1,92 +1,70 @@
 <template>
     <div id="ActivityNavbar"  class="ActivityNavbar">
-    <mt-navbar v-model="selected" class="ActProgress nav">
+    <mt-navbar v-model="$store.state.ActivityType" class="ActProgress nav">
         <mt-tab-item id="1">进行中</mt-tab-item>
         <mt-tab-item id="2">长期活动</mt-tab-item>
         <mt-tab-item id="3">已结束</mt-tab-item>
     </mt-navbar>
 
-    <mt-tab-container v-model="selected">
+    <mt-tab-container v-model="$store.state.ActivityType">
         <mt-tab-container-item id="1">
             <!--<mt-cell v-for="n in 10" :title="'内容 ' + n" />-->
             <div class="ActivityCard">
-                 <div class="Card">
-                  <div class="CardDetail">
-                      <div class="CardTitle">活动名称</div>
-                      <div class="CardContent">跟团游</div>
-                      <div class="CardContent">最高立减800</div>
+                 <div class="Card" v-for="(Activity,index) in ActivityList" >
+                  <div class="CardDetail" :style="{'background-image':'url('+Activity.img+')'}">
+                      <div v-if="Activity.is_img === 0">
+                      <div class="CardTitle">{{Activity.title_one}}</div>
+                      <div class="CardContent">{{Activity.title_two}}</div>
+                      <div class="CardContent">{{Activity.title_three}}</div>
+                      </div>
                   </div>
                      <div class="CheckDetail" >
-                         <router-link to="/Activity/Detail" tag="span" style="display: flex">
+                         <router-link :to="{path:'/Activity/Detail',query:{id:Activity.id}}" tag="span" style="display: flex">
                              <mt-button type="default" @click="CheckDetail">查看详情</mt-button>
                          </router-link>
                    </div>
                  </div>
-                <div class="Card">
-                    <div class="CardDetail">
-                        <div class="CardTitle">活动名称</div>
-                        <div class="CardContent">跟团游</div>
-                        <div class="CardContent">最高立减800</div>
-                    </div>
-                    <div class="CheckDetail" >
-                        <router-link to="/Activity/Detail" tag="span" style="display: flex">
-                            <mt-button type="default" @click="CheckDetail">查看详情</mt-button>
-                        </router-link>
-                    </div>
-                </div>
-                <div class="Card">
-                    <div class="CardDetail">
-                        <div class="CardTitle">活动名称</div>
-                        <div class="CardContent">跟团游</div>
-                        <div class="CardContent">最高立减800</div>
-                    </div>
-                    <div class="CheckDetail" >
-                        <router-link to="/Activity/Detail" tag="span" style="display: flex">
-                        <mt-button type="default" @click="CheckDetail">查看详情</mt-button>
-                        </router-link>
-                    </div>
-                </div>
-                <div class="Card">
-                    <div class="CardDetail">
-                        <div class="CardTitle">活动名称</div>
-                        <div class="CardContent">跟团游</div>
-                        <div class="CardContent">最高立减800</div>
-                    </div>
-                    <div class="CheckDetail" >
-                        <router-link to="/Activity/Detail" tag="span" style="display: flex">
-                            <mt-button type="default" @click="CheckDetail">查看详情</mt-button>
-                        </router-link>
-                    </div>
-                </div>                 <div class="Card">
-                <div class="CardDetail">
-                    <div class="CardTitle">活动名称</div>
-                    <div class="CardContent">跟团游</div>
-                    <div class="CardContent">最高立减800</div>
-                </div>
-                <div class="CheckDetail" >
-                    <router-link to="/Activity/Detail" tag="span" style="display: flex">
-                        <mt-button type="default" @click="CheckDetail">查看详情</mt-button>
-                    </router-link>
-                </div>
-            </div>
-
 
             </div>
         </mt-tab-container-item>
         <mt-tab-container-item id="2">
             <!--<mt-cell v-for="n in 4" :title="'测试 ' + n" />-->
             <div class="ActivityCard">
-                <div>4</div>
-                <div>5</div>
-                <div>6</div>
+                <div class="Card" v-for="(Activity,index) in ActivityList" >
+                    <div class="CardDetail" :style="{'background-image':'url('+Activity.img+')'}">
+                        <div v-if="Activity.is_img === 0">
+                            <div class="CardTitle">{{Activity.title_one}}</div>
+                            <div class="CardContent">{{Activity.title_two}}</div>
+                            <div class="CardContent">{{Activity.title_three}}</div>
+                        </div>
+                    </div>
+                    <div class="CheckDetail" >
+                        <router-link :to="{path:'/Activity/Detail',query:{id:Activity.id}}" tag="span" style="display: flex">
+                            <mt-button type="default" @click="CheckDetail">查看详情</mt-button>
+                        </router-link>
+                    </div>
+                </div>
+
             </div>
         </mt-tab-container-item>
         <mt-tab-container-item id="3">
             <!--<mt-cell v-for="n in 6" :title="'选项 ' + n" />-->
             <div class="ActivityCard">
-                <div>7</div>
-                <div>8</div>
-                <div>9</div>
+                <div class="Card" v-for="(Activity,index) in ActivityList" >
+                    <div class="CardDetail" :style="{'background-image':'url('+Activity.img+')'}">
+                        <div v-if="Activity.is_img === 0">
+                            <div class="CardTitle">{{Activity.title_one}}</div>
+                            <div class="CardContent">{{Activity.title_two}}</div>
+                            <div class="CardContent">{{Activity.title_three}}</div>
+                        </div>
+                    </div>
+                    <div class="CheckDetail" >
+                        <router-link :to="{path:'/Activity/Detail',query:{id:Activity.id}}" tag="span" style="display: flex">
+                            <mt-button type="default" @click="CheckDetail">查看详情</mt-button>
+                        </router-link>
+                    </div>
+                </div>
+
             </div>
         </mt-tab-container-item>
     </mt-tab-container>
@@ -94,14 +72,29 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex'
     export default {
         name: "ActivityNavbar",
         data(){
             return{
-                selected : '1'
             }
         },
         mounted() {
+               this.$store.dispatch('getActivityList',this.$store.state.ActivityType)
+        },
+        watch:{
+            ActivityList:function (val) {
+            },
+            ActivityType:function (val) {
+                this.$store.dispatch('getActivityList',val)
+                this.$store.commit('setActivityType',val)
+            }
+        },
+        computed:{
+            ...mapState({
+                ActivityList:'ActivityList',
+                ActivityType:'ActivityType'
+            })
         },
         methods:{
             CheckDetail:function () {
@@ -120,6 +113,7 @@
 }
 .ActProgress{
     font-size: 0.3rem;
+    margin-left: 0.1rem;
 }
 .Card{
     margin-top: 0.1rem;
@@ -136,6 +130,8 @@
     flex-direction: column;
     color: #fff;
     text-align: left;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 .CardTitle{
     font-size: .56rem;

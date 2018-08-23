@@ -35,7 +35,7 @@
 .Home{
     display: flex;
     width: 7.50rem;
-    height: 32.87rem;
+    padding-bottom: 1.05rem;
     flex-direction: column;
 }
 .blank{
