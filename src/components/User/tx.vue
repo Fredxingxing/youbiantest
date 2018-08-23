@@ -2,11 +2,11 @@
     <div class="main">
         <div class="czbox">
             <p>
-                　可提金额：<span class='points color-FCA62F font-16 fat'>111</span> 积分
+                　可提金额：<span class='points color-FCA62F font-16 fat'>{{point}}</span> 积分
             </p>
-            　提现积分：<input type="text" class="czipt" placeholder="请输入数值" v-model='recharge'><br />
-                支付宝账号：<input type="text" class="czipt" placeholder="单行输入" v-model='alipay'><br />
-            　真实姓名：<input type="text" class="czipt" placeholder="单行输入" v-model="rel_name">
+            　  <span class='left'>提现积分：</span><input type="text" class="czipt" placeholder="请输入数值" v-model='recharge'><br />
+                <span class='left'>支付宝账号：</span><input type="text" class="czipt" placeholder="单行输入" v-model='alipay'><br />
+            　  <span class='left'>真实姓名：</span><input type="text" class="czipt" placeholder="单行输入" v-model="rel_name">
         </div>
         <div class="static">
             <p class='static-title'>积分提现说明：</p>
@@ -38,7 +38,8 @@
             return {
                  alipay:'',
                 recharge:'',
-                rel_name:''
+                rel_name:'',
+                point:window.sessionStorage.getItem('point')
             }
         },
         mounted(){
@@ -52,21 +53,15 @@
                     recharge:this.recharge,
                     rel_name:this.rel_name
                 }
-                this.$http.post(
+                this.$axios.post(
                     '/money/withdrawal',
                     data,
-                    {headers:{token:Token.fetch()}}
+                    {headers:{token:window.sessionStorage.getItem('token')}}
                 ).then(res=>{
                     if(res.data.code==400){
-                        this.$message({
-                                message: res.data.message,
-                                type: 'warning'
-                            });
+                      
                     }else{
-                        this.$message({
-                                message: '提现成功，请等待审核',
-                                type: 'success'
-                            });
+                      alert('success')
                     }
                 })
             }
@@ -88,6 +83,11 @@
             border:.02rem solid #eaeaea;
             text-indent: .06rem;
             font-size:.2rem;
+        }
+        .left{
+            display: inline-block;
+            width: 1.8rem;
+            text-align: right;
         }
     }
     .static{

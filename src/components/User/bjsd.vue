@@ -8,7 +8,7 @@
             <li :class="{isActive:tabs==4}" @click='changeTab(4)'>已通过</li>
         </ul>
         <ul class="orderlist">
-            <li>
+            <li v-for='(item,key) in bjsd' :key="key">
                 <div class="time-state">
                     <span class='time'>接单人</span>
                     <span class='state'>
@@ -54,9 +54,15 @@
                 this.tabs=num;
             }
         },
+        computed:{
+            bjsd(){
+                return this.$store.state.bjsd
+            }
+        },
         mounted(){
             this.$store.dispatch('getUserTitle','被接收的')
             this.$store.dispatch('getHasSrh',true)
+            this.$store.dispatch('getBjsd',this.tabs)
         }
     }
 </script>
@@ -64,7 +70,6 @@
 .isActive{
     border-bottom:.03rem solid #FCA62F; 
 }
-
 .main{
     .tabs{
         height: 0.8rem;

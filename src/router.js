@@ -25,11 +25,13 @@ import Bjsd from '@/components/User/bjsd'
 import Wjsd from '@/components/User/wjsd'
 import Wfbd from '@/components/User/wfbd'
 import Comments from '@/components/User/comment'
-//个人资料和修改密码
+//个人资料修改密码冲会员
 import SetPwd from '@/components/User/setpwd'
+import Vip from '@/components/User/vip'
 //充值提现
 import Cz from '@/components/User/cz'
 import Tx from '@/components/User/tx'
+import PDetail from '@/components/User/detail'
 
 Vue.use(Router)
 
@@ -89,6 +91,10 @@ export default new Router({
           component: Login,
         },
         {
+          path: 'vip',
+          component: Vip,
+        },
+        {
           path: 'register',
           component: Register,
         },
@@ -123,6 +129,10 @@ export default new Router({
         {
           path:'setpwd',
           component:SetPwd
+        },
+        {
+          path:'detail',
+          component:PDetail
         }
       ]
     }
