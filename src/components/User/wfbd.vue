@@ -6,34 +6,36 @@
             <li :class="{isActive:tabs==3}" @click='changeTab(3)'>已完成</li>
         </ul>
         <ul class="orderlist">
-            <li>
+            <li v-for='(item,key) in wfbd' :key=key>
                 <div class="time-state">
-                    <span class='time'>2016-02-09</span>
-                    <span class='state color-FCA62F'>待接单</span>
+                    <span class='time'>{{item.update_time}}</span>
+                    <span class='state color-FCA62F' v-if="item.type==0">待接单</span>
+                    <span class='state color-FCA62F' v-if="item.type==1">进行中</span>
+                    <span class='state color-FCA62F' v-if="item.type==2">已完成</span>
                 </div>
                 <div class="info">
                     <div class="infoleft">
-                        <div class='title'>标题啊实打实大声道阿萨德阿萨德阿萨德阿萨德</div>
-                        <div class='type'><img src="../../assets/img/icon-type.png" alt="">同城便-同城便-同城便</div>
+                        <div class='title'>{{item.title}}</div>
+                        <div class='type'><img src="../../assets/img/icon-type.png" alt="">{{item.get_one.name}}-{{item.get_two.name}}-{{item.get_three.name}}</div>
                         <div class="points">
-                            120积分
+                            {{item.price}}积分
                         </div>
                         <div class="sum">
-                            <span class='color-FCA62F font-12'>已接单数：0</span>
-                            <span class='color-85CCA1 font-12'>已通过数：0</span>
+                            <span class='color-FCA62F font-12'>已接单数：{{item.singular}}</span>
+                            <span class='color-85CCA1 font-12'>已通过数：{{item.pass}}</span>
                         </div>
                     </div>
                     <div class="inforight">
                         <div class="num">
-                            次数：1/10
+                            次数：{{item.singular}}/{{item.number}}
                         </div>
                         <div class="cycle">
-                            周期：一个月
+                            周期：{{item.cycle}}
                         </div>
                     </div>
                 </div>
-                <div class="operate">
-                    <button class='del'>删除订单</button>
+                <div class="operate" v-if='item.type==0||item.type==2'>
+                    <button class='del' @click='del(item.id)'>删除订单</button>
                 </div>
             </li>
         </ul>
@@ -50,6 +52,27 @@
             changeTab(num){
                 this.tabs=num;
                 this.$store.dispatch('getWfbd',this.tabs)
+            },
+            del(id){
+                var data = {
+                    order_id : id
+                }
+                this.$axios({
+                    method:'get',
+                    url:'/order/del',
+                    params:data,
+                    headers:{
+                        token:window.sessionStorage.getItem('token')
+                    }
+                }).then(res=>{
+                    alert('删除成功');
+                    this.$store.dispatch('getWfbd',this.tabs)
+                })
+            }
+        },
+        computed:{
+            wfbd(){
+                return this.$store.state.wfbd
             }
         },
         mounted(){

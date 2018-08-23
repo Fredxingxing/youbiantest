@@ -15,8 +15,8 @@
                         <router-link tag='span' to="/other/register" >注册</router-link>
                     </div>
                     <div class="points">
-                        <span>积分余额</span>
-                        <span class='font-16 color-FCA62F'>1200</span>
+                        <span style='line-height:.3rem'>积分余额</span>
+                        <span class='font-16 color-FCA62F'>{{point}}<router-link tag='span' to='/other/detail' style='display:inline;font-size:.2rem;color:#727272;margin-left:.1rem'>明细>></router-link></span>
                     </div>
                     <div class="chongzhi">
                         <router-link tag='button' to='/other/tx'>
@@ -28,7 +28,7 @@
                     </div>
                 </div>
                 <p class='vip'>
-                    普通会员 <span>去升级</span>
+                    普通会员 <router-link tag='span' to="/other/vip">去升级</router-link>
                 </p>
             </div>
         </div>
@@ -78,6 +78,9 @@
                 </li>
             </ul>
         </div>
+        <div class="logout" @click='logout' v-if='username'>
+            退出登录
+        </div>
         <bottom-bar />
     </div>
 </template>
@@ -88,6 +91,13 @@
             return {
                 username:window.sessionStorage.getItem('username'),
                 img:window.sessionStorage.getItem('img'),
+                point:window.sessionStorage.getItem('point')
+            }
+        },
+        methods:{
+            logout(){
+                window.sessionStorage.clear();
+                this.$router.push('/other/login')
             }
         },
         components:{
@@ -132,7 +142,8 @@
                 }
                 .points{
                     span{
-                        display: block;
+                        width:100%;
+                        display: inline-block;
                         text-align: center;
                     }
                 }
@@ -202,6 +213,20 @@
                 position: relative;
             }
         }
+    }
+    .logout{
+        text-align: center;
+        line-height: .7rem;
+        display: block;
+        margin:auto;
+        margin-top:.5rem;
+        width: 6rem;
+        height: 0.7rem;
+        background-color: #DD5519;
+        color:#fff;
+        border-radius:.1rem;
+        border:0;
+        font-size:.32rem;
     }
 }
 </style>

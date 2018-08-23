@@ -40,10 +40,10 @@
                 var data = {
                     recharge : this.recharge
                 }
-                this.$http.post(
+                this.$axios.post(
                     '/money/recharge',
                     data,
-                    {headers:{token:Token.fetch()}}
+                    {headers:{token:window.sessionStorage.getItem('token')}}
                 ).then(res=>{
                     if(res.data.code==400){
 

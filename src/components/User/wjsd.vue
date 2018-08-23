@@ -57,6 +57,7 @@
         mounted(){
             this.$store.dispatch('getUserTitle','我接收的')
             this.$store.dispatch('getHasSrh',true)
+            this.$store.dispatch('getWjsd',this.tabs)
         }
     }
 </script>

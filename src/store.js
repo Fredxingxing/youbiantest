@@ -29,7 +29,11 @@ export default new Vuex.Store({
       //订单管理:''
       wfbd:'',
       wjsd:'',
-      bjsd:''
+      bjsd:'',
+      //升级会员显示
+      vip:'',
+      //积分明细
+      integral:'',
   },
   mutations: {
     setUserTitle(state,data){
@@ -80,14 +84,25 @@ export default new Vuex.Store({
       state.TopBarCityShow = ChangeShow
     },
     setBjsd(state,data){
+      console.log(data)
       state.bjsd = data
     },
     setWjsd(state,data){
+      console.log(data)
       state.wjsd = data
     },
     setWfbd(state,data){
+      console.log(data)
       state.wfbd = data
     },
+    setVip(state,data){
+      console.log(data)
+      state.vip = data
+    },
+    setIntegral(state,data){
+      console.log(data)
+      state.integral = data;
+    }
   },
   actions: {
     getUserTitle(context,data){
@@ -202,33 +217,32 @@ export default new Vuex.Store({
       var data={
         type
       }
-      axios.post(
-        '/order/release_order',
-        data,
-        {
-          headers:{
-            token:window.sessionStorage.getItem('token')
-          }
+      console.log(data)
+      axios({
+        method:'get',
+        url:'/order/release_order',
+        params:data,
+        headers:{
+          token:window.sessionStorage.getItem('token')
         }
-      ).then(res=>{
-        var data =res.data;
-        console.log(data);
+      }).then(res=>{
+        var data =res.data.data;
+        context.commit('setWfbd',data)
       })
     },
     getWjsd(context,type){
       var data={
         type
       }
-      axios.post(
-        '/order/received',
+      axios({
+        method:'get',
+        url:'/order/received',
         data,
-        {
-          headers:{
-            token:window.sessionStorage.getItem('token')
-          }
+        headers:{
+          token:window.sessionStorage.getItem('token')
         }
-      ).then(res=>{
-        var data =res;
+      }).then(res=>{
+        var data =res.data;
         console.log(data);
       })
     },
@@ -236,17 +250,40 @@ export default new Vuex.Store({
       var data={
         type
       }
-      axios.post(
-        '/order/be_received',
-        data,
-        {
+      axios({
+        method:'get',
+        url:'/order/be_received',
+        params:data,
           headers:{
             token:window.sessionStorage.getItem('token')
           }
-        }
-      ).then(res=>{
+      }).then(res=>{
         var data =res.data.data;
-        console.log(data);
+        context.commit('setBjsd',data)
+      })
+    },
+    getVip(context){
+      axios({
+        method:'get',
+        url:'/user/user_member',
+          headers:{
+            token:window.sessionStorage.getItem('token')
+          }
+      }).then(res=>{
+        var data =res.data.data;
+        context.commit('setVip',data);
+      })
+    },
+    getIntegral(context){
+      axios({
+        method:'get',
+        url:'/user/info',
+          headers:{
+            token:window.sessionStorage.getItem('token')
+          }
+      }).then(res=>{
+        var data =res.data.data.integral_detail;
+        context.commit('setIntegral',data);
       })
     }
   }

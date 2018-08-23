@@ -37,6 +37,7 @@ import { Toast } from 'mint-ui';
                         window.sessionStorage.setItem('token',res.data.data.token);
                         window.sessionStorage.setItem('username',res.data.data.user.name);
                         window.sessionStorage.setItem('img',res.data.data.user.img)
+                        window.sessionStorage.setItem('point',res.data.data.user.integral)
                         this.$router.push('/user')
                     }else{
                         alert('账号或密码错误')
