@@ -9,7 +9,7 @@
     </div>
       <div class="Search">
            <i class="iconfont icon-search" style="margin-top: 0.1rem;"></i>
-          <input class="SearchInput" placeholder="文献翻译">
+          <input class="SearchInput" v-model="InputSearch" placeholder="文献翻译">
       </div>
     </div>
 </template>
@@ -18,9 +18,20 @@
     import { mapState } from 'vuex'
     export default {
         name: "topBar",
+        data(){
+          return{
+              InputSearch:'',
+              SearchObject:{},
+          }
+        },
         watch:{
             TopBarCityShow:function (val) {
                 //do method again
+            },
+            InputSearch:function (val) {
+                console.log(val)
+                this.SearchObject.searchtop = val
+                this.$store.dispatch('getTopSearch',val)
             }
         },
         computed:{
@@ -30,17 +41,12 @@
         },
         methods:{
             Back:function(){
-                console.log("back")
-                //后退-1 前进+1
                 if(this.$route.name === 'HomeTabDetail'){
                      this.$router.push('/Home')
                 }
                 if(this.$route.name === 'OrderList'){
                     this.$router.push('/HomeTabDetail')
                 }
-                // else{
-                //     this.$router.go(-1);
-                // }
             },
         },
     }

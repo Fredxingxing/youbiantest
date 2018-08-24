@@ -12,6 +12,7 @@ export default new Vuex.Store({
       HomeCategory:[],
       HomeDetail:[],
       HomeBanner:[],
+      HomePopular:[],
       //订单
       OrderList:[],
       OrderSelected:{},
@@ -22,10 +23,12 @@ export default new Vuex.Store({
       ActivityList:[],
       ActivityDetail:{},
       ActivityType:'1',
+      ActivityBanner:{},
       //榜单
       PublishList:[],
       TakenList:[],
       TopBarCityShow:false,
+      SearchResult:{},
       //个人中心头部
       userTitle:'',
       hasSrh:'',
@@ -57,6 +60,10 @@ export default new Vuex.Store({
         state.HomeBanner = Banner
         console.log(state.HomeBanner)
     },
+    setHomePopular(state,Popular){
+    state.HomePopular = Popular
+    console.log(state.HomePopular)
+},
     setOrderSelected(state,OrderSelected){
         state.OrderSelected = OrderSelected
     },
@@ -81,6 +88,9 @@ export default new Vuex.Store({
     setActivityList(state,List){
       state.ActivityList = List
     },
+   setActivityBanner(state,Banner){
+        state.ActivityBanner = Banner
+   },
     setActivityDetail(state,Detail){
       state.ActivityDetail = Detail
     },
@@ -96,6 +106,9 @@ export default new Vuex.Store({
    },
     setTopBarShow(state,ChangeShow){
       state.TopBarCityShow = ChangeShow
+    },
+    setSearchResult(state,Result){
+        state.SearchResult = Result
     },
     setBjsd(state,data){
       console.log(data)
@@ -147,8 +160,11 @@ export default new Vuex.Store({
     getHomeBanner(context){
         axios.get('/index/index')
             .then(function (response) {
+                console.log(response.data.data)
                 var Banner = response.data.data.banner
+                var Popular = response.data.data.popular
                 context.commit('setHomeBanner',Banner)
+                context.commit("setHomePopular",Popular)
             })
             .catch(function (error) {
                 console.log(error)
@@ -189,14 +205,27 @@ export default new Vuex.Store({
             console.log(error)
         })
      },
+    getTakeOrder(context,OrderId){
+        axios.post('/receive/receive_order',{
+            order_id:OrderId
+        })
+            .then(function (response) {
+                console.log(response.data)
+            })
+            .catch(function (error) {
+                console.log(error)
+            });
+    },
     getActivityList(context,type){
           axios.post('/activity/index',{
                   type:type-1
           })
               .then(function (response) {
+                  console.log(response)
                   var ActivityList = response.data.data.activity_list.data
-                  console.log(ActivityList)
+                  var ActivityBanner = response.data.data.banner
                   context.commit('setActivityList',ActivityList)
+                  context.commit('setActivityBanner',ActivityBanner)
               })
               .catch(function (error) {
                   console.log(error)
@@ -244,6 +273,26 @@ export default new Vuex.Store({
                 console.log(error)
             });
     },
+    getTopSearch(context,SearchObject){
+          axios.post('index/search',{
+              search_top:SearchObject.searchtop,
+              level_one: SearchObject.levelone,
+              level_two: SearchObject.leveltwo,
+              level_three: SearchObject.levelthree,
+              price: SearchObject.price,
+              time: SearchObject.time,
+              type: SearchObject.type,
+              search: SearchObject.search
+          })
+              .then(function (response) {
+                  var Search = response.data.data
+                  console.log(Search)
+                  context.commit('setSearchResult',Search)
+              })
+              .catch(function (error) {
+                  console.log(error)
+              });
+     },
     getWfbd(context,type){
       var data={
         type

@@ -11,7 +11,7 @@
                     <i class="iconfont icon-icon_user oderTopFont"></i>
                     <span style="font-size: .25rem;margin-left: .15rem;">{{OrderDetail.get_user.name}}</span>
                 </div>
-                <mt-button class="Btndetail">快速接单</mt-button>
+                <mt-button class="Btndetail" @click="TakeOrder()">快速接单</mt-button>
             </div>
             <div class="orderdetail">
                 <div class="detailText">
@@ -107,7 +107,11 @@
         },
         methods:{
             Back:function () {
-                this.$router.push('/OrderList')
+                //this.$router.push('/OrderList')
+                this.$router.go(-1)
+            },
+            TakeOrder:function () {
+               this.$store.dispatch('getTakeOrder',this.$route.query.OrderId)
             },
             getDateTimeStamp:function (dateStr){
                    return Date.parse(dateStr.replace(/-/gi,"/"));

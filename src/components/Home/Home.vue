@@ -5,7 +5,7 @@
           <div class="SwiperContainer" style="height: 4rem;">
         <HomeSwiper/>
           </div>
-        <HomeHot/>
+        <HomePopular/>
         <HomeOrder/>
         <bottomBar/>
     </div>
@@ -18,6 +18,7 @@
     import bottomBar from '../bottomBar'
     import HomeHot  from './HomeHot'
     import HomeOrder from './HomeOrder'
+    import HomePopular from './HomePopular'
     export default {
         name: "Home",
         components:{
@@ -26,7 +27,8 @@
             HomeTab,
             HomeSwiper,
             HomeOrder,
-            bottomBar
+            bottomBar,
+            HomePopular
         }
     }
 </script>
