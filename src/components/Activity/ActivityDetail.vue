@@ -81,7 +81,8 @@
     margin:.1rem 0rem .2rem 0rem
 }
 .DetailContainer{
-        width: 100%;
+        width: 90%;
+
  }
 .DetailContent img{
     width: 100%;

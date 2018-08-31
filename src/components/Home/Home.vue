@@ -6,7 +6,7 @@
         <HomeSwiper/>
           </div>
         <HomePopular/>
-        <HomeOrder/>
+        <!--<HomeOrder/>-->
         <div>
         <bottomBar/>
         </div>

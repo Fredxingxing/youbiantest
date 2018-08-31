@@ -58,7 +58,7 @@
     width: 100%;
     height: 2rem;
     display: flex;
-    margin: .3rem .15rem;
+    margin:.3rem 0 0.3rem 0rem;
 }
 .PopularName{
     width: 30%;
@@ -71,12 +71,11 @@
     height: 100%;
 }
 .PopularSons{
-    width: 70%;
+    width: 65%;
     height: 100%;
     display: flex;
     flex-wrap: wrap;
     align-content: baseline;
-    padding-right: 0.3rem;
     margin-left: 0.1rem;
  }
 .PopularSon{
