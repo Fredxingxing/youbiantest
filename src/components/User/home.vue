@@ -58,12 +58,12 @@
         <div class="list">
             <p class='title'>账号设置</p>
              <ul>
-                <li>
+                <router-link tag="li" to="/UserInfo">
                     <span>
                         <img class='icon' src="../../assets/img/icon-grzl.png" alt="">个人资料
                     </span>
                     <span><i class='iconfont icon-right'></i></span>
-                </li>
+                </router-link>
                 <router-link tag='li' to="/other/setpwd">
                     <span>
                         <img class='icon' src="../../assets/img/icon-mmsz.png" alt="">密码设置

@@ -13,7 +13,7 @@
         <ActivityDetailContent/>
         <div @click="ToTop" class="BackToTop">
             <i class="iconfont icon-back_to_top"></i>
-            <div style="font-size: .1rem;color: #7C7B7B">顶部</div>
+            <div style="font-size: .1rem;color: #767575">顶部</div>
         </div>
     </div>
 </template>
@@ -93,6 +93,9 @@
     flex-direction: column;
     align-self: flex-end;
     text-align: center;
+    position: fixed;
+    right: 0.2rem;
+    bottom: 0.5rem;
 }
     .TopBar{
         height: .8rem;

@@ -1,10 +1,13 @@
 <template>
     <div class="HomePopular">
         <div class="PopularContainer" v-for="(popular,popularindex) in HomePopular">
-            <div class="PopularName">{{popular.name}}</div>
+            <div class="PopularName" >
+                <!--:style="{backgroundImage:'url(' + (PopularSrc+popular.name+'.png') + ')'}-->
+                <img :src="imgUrl(popular.id+'.png')" class="PopularImg">
+            </div>
             <div class="PopularSons" >
                 <div class="PopularSon"v-for="(popularson,sonindex) in popular.sons">
-                    <div class="SonName" @click="GoToOrderList(sonindex)">{{popularson.name}}</div>
+                    <div class="SonName" @click="GoToOrderList(popularindex,sonindex)">{{popularson.name}}</div>
                 </div>
             </div>
         </div>
@@ -13,8 +16,14 @@
 
 <script>
     import { mapState } from 'vuex'
+    var images = require.context('../../assets/HomePopular/',false,/\.png$/)
     export default {
         name: "home-popular",
+        data(){
+          return{
+              // PopularSrc:'../../assets/HomePopular/'
+          }
+        },
         watch:{
             HomePopular:function (val) {
             },
@@ -27,9 +36,14 @@
         mounted(){
         },
         methods:{
-            GoToOrderList:function (sonindex) {
-
-            }
+            GoToOrderList:function (dadindex,sonindex) {
+                console.log(this.$store.state.HomePopular[dadindex].sons[sonindex].id)
+                this.$router.push({path:'/OrderList',
+                    query:{level_three:this.$store.state.HomePopular[dadindex].sons[sonindex].id}})
+            },
+            imgUrl:function (path) {
+                return images('./'+path)
+            },
         }
     }
 </script>
@@ -52,11 +66,16 @@
     font-size: .8rem;
     line-height: 1.8rem;
 }
+.PopularImg{
+     width: 2.15rem;
+    height: 100%;
+}
 .PopularSons{
     width: 70%;
     height: 100%;
     display: flex;
     flex-wrap: wrap;
+    align-content: baseline;
     padding-right: 0.3rem;
     margin-left: 0.1rem;
  }
@@ -64,13 +83,24 @@
     width: 33.3%;
     text-align: center;
     display: flex;
+    margin-top:0.22rem;
 }
 .SonName{
     margin-right: 0.1rem;
     border: 0.01rem solid  #D5D5D5;
-    margin-top: .1rem;
     height: .5rem;
+    /*margin-top: .1rem;*/
     width: 1.6rem;
     line-height: .5rem;
   }
+
+.PopularSon:nth-child(1){
+    margin-top:0;
+}
+.PopularSon:nth-child(2){
+    margin-top:0;
+}
+.PopularSon:nth-child(3){
+    margin-top:0;
+}
 </style>

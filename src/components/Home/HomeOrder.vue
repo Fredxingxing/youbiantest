@@ -1,94 +1,35 @@
 <template>
-    <div style="display: flex;flex-direction: column">
-     <div class="order">
-          <div class="orderTop">
-           <div class="user">
-             <i class="iconfont icon-icon_user"></i>
-              <span style="font-size: .25rem;margin-left: .15rem;">用户名</span>
-             </div>
-                <mt-button class="Btndetail" v-on:click="GoToDetail()">查看详情</mt-button>
-         </div>
-          <div class="orderdetail">
-             <div class="detailText">
-                 <div class="orderTitle">标题标题标题标题标题标题标题</div>
-                 <div class="orderInfo">
-                     <div class="orderCate">
-                         <i class="iconfont icon-cate FontSize"></i>
-                         <div class="FontSize">生活类-货运快递-中通快递</div>
-                     </div>
-                     <div class="orderDate">
-                         <i class="iconfont icon-date FontSize"></i>
-                         <div class="FontSize" >2018-12-25</div>
-                     </div>
-                 </div>
-                 <div class="orderIntegral">120积分</div>
-             </div>
-             <div class="detailNumberBorder">
-                 <div class="detailNum">
-                     <div class="orderNum">次数 : 2/10</div>
-                     <div class="orderTime">周期 : 1个月</div>
-                 </div>
-             </div>
-         </div>
-        </div>
-     <div class="order">
+    <div style="display: flex;flex-direction: column;height: 100%;">
+        <!--v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10"-->
+     <div class="order" v-for="(Order,Orderindex) in OrderListshow">
             <div class="orderTop">
                 <div class="user">
                     <i class="iconfont icon-icon_user"></i>
-                    <span style="font-size: .25rem;margin-left: .15rem;">用户名</span>
+                    <span style="font-size: .25rem;margin-left: .15rem;">{{Order.get_user.name}}</span>
                 </div>
-                <mt-button class="Btndetail">查看详情</mt-button>
+                <router-link :to="{path:'/OrderDetail',query:{OrderId:Order.id}}">
+                    <mt-button class="Btndetail" v-on:click="GoToDetail(Orderindex)">查看详情</mt-button>
+                </router-link>
             </div>
             <div class="orderdetail">
                 <div class="detailText">
-                    <div class="orderTitle">标题标题标题标题标题标题标题</div>
+                    <div class="orderTitle">{{Order.title}}</div>
                     <div class="orderInfo">
                         <div class="orderCate">
                             <i class="iconfont icon-cate FontSize"></i>
-                            <div class="FontSize">生活类-货运快递-中通快递</div>
+                            <div class="FontSize">{{Order.get_one.name}}-{{Order.get_two.name}}-{{Order.get_three.name}}</div>
                         </div>
                         <div class="orderDate">
                             <i class="iconfont icon-date FontSize"></i>
-                            <div class="FontSize" >2018-12-25</div>
+                            <div class="FontSize" >{{Order.update_time}}</div>
                         </div>
                     </div>
-                    <div class="orderIntegral">120积分</div>
+                    <div class="orderIntegral">{{Order.price}}积分</div>
                 </div>
                 <div class="detailNumberBorder">
                     <div class="detailNum">
-                        <div class="orderNum">次数 : 2/10</div>
-                        <div class="orderTime">周期 : 1个月</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-     <div class="order">
-            <div class="orderTop">
-                <div class="user">
-                    <i class="iconfont icon-icon_user"></i>
-                    <span style="font-size: .25rem;margin-left: .15rem;">用户名</span>
-                </div>
-                <mt-button class="Btndetail">查看详情</mt-button>
-            </div>
-            <div class="orderdetail">
-                <div class="detailText">
-                    <div class="orderTitle">标题标题标题标题标题标题标题</div>
-                    <div class="orderInfo">
-                        <div class="orderCate">
-                            <i class="iconfont icon-cate FontSize"></i>
-                            <div class="FontSize">生活类-货运快递-中通快递</div>
-                        </div>
-                        <div class="orderDate">
-                            <i class="iconfont icon-date FontSize"></i>
-                            <div class="FontSize" >2018-12-25</div>
-                        </div>
-                    </div>
-                    <div class="orderIntegral">120积分</div>
-                </div>
-                <div class="detailNumberBorder">
-                    <div class="detailNum">
-                        <div class="orderNum">次数 : 2/10</div>
-                        <div class="orderTime">周期 : 1个月</div>
+                        <div class="orderNum">次数 : {{Order.singular}}/{{Order.number}}</div>
+                        <div class="orderTime">周期 : {{Order.cycle}}</div>
                     </div>
                 </div>
             </div>
@@ -97,13 +38,57 @@
 </template>
 
 <script>
+    import {mapState} from 'vuex'
     export default {
         name: "HomeOrder",
+        data(){
+            return{
+                loading:false,
+                AllList:[],
+                i:1,
+                OrderListshow:[]
+            }
+        },
+        mounted() {
+            var Getobject = new Object()
+            this.$store.dispatch('getOrderList',Getobject)
+            console.log('HomeOrder')
+            console.log(this.$store.state.OrderList)
+        },
+        watch:{
+            OrderList:function (val) {
+                console.log(val.slice(0,3))
+                        this.OrderListshow = val.slice(0,3)
+
+                //do method again
+            }
+        },
+        computed:{
+            ...mapState({
+                OrderList:'OrderList',
+            }),
+        },
         methods:{
             GoToDetail:function(){
-                this.$router.push('/OrderDetail')
+                this.$router.push('/OrderDetail',)
             },
+
         },
+        // loadMore:function() {
+        //     console.log("im in")
+        //     this.loading = true;
+        //     setTimeout(() => {
+        //         if(this.i>this.AllList||this.i==this.AllList.length){
+        //             this.loading = false;
+        //         }
+        //         else {
+        //             this.OrderListshow.push(this.AllList.slice(this.i, this.i + 3))
+        //             this.i = this.i + 3
+        //         }
+        //         console.log(this.OrderList)
+        //         this.loading = false;
+        //     }, 2500);
+        // }
     }
 </script>
 

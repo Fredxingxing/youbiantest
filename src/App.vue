@@ -8,7 +8,7 @@
 </template>
 
 <style lang="less">
-  @import "http://at.alicdn.com/t/font_792290_4wki4pgajab.css";
+  @import "http://at.alicdn.com/t/font_792290_9g8hbx25ulp.css";
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

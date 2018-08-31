@@ -97,12 +97,25 @@
                 console.log("updated")
                 console.log(val)
                 this.$store.commit('setOrderComments',this.OrderComments)
+            },
+            TakeOrderRes:function (val) {
+                console.log(val)
+                if(val.code === 400 && val.message==='该订单已接完'){
+                    alert(val.message)
+                }
+                else if(val.code === 200){
+                    alert('成功接单')
+                }
+                else{
+                    this.$router.push({path:'/other/login',query:{OrderId:this.$route.query.OrderId}})
+                }
             }
         },
         computed:{
             ...mapState({
                 OrderDetail:'OrderDetail',
-                OrderComments:'OrderComments'
+                OrderComments:'OrderComments',
+                TakeOrderRes:'TakeOrderRes'
             }),
         },
         methods:{
@@ -111,7 +124,9 @@
                 this.$router.go(-1)
             },
             TakeOrder:function () {
-               this.$store.dispatch('getTakeOrder',this.$route.query.OrderId)
+                console.log(this.$route.query)
+                this.$store.dispatch('getTakeOrder',this.$route.query.OrderId)
+
             },
             getDateTimeStamp:function (dateStr){
                    return Date.parse(dateStr.replace(/-/gi,"/"));

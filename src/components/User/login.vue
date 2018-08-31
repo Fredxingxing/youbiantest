@@ -38,7 +38,13 @@ import { Toast } from 'mint-ui';
                         window.sessionStorage.setItem('username',res.data.data.user.name);
                         window.sessionStorage.setItem('img',res.data.data.user.img)
                         window.sessionStorage.setItem('point',res.data.data.user.integral)
-                        this.$router.push('/user')
+                        // this.$router.push({path:'/other/login',query:{OrderId:this.$route.query.OrderId}})
+                        if(this.$route.query.OrderId !== undefined){
+                            this.$router.push({path:'/OrderDetail',query:{OrderId:this.$route.query.OrderId}})
+                        }
+                        if(this.$route.query.OrderId === undefined) {
+                            this.$router.push('/user')
+                        }
                     }else{
                         alert('账号或密码错误')
                     }

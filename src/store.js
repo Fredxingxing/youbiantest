@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import router from './router'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -19,6 +20,7 @@ export default new Vuex.Store({
       OrderId:0,
       OrderDetail:{},
       OrderComments:[],
+      TakeOrderRes:{},
       //活动
       ActivityList:[],
       ActivityDetail:{},
@@ -32,6 +34,7 @@ export default new Vuex.Store({
       //个人中心头部
       userTitle:'',
       hasSrh:'',
+      UserInfo:{},
       //订单管理:''
       wfbd:'',
       wjsd:'',
@@ -85,6 +88,9 @@ export default new Vuex.Store({
     setOrderComments(state,Comments){
         state.OrderComments = Comments
     },
+      setTakeOrderRes(state,Res){
+        state.TakeOrderRes = Res
+      },
     setActivityList(state,List){
       state.ActivityList = List
     },
@@ -109,6 +115,9 @@ export default new Vuex.Store({
     },
     setSearchResult(state,Result){
         state.SearchResult = Result
+    },
+    setUserInfo(state,Info){
+        state.UserInfo = Info
     },
     setBjsd(state,data){
       console.log(data)
@@ -178,7 +187,8 @@ export default new Vuex.Store({
             level_three: Getobject.levelthree,
             price: Getobject.price,
             time: Getobject.time,
-            type: Getobject.type
+            type: Getobject.type,
+            status:Getobject.status
             })
             .then(function (response) {
                 var OrderList = response.data.data.order_list
@@ -206,11 +216,16 @@ export default new Vuex.Store({
         })
      },
     getTakeOrder(context,OrderId){
+        console.log(window.sessionStorage.getItem('token'))
         axios.post('/receive/receive_order',{
             order_id:OrderId
-        })
+        },{
+            headers:{
+            'token':window.sessionStorage.getItem('token')
+        }})
             .then(function (response) {
-                console.log(response.data)
+                var TakeOrderRes = response.data
+                context.commit('setTakeOrderRes',TakeOrderRes)
             })
             .catch(function (error) {
                 console.log(error)
@@ -263,7 +278,7 @@ export default new Vuex.Store({
         axios.get('index/list_orders',{
             params:{
                 type:type
-            }
+            },
         })
             .then(function (response) {
                 var TakenList = response.data.data
@@ -286,12 +301,25 @@ export default new Vuex.Store({
           })
               .then(function (response) {
                   var Search = response.data.data
-                  console.log(Search)
                   context.commit('setSearchResult',Search)
               })
               .catch(function (error) {
                   console.log(error)
               });
+     },
+     getUserInfo(context){
+         axios.get('/user/user_edit',{
+             headers:{
+                 token:window.sessionStorage.getItem('token')
+             }
+         })
+             .then(function (response) {
+                 var UserInfo = response.data.data
+                 context.commit('setUserInfo',UserInfo)
+             })
+             .catch(function (error) {
+                 console.log(error)
+             });
      },
     getWfbd(context,type){
       var data={

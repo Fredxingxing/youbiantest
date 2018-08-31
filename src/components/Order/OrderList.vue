@@ -1,11 +1,18 @@
 <template>
     <div class="Order">
      <topBar/>
-        <div class="OrderFilter">
-            <div class="FilterName">派单</div>
-            <div class="FilterName">价格</div>
-            <div class="FilterName">日期</div>
-            <div class="FilterName">状态</div>
+        <div class="OrderFilter" style="z-index: 9999;">
+            <div class="FilterName" v-for="(FilterType,Typeindex) in FilterName">
+               <div class="SelectorType" v-on:click="SelectedType(Typeindex)">
+                   <div>{{FilterType}}</div>
+                   <i class="iconfont icon-down IconDown"></i>
+               </div>
+            </div>
+        </div>
+        <div v-if="ShowFilterSelectList" class="SelectorOverLayer" @touchmove.prevent>
+            <div class="ShowFilterSelectList" >
+                <mt-radio v-model="SelectRes" v-on:click="CheckSelector()" :options="FilterSelectList" align="right"> </mt-radio>
+            </div>
         </div>
         <div class="OrderSort">
             <div class="SortName">综合</div>
@@ -61,21 +68,57 @@
         },
         data(){
             return{
+                FilterName:["派单","价格","日期","状态"],
+                OrderSelector:[{label:"普通",value:'0'},{label:"优单",value:'1'}],  //type 1 2
+                PriceSelector:["0积分-20积分","20积分-50积分","50积分-100积分","100积分-200积分","200积分-300积分","400积分-500积分","500积分以上"], //价格
+                // PriceSelector:["0-20","20-50","50-100","100-200","200-300","400-500","500-99999"],
+                DateSelector:["今天","三天内","一周","半个月内","一个月内"],//12345
+                StatusSelector:["全部","未开始","进行中","已完成",], //0 1 2 3
+                FilterSelectList:[],
+                NewPriceSelector:[],
+                ShowFilterSelectList:false,
+                SelectRes:'-5',
+                TypeSelected:"",
+                Getobject:{},
+                TypeList:["OrderSelector","PriceSelector"," DateSelector","StatusSelector"],
             }
         },
         mounted() {
-            if (this.Getobject == undefined) {
-                var Getobject = new Object()
-            Getobject.levelone = this.$route.query.level_one
-            Getobject.leveltwo = this.$route.query.level_two
-            Getobject.levelthree = this.$route.query.level_three
-        }
-            console.log(Getobject)
-            this.$store.dispatch('getOrderList',Getobject)
+
+            this.Getobject = new Object()
+            this.Getobject.levelone = this.$route.query.level_one
+            this.Getobject.leveltwo = this.$route.query.level_two
+            this.Getobject.levelthree = this.$route.query.level_three
+
+            console.log(this.Getobject)
+            this.$store.dispatch('getOrderList',this.Getobject)
+            this.$store.commit('setTopBarShow',false)
         },
         watch:{
             OrderList:function (val) {
                 //do method again
+            },
+            SelectRes:function (val) {
+                var SearchPrice = ["0-20","20-50","50-100","100-200","200-300","400-500","500-99999"] //价格
+                console.log(this.TypeSelected)
+                switch (this.TypeSelected){
+                    case 0:
+                        this.Getobject.type = val
+                        break
+                    case 1:
+                        this.Getobject.price = SearchPrice[val]
+                        console.log(SearchPrice[val])
+                        break
+                    case 2:
+                        this.Getobject.time = val
+                        break
+                    case 3:
+                        this.Getobject.status = val
+                        break
+                }
+                console.log(val)
+                    this.ShowFilterSelectList = false
+                this.$store.dispatch('getOrderList',this.Getobject)
             }
         },
         computed:{
@@ -84,8 +127,40 @@
             })
         },
         methods:{
-            GoToDetail:function (index) {
-                this.$store.dispatch('getOrderDetail',this.OrderList[index].id)
+            SelectedType:function(Typeindex){
+                this.ShowFilterSelectList = !this.ShowFilterSelectList
+                this.TypeSelected = Typeindex
+                switch (Typeindex){
+                    case 0:
+                         this.FilterSelectList = this.OrderSelector
+                        break;
+                    case 1:
+                        var Price = new Array()
+                        for(var i in this.PriceSelector){
+                            Price.push({"label":this.PriceSelector[i],"value":i})
+                        }
+                        this.FilterSelectList = Price
+                        break;
+                    case 2:
+                        var Date = new Array()
+                        for(var i in this.DateSelector){
+                            Date.push({"label":this.DateSelector[i],"value":i})
+                        }
+                        this.FilterSelectList = Date
+                        break;
+                    case 3:
+                        var Status = new Array()
+                        for(var i in this.StatusSelector){
+                            Status.push({"label":this.StatusSelector[i],"value":i})
+                        }
+                        this.FilterSelectList =  Status
+                        break;
+                }
+            },
+            CheckSelector:function(){
+            },
+            GoToDetail:function (Orderindex) {
+                this.$store.dispatch('getOrderDetail',this.OrderList[Orderindex].id)
                // this.$router.push('/OrderDetail')
             }
         }
@@ -125,6 +200,32 @@
 }
 .FontSize{
     font-size: 0.12rem;
+}
+.ShowFilterSelectList{
+    position: absolute;
+    background: white;
+    /*margin-top: 0.44rem;*/
+    width: 100%;
+}
+.SelectorType{
+    display: flex;
+    text-align: center;
+    margin-left: 30%;
+}
+.IconDown{
+    margin-top: 12%;
+    margin-left: 5%;
+    font-size: .08rem;
+}
+.SelectorOverLayer{
+    position:fixed;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    z-index:10;
+    background: rgba(0,0,0,0.3);
+    margin-top: 1.64rem
 }
     /*****************order样式************/
 .order{

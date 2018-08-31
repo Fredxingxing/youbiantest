@@ -7,7 +7,9 @@
           </div>
         <HomePopular/>
         <HomeOrder/>
+        <div>
         <bottomBar/>
+        </div>
     </div>
 </template>
 
