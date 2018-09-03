@@ -86,7 +86,7 @@
   .CityName{
       color: white;
       margin-top: .20rem;
-      font-size: .35rem;
+      font-size: .3rem;
 }
   .Search{
       width: 6.15rem;

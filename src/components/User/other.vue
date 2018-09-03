@@ -37,8 +37,11 @@
         },
         created(){
             var token = window.sessionStorage.getItem('token');
-            if(!token){
-                this.$router.push('/other/login')
+            var orderId = this.$route.query.OrderId
+            if(!orderId) {
+                if (!token) {
+                    this.$router.push('/other/login')
+                }
             }
         },
     }

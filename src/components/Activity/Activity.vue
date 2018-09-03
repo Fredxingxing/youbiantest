@@ -43,7 +43,7 @@
 <style scoped>
 .Activity{
         display: flex;
-        width: 7.50rem;
+        width: 100%;
         flex-direction: column;
         background: #ffffff;
 }

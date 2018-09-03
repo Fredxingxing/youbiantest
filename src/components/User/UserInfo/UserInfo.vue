@@ -1,9 +1,9 @@
 <template>
     <div class="UserInfo">
-        <div class="TopBar"  v-on:click="Back()">
-            <i class="iconfont icon-Left Back TopSize" ></i>
-            <div class="TopSize" >&nbsp详情</div>
-        </div>
+        <!--<div class="TopBar"  v-on:click="Back()">-->
+            <!--<i class="iconfont icon-Left Back TopSize" ></i>-->
+            <!--<div class="TopSize" >&nbsp详情</div>-->
+        <!--</div>-->
         <div class="protrait">
             <div style="width: 1.12rem;height: 0.64rem; line-height: .64rem;">头像</div>
         <img  class="protraitImage" src="../../../assets/img/default.jpg">
@@ -16,12 +16,12 @@
                     </span>
                 <span>{{UserInfo.name}}</span>
             </li>
-            <router-link tag='li' to="/other/setpwd">
+            <li>
                     <span>
                         <div class='icon'  alt="">性别</div>
                     </span>
                 <span>{{UserInfo.sex|sex}}</span>
-            </router-link>
+            </li>
             <li>
                     <span>
                         <div class='icon' alt="">地址</div>
@@ -44,6 +44,9 @@
                  <div class="IdName">身份证号</div>
                  <div class="IdName">{{UserInfo.id_card|id_card}}</div>
              </div>
+        </div>
+        <div class="ChangeInfo" @click='ChangeInfo()' >
+            修改信息
         </div>
     </div>
 </template>
@@ -100,6 +103,9 @@
             Back:function(){
                 this.$router.go(-1)
             },
+            ChangeInfo:function () {
+                  this.$router.push('/other/ChangeUserInfo')
+            }
         }
     }
 </script>
@@ -177,5 +183,19 @@
         position: relative;
     }
     }
+    }
+    .ChangeInfo{
+        text-align: center;
+        line-height: .7rem;
+        display: block;
+        margin:auto;
+        margin-top:2.5rem;
+        width: 6rem;
+        height: 0.7rem;
+        background-color: #DD5519;
+        color:#fff;
+        border-radius:.1rem;
+        border:0;
+        font-size:.32rem;
     }
 </style>

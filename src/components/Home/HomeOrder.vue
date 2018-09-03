@@ -1,16 +1,7 @@
 <template>
     <div style="display: flex;flex-direction: column;height: 100%;">
         <!--v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10"-->
-     <div class="order" v-for="(Order,Orderindex) in OrderListshow">
-            <div class="orderTop">
-                <div class="user">
-                    <i class="iconfont icon-icon_user"></i>
-                    <span style="font-size: .25rem;margin-left: .15rem;">{{Order.get_user.name}}</span>
-                </div>
-                <router-link :to="{path:'/OrderDetail',query:{OrderId:Order.id}}">
-                    <mt-button class="Btndetail" v-on:click="GoToDetail(Orderindex)">查看详情</mt-button>
-                </router-link>
-            </div>
+     <div class="order" v-for="(Order,Orderindex) in OrderListshow" v-on:click="GoToDetail(Orderindex)">
             <div class="orderdetail">
                 <div class="detailText">
                     <div class="orderTitle">{{Order.title}}</div>
@@ -18,10 +9,6 @@
                         <div class="orderCate">
                             <i class="iconfont icon-cate FontSize"></i>
                             <div class="FontSize">{{Order.get_one.name}}-{{Order.get_two.name}}-{{Order.get_three.name}}</div>
-                        </div>
-                        <div class="orderDate">
-                            <i class="iconfont icon-date FontSize"></i>
-                            <div class="FontSize" >{{Order.update_time}}</div>
                         </div>
                     </div>
                     <div class="orderIntegral">{{Order.price}}积分</div>
@@ -33,6 +20,15 @@
                     </div>
                 </div>
             </div>
+         <div class="orderTop">
+             <div class="user">
+                 <i class="iconfont icon-icon_user"></i>
+                 <span style="font-size: .3rem;margin-left: .15rem;">{{Order.get_user.name}}</span>
+             </div>
+               <div class="orderDate">
+                 <div class="FontSize DateSize" >{{Order.update_time}}</div>
+             </div>
+         </div>
         </div>
     </div>
 </template>
@@ -58,7 +54,7 @@
         watch:{
             OrderList:function (val) {
                 console.log(val.slice(0,3))
-                        this.OrderListshow = val.slice(0,3)
+                this.OrderListshow = val.slice(0,3)
 
                 //do method again
             }
@@ -69,8 +65,8 @@
             }),
         },
         methods:{
-            GoToDetail:function(){
-                this.$router.push('/OrderDetail',)
+            GoToDetail:function(index){
+                this.$router.push({path:'/OrderDetail',query:{OrderId:this.OrderListshow[index].id}})
             },
 
         },
@@ -99,6 +95,7 @@
     height: 2.40rem;
     flex-direction: column;
     background: #ffffff;
+    margin-top: .2rem;
 }
 .orderTop{
     width: 7.50rem;
@@ -122,6 +119,7 @@
     display: flex;
     justify-content: space-between;
 }
+/*查看详情按钮*/
 .Btndetail{
     background: #DD5519;
     color: #ffff;
@@ -197,5 +195,11 @@
 }
 .FontSize{
     font-size: 0.12rem;
+
+}
+.DateSize{
+    color: #A5A5A5;
+    font-size: .28rem;
+    margin-right: .45rem;
 }
 </style>

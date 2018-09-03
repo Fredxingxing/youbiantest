@@ -51,7 +51,7 @@
         },
         methods:{
             changeTab(num){
-                this.tabs=num;
+                this.tabs = num;
             }
         },
         computed:{

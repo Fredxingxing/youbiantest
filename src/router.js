@@ -12,6 +12,8 @@ import List from './components/List/List'
 //分类进
 import OrderList from './components/Order/OrderList'
 import OrderDetail from './components/Order/OrderDetail'
+//发布
+import PushDetail from './components/Push/PushDetail'
 //个人中心
 import User from '@/components/User/home'
 import Other from '@/components/User/other'
@@ -27,6 +29,7 @@ import Wfbd from '@/components/User/wfbd'
 import Comments from '@/components/User/comment'
 //个人资料修改密码冲会员
 import UserInfo from './components/User/UserInfo/UserInfo'
+import ChangeUserInfo from './components/User/UserInfo/ChangeUserInfo'
 import SetPwd from '@/components/User/setpwd'
 import Vip from '@/components/User/vip'
 //充值提现
@@ -79,15 +82,15 @@ export default new Router({
       name: 'OrderDetail',
       component: OrderDetail
     },
+      {
+          path: '/PushDetail',
+          name: 'PushDetail',
+          component: PushDetail
+      },
     {
       path: '/user',
       component: User
     },
-      {
-        path:'/UserInfo',
-        name:'UserInfo',
-        component:UserInfo
-      },
     {
       path: '/other',
       component: Other,
@@ -139,7 +142,15 @@ export default new Router({
         {
           path:'detail',
           component:PDetail
-        }
+        },
+          {
+              path:'UserInfo',
+              component:UserInfo
+          },
+          {
+              path:'ChangeUserInfo',
+              component:ChangeUserInfo
+          }
       ]
     }
     // {

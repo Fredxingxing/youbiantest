@@ -12,6 +12,12 @@
             <div>活动</div>
         </div>
         </router-link>
+        <router-link to="/PushDetail" tag="div" active-class="iconActive">
+            <div class="item">
+                <img src="../assets/Push.png" class="Push">
+                <div style="margin-top: .57rem">发布</div>
+            </div>
+        </router-link>
         <router-link to="/List" tag="div" active-class="iconActive">
         <div class="item">
             <i class="iconfont icon-diamond"></i>
@@ -61,6 +67,16 @@
    margin-bottom: .05rem;
     text-align: center;
 }
-
+.Push{
+    color: #EA910F;
+    background-color: #fff;
+    position: absolute;
+    left: 50%;
+    margin-left: -.45rem;
+    bottom: .5rem;
+    border-radius: 1rem;
+    width: .9rem;
+    border-top: .03rem solid #fff;
+}
 
 </style>

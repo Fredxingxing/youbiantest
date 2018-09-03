@@ -188,7 +188,8 @@ export default new Vuex.Store({
             price: Getobject.price,
             time: Getobject.time,
             type: Getobject.type,
-            status:Getobject.status
+            status:Getobject.status,
+            order_status:Getobject.order_status
             })
             .then(function (response) {
                 var OrderList = response.data.data.order_list

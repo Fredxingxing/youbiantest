@@ -6,7 +6,7 @@
         <HomeSwiper/>
           </div>
         <HomePopular/>
-        <!--<HomeOrder/>-->
+        <HomeOrder/>
         <div>
         <bottomBar/>
         </div>
@@ -38,7 +38,7 @@
 <style scoped>
 .Home{
     display: flex;
-    width: 7.50rem;
+    width: 100%;
     padding-bottom: 1.05rem;
     flex-direction: column;
 }

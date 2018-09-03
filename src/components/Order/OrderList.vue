@@ -8,20 +8,39 @@
                    <i class="iconfont icon-down IconDown"></i>
                </div>
             </div>
-        </div>
-        <div v-if="ShowFilterSelectList" class="SelectorOverLayer" @touchmove.prevent>
-            <div class="ShowFilterSelectList" >
-                <mt-radio v-model="SelectRes" v-on:click="CheckSelector()" :options="FilterSelectList" align="right"> </mt-radio>
+            <div v-if="ShowFilterSelectList&& TypeSelected === 0" class="SelectorOverLayer" @touchmove.prevent>
+                <div class="ShowFilterSelectList" >
+                    <mt-radio v-model="OrderSelNum" :options="FilterSelectList" align="right"> </mt-radio>
+                </div>
             </div>
+            <div v-if="ShowFilterSelectList&& TypeSelected === 1" class="SelectorOverLayer" @touchmove.prevent>
+                <div class="ShowFilterSelectList" >
+                    <mt-radio v-model="PriceSelNum" :options="FilterSelectList" align="right"> </mt-radio>
+                </div>
+            </div>
+            <div v-if="ShowFilterSelectList&& TypeSelected === 2" class="SelectorOverLayer" @touchmove.prevent>
+                <div class="ShowFilterSelectList" >
+                    <mt-radio v-model="DateSelNum"  :options="FilterSelectList" align="right"> </mt-radio>
+                </div>
+            </div>
+            <div v-if="ShowFilterSelectList&& TypeSelected === 3" class="SelectorOverLayer" @touchmove.prevent>
+                <div class="ShowFilterSelectList" >
+                    <mt-radio v-model="StatusSelNum" v-on:click="CheckSelector()" :options="FilterSelectList" align="right"> </mt-radio>
+                </div>
+            </div>
+            <div v-if="OrderSelNum!==''" class="line one"></div>
+            <div v-if="PriceSelNum!==''" class="line two"></div>
+            <div v-if="DateSelNum!==''" class="line three"></div>
+            <div v-if="StatusSelNum!==''" class="line four"></div>
         </div>
         <div class="OrderSort">
-            <div class="SortName">综合</div>
-            <div class="SortName">价格</div>
-            <div class="SortName">完成时间</div>
-            <div class="SortName">发布数量</div>
+            <div :class="SortSelect===index ? 'SortNameCheck':'SortName'"  v-for="(item,index) in SortName" v-on:click="SelectSort(index)">
+                <div>{{item}}</div>
+                <i class="iconfont icon-up Up"></i>
+            </div>
         </div>
         <div class="OrderList">
-            <div class="order" v-for="(Order,Orderindex) in OrderList">
+            <div class="order" v-for="(Order,Orderindex) in OrderList" v-on:click="GoToDetail(Orderindex)">
                 <div class="orderdetail">
                     <div class="detailText">
                         <div class="orderTitle">{{Order.title}}</div>
@@ -29,10 +48,6 @@
                             <div class="orderCate">
                                 <i class="iconfont icon-cate FontSize"></i>
                                 <div class="FontSize">{{Order.get_one.name}}-{{Order.get_two.name}}-{{Order.get_three.name}}</div>
-                            </div>
-                            <div class="orderDate">
-                                <i class="iconfont icon-date FontSize"></i>
-                                <div class="FontSize" >{{Order.update_time}}</div>
                             </div>
                         </div>
                         <div class="orderIntegral">{{Order.price}}积分</div>
@@ -49,9 +64,9 @@
                         <i class="iconfont icon-icon_user"></i>
                         <span style="font-size: .25rem;margin-left: .15rem;">{{Order.get_user.name}}</span>
                     </div>
-                    <router-link :to="{path:'/OrderDetail',query:{OrderId:Order.id}}">
-                    <mt-button class="Btndetail" v-on:click="GoToDetail(Orderindex)">查看详情</mt-button>
-                    </router-link>
+                    <div class="orderDate">
+                        <div class="FontSize DateSize" >{{Order.update_time}}</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -77,10 +92,17 @@
                 FilterSelectList:[],
                 NewPriceSelector:[],
                 ShowFilterSelectList:false,
-                SelectRes:'-5',
+                SelectRes:'',
                 TypeSelected:"",
                 Getobject:{},
                 TypeList:["OrderSelector","PriceSelector"," DateSelector","StatusSelector"],
+                orderlist:[],
+                SortSelect:-1,
+                SortName:["综合","价格","完成时间","发布数量",],
+                OrderSelNum:'',
+                PriceSelNum:'',
+                DateSelNum:'',
+                StatusSelNum:'',
             }
         },
         mounted() {
@@ -89,7 +111,6 @@
             this.Getobject.levelone = this.$route.query.level_one
             this.Getobject.leveltwo = this.$route.query.level_two
             this.Getobject.levelthree = this.$route.query.level_three
-
             console.log(this.Getobject)
             this.$store.dispatch('getOrderList',this.Getobject)
             this.$store.commit('setTopBarShow',false)
@@ -97,29 +118,58 @@
         watch:{
             OrderList:function (val) {
                 //do method again
+                this.orderlist = val
             },
-            SelectRes:function (val) {
-                var SearchPrice = ["0-20","20-50","50-100","100-200","200-300","400-500","500-99999"] //价格
-                console.log(this.TypeSelected)
-                switch (this.TypeSelected){
-                    case 0:
-                        this.Getobject.type = val
-                        break
-                    case 1:
-                        this.Getobject.price = SearchPrice[val]
-                        console.log(SearchPrice[val])
-                        break
-                    case 2:
-                        this.Getobject.time = val
-                        break
-                    case 3:
-                        this.Getobject.status = val
-                        break
-                }
-                console.log(val)
-                    this.ShowFilterSelectList = false
-                this.$store.dispatch('getOrderList',this.Getobject)
-            }
+            OrderSelNum:function(val){
+                this.Getobject.type = parseInt(val)+1
+                this.OrderSelNum = val
+                this.ShowFilterSelectList = false
+                //    this.$store.dispatch('getOrderList',this.Getobject)
+            },
+            PriceSelNum:function(val){
+                this.Getobject.type = parseInt(val)+1
+                this.PriceSelNum = val
+                this.ShowFilterSelectList = false
+            //    this.$store.dispatch('getOrderList',this.Getobject)
+            },
+            DateSelNum:function(val){
+                this.Getobject.type = parseInt(val)+1
+                this.DateSelNum = val
+                this.ShowFilterSelectList = false
+                //    this.$store.dispatch('getOrderList',this.Getobject)
+            },
+            StatusSelNum:function(val){
+                this.Getobject.type = parseInt(val)+1
+                this.StatusSelNum = val
+                this.ShowFilterSelectList = false
+                //    this.$store.dispatch('getOrderList',this.Getobject)
+            },
+            // SelectRes:function (val) {
+            //     var SearchPrice = ["0-20","20-50","50-100","100-200","200-300","400-500","500-99999"] //价格
+            //     console.log(val)
+            //     console.log("selectRes")
+            //     switch (this.TypeSelected){
+            //         case 0:
+            //             this.Getobject.type = parseInt(val)+1
+            //             this.OrderSelNum = val
+            //             break
+            //         case 1:
+            //             this.Getobject.price = SearchPrice[val]
+            //             this.PriceSelNum =  val
+            //             break
+            //         case 2:
+            //             this.Getobject.time = val
+            //             this.DateSelNum = val
+            //             break
+            //         case 3:
+            //             this.Getobject.status = val
+            //             this.StatusSelNum = val
+            //             break
+            //     }
+            //     console.log(val)
+            //      this.ShowFilterSelectList = false
+            //     this.$store.dispatch('getOrderList',this.Getobject)
+            // },
         },
         computed:{
             ...mapState({
@@ -130,6 +180,7 @@
             SelectedType:function(Typeindex){
                 this.ShowFilterSelectList = !this.ShowFilterSelectList
                 this.TypeSelected = Typeindex
+              //  console.log(Typeindex)
                 switch (Typeindex){
                     case 0:
                          this.FilterSelectList = this.OrderSelector
@@ -157,11 +208,15 @@
                         break;
                 }
             },
+            SelectSort:function (index) {
+               this.SortSelect = index
+               this.Getobject.order_status = index
+               this.$store.dispatch('getOrderList',this.Getobject)
+            },
             CheckSelector:function(){
             },
-            GoToDetail:function (Orderindex) {
-                this.$store.dispatch('getOrderDetail',this.OrderList[Orderindex].id)
-               // this.$router.push('/OrderDetail')
+            GoToDetail:function (index) {
+                this.$router.push({path:'/OrderDetail',query:{OrderId:this.orderlist[index].id}})
             }
         }
     }
@@ -177,6 +232,7 @@
     display: flex;
     justify-content: space-around;
     padding: 0.2rem 0 0.2rem 0;
+    border-bottom: 1px solid #F2F2F2;
 }
 .FilterName{
     width: 25%;
@@ -193,6 +249,41 @@
     font-size: 0.3rem;
     width: 25%;
     text-align: center;
+    display: flex;
+    color: #8A8B8C;
+    align-items: center;
+    justify-content: center;
+}
+.SortNameCheck{
+    font-size: 0.3rem;
+    width: 25%;
+    text-align: center;
+    display: flex;
+    color: #E7926A;
+    align-items: center;
+    justify-content: center;
+}
+.Up{
+  font-size: .20rem;
+}
+.line{
+    width: 1rem;
+    height: .05rem;
+    position: absolute;
+    background: #E26932;
+    top:1.65rem;
+}
+.one{
+ left:.4rem;
+}
+.two{
+    left: 2.3rem;
+}
+.three{
+    left: 4.2rem;
+}
+.four{
+    left: 6.1rem;
 }
 .OrderList{
     display: flex;
@@ -200,6 +291,11 @@
 }
 .FontSize{
     font-size: 0.12rem;
+}
+.DateSize{
+    color: #A5A5A5;
+    font-size: .28rem;
+    margin-right: .45rem;
 }
 .ShowFilterSelectList{
     position: absolute;
@@ -210,7 +306,7 @@
 .SelectorType{
     display: flex;
     text-align: center;
-    margin-left: 30%;
+    margin-left: 25%;
 }
 .IconDown{
     margin-top: 12%;
@@ -248,7 +344,7 @@
     margin-left: .25rem;
 }
 .detailText{
-    margin-left: 0.1rem;
+    margin-left: 0.25rem;
     text-align: left;
 }
 .orderdetail{

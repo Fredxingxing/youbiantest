@@ -58,7 +58,7 @@
         <div class="list">
             <p class='title'>账号设置</p>
              <ul>
-                <router-link tag="li" to="/UserInfo">
+                <router-link tag="li" to="/other/UserInfo">
                     <span>
                         <img class='icon' src="../../assets/img/icon-grzl.png" alt="">个人资料
                     </span>

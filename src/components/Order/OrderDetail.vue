@@ -100,15 +100,17 @@
             },
             TakeOrderRes:function (val) {
                 console.log(val)
-                if(val.code === 400 && val.message==='该订单已接完'){
+                if(val.code === 400 ){
                     alert(val.message)
+                    if(val.message === "token错误或已经过期"){
+                        console.log(this.$route.query.OrderId)
+                        this.$router.push({path:'/other/login',query:{OrderId:this.$route.query.OrderId}})
+                    }
                 }
                 else if(val.code === 200){
                     alert('成功接单')
                 }
-                else{
-                    this.$router.push({path:'/other/login',query:{OrderId:this.$route.query.OrderId}})
-                }
+
             }
         },
         computed:{
@@ -125,7 +127,13 @@
             },
             TakeOrder:function () {
                 console.log(this.$route.query)
-                this.$store.dispatch('getTakeOrder',this.$route.query.OrderId)
+                console.log(window.sessionStorage.token)
+                var token = window.sessionStorage.getItem('token')
+                console.log(token)
+                if(token==null){
+                    this.$router.push({path:'/other/login',query:{OrderId:this.$route.query.OrderId}})
+                }
+                // this.$store.dispatch('getTakeOrder',this.$route.query.OrderId)
 
             },
             getDateTimeStamp:function (dateStr){

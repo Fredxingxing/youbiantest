@@ -180,6 +180,7 @@
     display: flex;
     flex-direction: column;
     background: #ffffff;
+    width: 100%;
 }
 .ListTop{
     height: .9rem;
