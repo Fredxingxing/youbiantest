@@ -40,8 +40,6 @@ import { Toast } from 'mint-ui';
                         window.sessionStorage.setItem('img',res.data.data.user.img)
                         window.sessionStorage.setItem('point',res.data.data.user.integral)
                         // this.$router.push({path:'/other/login',query:{OrderId:this.$route.query.OrderId}})
-                        console.log(1111)
-                        alert(this.$route.query.OrderId)
                         if(this.$route.query.OrderId != undefined){
                             this.$router.push({path:'/OrderDetail',query:{OrderId:this.$route.query.OrderId}})
                         }

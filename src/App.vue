@@ -6,7 +6,13 @@
     <router-view/>
   </div>
 </template>
-
+<script>
+    export default {
+        mounted(){
+            document.title = '优便'
+        }
+    }
+</script>
 <style lang="less">
   @import "http://at.alicdn.com/t/font_792290_q6a810ufzpl.css";
 #app {

@@ -17,6 +17,9 @@
             <mt-tab-container-item id="1">
                 <!--<mt-cell v-for="n in 10" :title="'内容 ' + n" />-->
                 <img class="banner" src="../../assets/List/banner.png">
+                <img class="Protrait1" src="../../assets/img/default.jpg">
+                <img class="Protrait2" src="../../assets/img/default.jpg">
+                <img class="Protrait3" src="../../assets/img/default.jpg">
                 <div class="ListTime">
                     <img class="DateBtn" @click="ClickTime(1)" :src="Listtype===1 ? DayShow : Day">
                     <img class="DateBtn" @click="ClickTime(2)" :src="Listtype===2 ? WeekShow : Week">
@@ -41,6 +44,9 @@
             <mt-tab-container-item id="2">
                 <!--<mt-cell v-for="n in 4" :title="'测试 ' + n" />-->
                 <img class="banner" src="../../assets/List/banner.png">
+                <img class="Protrait1" src="../../assets/img/default.jpg">
+                <img class="Protrait2" src="../../assets/img/default.jpg">
+                <img class="Protrait3" src="../../assets/img/default.jpg">
                 <div class="ListTime">
                     <img class="DateBtn" @click="ClickTime(1)" :src="Listtype===1 ? DayShow : Day">
                     <img class="DateBtn" @click="ClickTime(2)" :src="Listtype===2 ? WeekShow : Week">
@@ -226,6 +232,30 @@
 .banner{
     height: 2.6rem;
     width: 100%;
+}
+.Protrait1{
+    width: .91rem;
+    position: absolute;
+    z-index: 999;
+    left: 1.9rem;
+    top: .97rem;
+    border-radius: .455rem;
+}
+.Protrait2{
+    width: 1.18rem;
+    position: absolute;
+    z-index: 999;
+    left: 3.2rem;
+    top: .67rem;
+    border-radius: .59rem;
+}
+.Protrait3{
+    width: .91rem;
+    position: absolute;
+    z-index: 999;
+    left: 4.74rem;
+    top: .91rem;
+    border-radius: .455rem;
 }
 .Week{}
 .WeekShow{}
