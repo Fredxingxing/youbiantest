@@ -40,10 +40,17 @@
             </div>
         </div>
         <div class="OrderList">
-            <div class="order" v-for="(Order,Orderindex) in OrderList" v-on:click="GoToDetail(Orderindex)">
+            <ul style="height: 100%;" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="20">
+             <li class="order" v-for="(Order,Orderindex) in OrderListshow" v-on:click="GoToDetail(Orderindex)">
                 <div class="orderdetail">
                     <div class="detailText">
-                        <div class="orderTitle">{{Order.title}}</div>
+                        <div class="orderTitle">
+                          <div style="overflow: hidden;margin-right: 0.1rem;text-overflow:ellipsis;white-space: nowrap;">{{Order.title}}</div>
+                            <img v-if="Order.order_type==2" style="width: .3rem;" src="../../assets/goodorder.png">
+                            <img v-if="Order.encryption==1" style="width: .3rem;" src="../../assets/secret.png">
+                        </div>
+                        <div class="orderContent">
+                          <div class="orderLeftBox">
                         <div class="orderInfo">
                             <div class="orderCate">
                                 <i class="iconfont icon-cate FontSize"></i>
@@ -51,12 +58,14 @@
                             </div>
                         </div>
                         <div class="orderIntegral">{{Order.price}}积分</div>
-                    </div>
-                    <div class="detailNumberBorder">
-                        <div class="detailNum">
-                            <div class="orderNum">次数 : {{Order.singular}}/{{Order.number}}</div>
-                            <div class="orderTime">周期 : {{Order.cycle}}</div>
-                        </div>
+                          </div>
+                            <div class="detailNumberBorder">
+                                <div class="detailNum">
+                                    <div class="orderNum">次数 : {{Order.singular}}/{{Order.number}}</div>
+                                    <div class="orderTime">周期 : {{Order.cycle}}</div>
+                                </div>
+                            </div>
+                       </div>
                     </div>
                 </div>
                 <div class="orderTop">
@@ -68,7 +77,8 @@
                         <div class="FontSize DateSize" >{{Order.update_time}}</div>
                     </div>
                 </div>
-            </div>
+             </li>
+            </ul>
         </div>
     </div>
 </template>
@@ -103,6 +113,11 @@
                 PriceSelNum:'',
                 DateSelNum:'',
                 StatusSelNum:'',
+                //infine scroll
+                loading:false,
+                AllList:[],
+                i:0,
+                OrderListshow:[]
             }
         },
         mounted() {
@@ -119,6 +134,7 @@
             OrderList:function (val) {
                 //do method again
                 this.orderlist = val
+                this.AllList = val
             },
             OrderSelNum:function(val){
                 this.Getobject.type = parseInt(val)+1
@@ -144,32 +160,11 @@
                 this.ShowFilterSelectList = false
                 //    this.$store.dispatch('getOrderList',this.Getobject)
             },
-            // SelectRes:function (val) {
-            //     var SearchPrice = ["0-20","20-50","50-100","100-200","200-300","400-500","500-99999"] //价格
-            //     console.log(val)
-            //     console.log("selectRes")
-            //     switch (this.TypeSelected){
-            //         case 0:
-            //             this.Getobject.type = parseInt(val)+1
-            //             this.OrderSelNum = val
-            //             break
-            //         case 1:
-            //             this.Getobject.price = SearchPrice[val]
-            //             this.PriceSelNum =  val
-            //             break
-            //         case 2:
-            //             this.Getobject.time = val
-            //             this.DateSelNum = val
-            //             break
-            //         case 3:
-            //             this.Getobject.status = val
-            //             this.StatusSelNum = val
-            //             break
-            //     }
-            //     console.log(val)
-            //      this.ShowFilterSelectList = false
-            //     this.$store.dispatch('getOrderList',this.Getobject)
-            // },
+            i:function (val) {
+                if(val > this.AllList.length||val == this.AllList.length){
+                    this.loading = true;
+                }
+            }
         },
         computed:{
             ...mapState({
@@ -217,6 +212,20 @@
             },
             GoToDetail:function (index) {
                 this.$router.push({path:'/OrderDetail',query:{OrderId:this.orderlist[index].id}})
+            },
+            loadMore:function() {
+                console.log("im in")
+                this.loading = true;
+                setTimeout(() => {
+                    var PushList = this.AllList.slice(this.i, this.i + 5)
+                    console.log(PushList)
+                    for(var j in PushList){
+                        this.OrderListshow.push(PushList[j])
+                    }
+                    this.i = this.i + 5
+                    console.log(this.OrderListshow)
+                    this.loading = false;
+                }, 2500);
             }
         }
     }
@@ -341,14 +350,17 @@
     box-shadow: .01rem 0.005rem 0rem .01rem #bbbbbb;
 }
 .user{
-    margin-left: .25rem;
+    margin-left: .2rem;
 }
 .detailText{
-    margin-left: 0.25rem;
+    margin-left: 0.3rem;
     text-align: left;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 .orderdetail{
-    width: 7.50rem;
+    width: 100%;
     height: 1.63rem;
     /*box-shadow: 0rem .02rem 0rem 0rem #bbbbbb;*/
     display: flex;
@@ -370,7 +382,17 @@
     font-size: .26rem;
     margin-top: .25rem;
     margin-bottom: .05rem;
-    font-weight: bold
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    height: .3rem;
+    margin-right: .45rem;
+    width: 6.5rem;
+}
+.orderContent{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 .orderInfo{
     margin-top: .08rem;
@@ -408,7 +430,7 @@
     font-size: .15rem;
     text-align: left;
     margin-right: .45rem;
-    margin-top: .25rem;
+    margin-top: .1rem;
     color: #DD5519;
     /*width: 1.80rem;*/
     height: .9rem;

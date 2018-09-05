@@ -17,9 +17,11 @@
             <mt-tab-container-item id="1">
                 <!--<mt-cell v-for="n in 10" :title="'内容 ' + n" />-->
                 <img class="banner" src="../../assets/List/banner.png">
-                <img class="Protrait1" src="../../assets/img/default.jpg">
-                <img class="Protrait2" src="../../assets/img/default.jpg">
-                <img class="Protrait3" src="../../assets/img/default.jpg">
+                <div v-if="PublishList!=undefined">
+                <img class="Protrait2" v-if="PublishList[1] !=undefined && Listselected==1" :src="PublishList[1].get_user.img">
+                <img class="Protrait1" v-if="PublishList[0] !=undefined && Listselected==1 " :src="PublishList[0].get_user.img">
+                <img class="Protrait3" v-if="PublishList[2] !=undefined && Listselected==1 " :src="PublishList[2].get_user.img">
+                </div>
                 <div class="ListTime">
                     <img class="DateBtn" @click="ClickTime(1)" :src="Listtype===1 ? DayShow : Day">
                     <img class="DateBtn" @click="ClickTime(2)" :src="Listtype===2 ? WeekShow : Week">
@@ -31,22 +33,25 @@
                         <div class="ListItem">发布订单</div>
                         <div class="ListItem">用户名称</div>
                     </div>
-                    <div class="ListTopUser" v-for="(users,index) in PublishList">
+                    <div class="ListTopUser" v-show="!BlankList" v-for="(users,index) in PublishList">
                         <div class="ListItem" v-bind:class=" index < 3 ? 'ListTop3 img':'ListTop7'">
                             {{index+1}}
-                            <!--<img v-if = "index < 3 && index > -1"  src="../../assets/medal.png">-->
                         </div>
                         <div class="ListItem" v-bind:class="index < 3  ? 'ListTop3':'ListTop7'">{{users.sum}}</div>
                         <div class="ListItem" v-bind:class="index < 3  ? 'ListTop3':'ListTop7'">{{users.get_user.name}}</div>
+
                     </div>
+                    <!--../../assets/img/default.jpg-->
                 </div>
             </mt-tab-container-item>
             <mt-tab-container-item id="2">
                 <!--<mt-cell v-for="n in 4" :title="'测试 ' + n" />-->
                 <img class="banner" src="../../assets/List/banner.png">
-                <img class="Protrait1" src="../../assets/img/default.jpg">
-                <img class="Protrait2" src="../../assets/img/default.jpg">
-                <img class="Protrait3" src="../../assets/img/default.jpg">
+                <div v-if="TakenList!=undefined">
+                <img class="Protrait2" v-if="TakenList[1] !=undefined && Listselected==2" :src="TakenList[1].get_user.img">
+                <img class="Protrait1" v-if="TakenList[0] !=undefined && Listselected==2 " :src="TakenList[0].get_user.img">
+                <img class="Protrait3" v-if="TakenList[2] !=undefined && Listselected==2 " :src="TakenList[2].get_user.img">
+                </div>
                 <div class="ListTime">
                     <img class="DateBtn" @click="ClickTime(1)" :src="Listtype===1 ? DayShow : Day">
                     <img class="DateBtn" @click="ClickTime(2)" :src="Listtype===2 ? WeekShow : Week">
@@ -58,7 +63,7 @@
                         <div class="ListItem">接单订单</div>
                         <div class="ListItem">用户名称</div>
                     </div>
-                    <div class="ListTopUser" v-for="(users,index) in TakenList">
+                    <div class="ListTopUser" v-if="BlankList==false" v-for="(users,index) in TakenList">
                         <div class="ListItem" v-bind:class=" index < 3 ? 'ListTop3 img':'ListTop7'">
                             {{index+1}}
                             <!--<img v-if = "index < 3 && index > -1"  src="../../assets/medal.png">-->
@@ -86,6 +91,7 @@
         data(){
             return{
                 Listselected:'1',
+                BlankList:false,
                 Listtype:3,
                 Publishusers:[
                     {
@@ -123,11 +129,25 @@
         },
         watch:{
             PublishList:function (val) {
+                console.log(val)
+                if (val==undefined){
+                    this.BlankList = true
+                }
+                else{
+                    this.BlankList = false
+                }
                 //user_id
             },
             TakenList:function (val) {
+                console.log(val)
+                this.BlankList = false
+                if (val==undefined){
+                    console.log(1111)
+                    this.BlankList = true
+                }
             },
             Listselected:function (val) {
+                console.log(val)
                 if(val==1){
                     this.$store.dispatch('getPublishList',this.Listtype)
                 }
@@ -233,7 +253,7 @@
     height: 2.6rem;
     width: 100%;
 }
-.Protrait1{
+.Protrait2{
     width: .91rem;
     position: absolute;
     z-index: 999;
@@ -241,7 +261,7 @@
     top: .97rem;
     border-radius: .455rem;
 }
-.Protrait2{
+.Protrait1{
     width: 1.18rem;
     position: absolute;
     z-index: 999;

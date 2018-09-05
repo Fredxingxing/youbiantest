@@ -1,26 +1,34 @@
 <template>
     <div style="display: flex;flex-direction: column;height: 100%;">
-        <!--v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10"-->
-     <div class="order" v-for="(Order,Orderindex) in OrderListshow" v-on:click="GoToDetail(Orderindex)">
-            <div class="orderdetail">
+        <ul style="height: 100%;" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="20">
+         <li class="order" v-for="(Order,Orderindex) in OrderListshow" v-on:click="GoToDetail(Orderindex)">
+          <div class="orderdetail">
                 <div class="detailText">
-                    <div class="orderTitle">{{Order.title}}</div>
-                    <div class="orderInfo">
-                        <div class="orderCate">
-                            <i class="iconfont icon-cate FontSize"></i>
-                            <div class="FontSize">{{Order.get_one.name}}-{{Order.get_two.name}}-{{Order.get_three.name}}</div>
-                        </div>
+                    <div class="orderTitle">
+                        <div style="overflow: hidden;margin-right: 0.1rem;text-overflow:ellipsis;white-space: nowrap;">{{Order.title}}</div>
+                        <img v-if="Order.order_type==2" style="width: .3rem;" src="../../assets/goodorder.png">
+                        <img v-if="Order.encryption==1" style="width: .3rem;" src="../../assets/secret.png">
                     </div>
-                    <div class="orderIntegral">{{Order.price}}积分</div>
-                </div>
-                <div class="detailNumberBorder">
-                    <div class="detailNum">
-                        <div class="orderNum">次数 : {{Order.singular}}/{{Order.number}}</div>
-                        <div class="orderTime">周期 : {{Order.cycle}}</div>
+                    <div class="orderContent">
+                        <div class="orderLeftBox">
+                            <div class="orderInfo">
+                                <div class="orderCate">
+                                    <i class="iconfont icon-cate FontSize"></i>
+                                    <div class="FontSize">{{Order.get_one.name}}-{{Order.get_two.name}}-{{Order.get_three.name}}</div>
+                                </div>
+                            </div>
+                            <div class="orderIntegral">{{Order.price}}积分</div>
+                        </div>
+                        <div class="detailNumberBorder">
+                            <div class="detailNum">
+                                <div class="orderNum">次数 : {{Order.singular}}/{{Order.number}}</div>
+                                <div class="orderTime">周期 : {{Order.cycle}}</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-         <div class="orderTop">
+          <div class="orderTop">
              <div class="user">
                  <i class="iconfont icon-icon_user"></i>
                  <span style="font-size: .3rem;margin-left: .15rem;">{{Order.get_user.name}}</span>
@@ -29,7 +37,8 @@
                  <div class="FontSize DateSize" >{{Order.update_time}}</div>
              </div>
          </div>
-        </div>
+         </li>
+        </ul>
     </div>
 </template>
 
@@ -41,22 +50,33 @@
             return{
                 loading:false,
                 AllList:[],
-                i:1,
+                i:0,
                 OrderListshow:[]
             }
         },
-        mounted() {
+        created(){
             var Getobject = new Object()
             this.$store.dispatch('getOrderList',Getobject)
             console.log('HomeOrder')
             console.log(this.$store.state.OrderList)
         },
+        mounted() {
+
+        },
+        beforeUpdate(){
+
+        },
         watch:{
             OrderList:function (val) {
-                console.log(val.slice(0,3))
-                this.OrderListshow = val.slice(0,3)
+           //     console.log(val.slice(0,3))
+                this.AllList = val
 
                 //do method again
+            },
+            i:function (val) {
+                if(val>this.AllList.length||val==this.AllList.length){
+                    this.loading = true;
+                }
             }
         },
         computed:{
@@ -68,23 +88,20 @@
             GoToDetail:function(index){
                 this.$router.push({path:'/OrderDetail',query:{OrderId:this.OrderListshow[index].id}})
             },
-
+            loadMore:function() {
+                console.log("im in")
+                 this.loading = true;
+                setTimeout(() => {
+                    var PushList = this.AllList.slice(this.i, this.i + 3)
+                     for(var j in PushList){
+                         this.OrderListshow.push(PushList[j])
+                     }
+                        this.i = this.i + 3
+                    console.log(this.OrderListshow)
+                    this.loading = false;
+                }, 2500);
+            }
         },
-        // loadMore:function() {
-        //     console.log("im in")
-        //     this.loading = true;
-        //     setTimeout(() => {
-        //         if(this.i>this.AllList||this.i==this.AllList.length){
-        //             this.loading = false;
-        //         }
-        //         else {
-        //             this.OrderListshow.push(this.AllList.slice(this.i, this.i + 3))
-        //             this.i = this.i + 3
-        //         }
-        //         console.log(this.OrderList)
-        //         this.loading = false;
-        //     }, 2500);
-        // }
     }
 </script>
 
@@ -106,14 +123,17 @@
     box-shadow: .01rem 0.005rem 0rem .01rem #bbbbbb;
 }
 .user{
-    margin-left: .25rem;
+    margin-left: .2rem;
 }
 .detailText{
-    margin-left: 0.1rem;
+    margin-left: 0.3rem;
     text-align: left;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 .orderdetail{
-    width: 7.50rem;
+    width: 100%;
     height: 1.63rem;
     /*box-shadow: 0rem .02rem 0rem 0rem #bbbbbb;*/
     display: flex;
@@ -136,14 +156,24 @@
     font-size: .26rem;
     margin-top: .25rem;
     margin-bottom: .05rem;
-    font-weight: bold
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    height: .3rem;
+    margin-right: .45rem;
+    width: 6.5rem;
+}
+.orderContent{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 .orderInfo{
     margin-top: .08rem;
     margin-left: -.05rem;
     display: flex;
     /*width: 4.40rem;*/
-    justify-content: space-around;
+    text-align: left;
     align-items: baseline;
     font-size: .15rem;
 }
@@ -174,7 +204,7 @@
     font-size: .15rem;
     text-align: left;
     margin-right: .45rem;
-    margin-top: .25rem;
+    margin-top: .1rem;
     color: #DD5519;
     /*width: 1.80rem;*/
     height: .9rem;

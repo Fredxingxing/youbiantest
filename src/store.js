@@ -106,6 +106,9 @@ export default new Vuex.Store({
       //PublishList TakenList
     setPublishList(state,PublishList){
       state.PublishList = PublishList
+        // if(PublishList == undefined){
+        //
+        // }
    },
    setTakenList(state,TakenList){
       state.TakenList = TakenList

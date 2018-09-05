@@ -7,12 +7,48 @@
                <div class="ImportantIcon">*</div>
            </div>
            <div class="BasicContainer">
-             <div class="BasicCate">分类</div>
-             <div class="BasicArea">地区</div>
-             <div class="BasicTitle">标题</div>
-             <div class="BasicPrice">价格</div>
-             <div class="BasicTimes">次数</div>
-             <div class="BasicTime">周期</div>
+             <div class="BasicCate">
+              <div class="Name">
+                  <img class="Pic" src="../../assets/Push/cate.png">
+                  <div>分类</div>
+              </div>
+                 <div>选择器</div>
+             </div>
+             <div class="BasicArea">
+                 <div class="Name">
+                     <img class="Pic" src="../../assets/Push/area.png">
+                     <div>地区</div>
+                 </div>
+                 <div>选择器</div>
+             </div>
+             <div class="BasicTitle">
+                 <div class="Name">
+                     <img class="Pic" src="../../assets/Push/title.png">
+                     <div>标题</div>
+                 </div>
+                 <input placeholder="请输入标题" class="InputBig">
+             </div>
+             <div class="BasicPrice">
+                 <div class="Name">
+                     <img class="Pic" src="../../assets/Push/price.png">
+                     <div>价格</div>
+                 </div>
+                 <input placeholder="请输入价格" class="Input">
+             </div>
+             <div class="BasicTimes">
+                 <div class="Name">
+                     <img class="Pic" src="../../assets/Push/times.png">
+                     <div>次数</div>
+                 </div>
+                 <input placeholder="请输入次数" class="Input">
+             </div>
+             <div class="BasicCycle">
+                 <div class="Name">
+                     <img class="Pic" src="../../assets/Push/cycle.png">
+                     <div>周期</div>
+                 </div>
+                 <input placeholder="请输入完成（如：1天）" class="Input">
+             </div>
            </div>
        </div>
        <div class="Extra">
@@ -20,19 +56,41 @@
                <div class="ExtraName">信息补充</div>
                <div class="ImportantIcon">*</div>
            </div>
-           <div class="ExtraVideo">视频</div>
-           <div class="ExtraPlu">附件</div>
+           <div class="ExtraVideo">
+               <div class="Name">
+                   <img class="Pic" src="../../assets/Push/video.png">
+                   <div>视频</div>
+               </div>
+               <input placeholder="请输入视频链接" class="Input">
+           </div>
+           <div class="ExtraPlu">
+               <div class="Name">
+                   <img class="Pic" src="../../assets/Push/file.png">
+                   <div>附件</div>
+               </div>
+               <div>选择器</div>
+           </div>
        </div>
        <div class="Describe">
            <div class="DescribeInfo">
                <div class="DescribeName">详情描述</div>
                <div class="ImportantIcon">*</div>
            </div>
-           <div class="DescribeWord">详情描述</div>
-           <div class="DescribePic"></div>
+           <textarea placeholder="请输入描述" class="DescribeWord"></textarea>
+           <div class="DescribePic">
+               <div class="AddPic" v-on:click="AddPic()">
+                   <i style="font-size: 0.7rem;color: #98999B;" class="iconfont icon-add"></i>
+                   <div style="color: #98999B;">发布</div>
+               </div>
+           </div>
+
        </div>
        <div class="ConfirmBtn" v-on:click="ConfirmPush()">确认发布</div>
         <bottom-bar/>
+        <mt-actionsheet
+                :actions="actions"
+                v-model="sheetVisible">
+        </mt-actionsheet>
     </div>
 </template>
 <script>
@@ -44,10 +102,31 @@
         },
         data(){
             return{
-                PushObject:{}
+                PushObject:{},
+                sheetVisible:false,
+                actions:[
+                    {
+                       name:"拍照",
+                       method:this.TakePic
+                    },{
+                       name:"打开相册",
+                       method:this.OpenLiberay
+                    }
+                ]
             }
         },
         methods:{
+            AddPic:function(){
+                //打开动作显示菜单
+              this.sheetVisible = true
+            },
+            TakePic:function(){
+                console.log("拍照")
+            },
+            OpenLiberay:function(){
+                console.log("打开相册")
+                
+            },
             ConfirmPush:function () {
                 this.$axios.post('/release/release_info',{
                     level_one:this.PushObject.level_one,
@@ -74,6 +153,7 @@
 </script>
 
 <style lang="less" scoped>
+
 .PushContainer{
     width: 100%;
     padding-bottom: 1.7rem;
@@ -91,6 +171,32 @@
     line-height: 0.75rem;
     height: .6rem;
 }
+.Name{
+    display: flex;
+}
+.Pic{
+    width: .4rem;
+    height: .4rem;
+    margin-right: .2rem;
+}
+.Input{
+    height: 60%;
+    border-radius: .05rem;
+    border: 0.01rem solid #E2E2E2;
+    background: #F4F4F4;
+    width: 3rem;
+    margin-left: .2rem;
+    padding-left: .1rem;
+}
+.InputBig{
+    height: 60%;
+    border-radius: .05rem;
+    border: 0.01rem solid #E2E2E2;
+    background: #F4F4F4;
+    width: 5rem;
+    margin-left: .2rem;
+    padding-left: .1rem;
+}
 .Basic{
      margin: .2rem 0;
      height: 6rem;
@@ -101,7 +207,7 @@
         border-bottom: 1px solid;
         .BasicName{
           font-size: .3rem;
-          margin-left: .5rem;
+          margin-left: .2rem;
             margin-right: 0.1rem;
             line-height: .6rem;
         }
@@ -112,23 +218,36 @@
         justify-content: space-around;
         height: 5rem;
         margin-top: .1rem;
+        margin-left: .3rem;
         .BasicCate{
-            height: 16.666667%;
+            height: .833334rem;
+            display: flex;
+            align-items: center;
         }
         .BasicArea{
-            height: 16.666667%;
+            height: .833334rem;
+            display: flex;
+            align-items: center;
         }
         .BasicTitle{
-            height: 16.666667%;
+            height: .833334rem;
+            display: flex;
+            align-items: center;
         }
         .BasicPrice{
-            height: 16.666667%;
+            height: .833334rem;
+            display: flex;
+            align-items: center;
         }
         .BasicTimes{
-            height: 16.666667%;
+            height: .833334rem;
+            display: flex;
+            align-items: center;
         }
-        .BasicTime{
-            height: 16.666667%;
+        .BasicCycle{
+            height: .833334rem;
+            display: flex;
+            align-items: center;
         }
     }
 
@@ -143,21 +262,27 @@
         border-bottom: 1px solid;
         .ExtraName{
             font-size: .3rem;
-            margin-left: .5rem;
+            margin-left: .2rem;
             margin-right: 0.1rem;
             line-height: .6rem;
         }
     }
     .ExtraVideo{
         height: 30%;
+        display: flex;
+        align-items: center;
+        margin-left: .3rem;
     }
     .ExtraPlu{
         height: 50%;
+        display: flex;
+        align-items: center;
+        margin-left: .3rem;
     }
 }
 .Describe{
     margin: .2rem 0;
-    height: 6rem;
+    height: 100%;
     background: #fff;
     .DescribeInfo{
         display: flex;
@@ -165,17 +290,30 @@
         border-bottom: 1px solid;
         .DescribeName{
             font-size: .3rem;
-            margin-left: .5rem;
+            margin-left: .2rem;
             margin-right: 0.1rem;
             line-height: .6rem;
         }
     }
     .DescribeWord{
-        height: 55%;
+        height: 4rem;
         padding: 0.25rem 0.3rem;
+        width: 83%;
+        margin: 0.25rem 0.3rem;
     }
     .DescribePic{
         height: 30%;
+        margin-bottom: .3rem;
+        margin-left: .3rem;
+    }
+    .AddPic{
+        width: 1.5rem;
+        height: 1.5rem;
+        background: #F4F4F4;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 }
     .ConfirmBtn{
