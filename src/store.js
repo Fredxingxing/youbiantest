@@ -14,6 +14,7 @@ export default new Vuex.Store({
       HomeDetail:[],
       HomeBanner:[],
       HomePopular:[],
+      AllCate:[],
       //订单
       OrderList:[],
       OrderSelected:{},
@@ -61,12 +62,16 @@ export default new Vuex.Store({
     },
     setHomeBanner(state,Banner){
         state.HomeBanner = Banner
-        console.log(state.HomeBanner)
+        //console.log(state.HomeBanner)
     },
     setHomePopular(state,Popular){
-    state.HomePopular = Popular
-    console.log(state.HomePopular)
-},
+        state.HomePopular = Popular
+      //  console.log(state.HomePopular)
+    },
+    setAllCate(state,Cate){
+        state.AllCate = Cate
+       // console.log(state.AllCate)
+    },
     setOrderSelected(state,OrderSelected){
         state.OrderSelected = OrderSelected
     },
@@ -175,8 +180,10 @@ export default new Vuex.Store({
                 console.log(response.data.data)
                 var Banner = response.data.data.banner
                 var Popular = response.data.data.popular
+                var Cate = response.data.data.cate
                 context.commit('setHomeBanner',Banner)
                 context.commit("setHomePopular",Popular)
+                context.commit("setAllCate",Cate)
             })
             .catch(function (error) {
                 console.log(error)
