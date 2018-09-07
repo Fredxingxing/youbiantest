@@ -15,7 +15,7 @@
         <router-link to="/PushDetail" tag="div" active-class="iconActive">
             <div class="item">
                 <img src="../assets/Push.png" class="Push">
-                <div style="margin-top: .58rem">发布</div>
+                <div style="margin-top: .57rem">发布</div>
             </div>
         </router-link>
         <router-link to="/List" tag="div" active-class="iconActive">

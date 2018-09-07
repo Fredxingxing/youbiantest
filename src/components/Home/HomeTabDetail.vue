@@ -8,7 +8,7 @@
                  v-on:click="tab(index)" >{{MenuTab.Name}}</div>
             </div>
             <div class="MenuDetail">
-                <div v-show="this.$store.state.HomeTabSwiperShow" class="DetailSwiper swiper-container">
+                <div class="DetailSwiper swiper-container">
                     <HomeSwiper/>
                 </div>
                 <div class="DetailContainer">

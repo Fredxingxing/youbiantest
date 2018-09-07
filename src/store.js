@@ -15,7 +15,6 @@ export default new Vuex.Store({
       HomeBanner:[],
       HomePopular:[],
       AllCate:[],
-      HomeTabSwiperShow:true,
       //订单
       OrderList:[],
       OrderSelected:{},
@@ -69,9 +68,6 @@ export default new Vuex.Store({
         state.HomePopular = Popular
       //  console.log(state.HomePopular)
     },
-    setHomeTabSwiperShow(state,show){
-        state.HomeTabSwiperShow = show
-     },
     setAllCate(state,Cate){
         state.AllCate = Cate
        // console.log(state.AllCate)
@@ -231,7 +227,7 @@ export default new Vuex.Store({
         })
      },
     getTakeOrder(context,OrderId){
-    //    console.log(window.sessionStorage.getItem('token'))
+        console.log(window.sessionStorage.getItem('token'))
         axios.post('/receive/receive_order',{
             order_id:OrderId
         },{

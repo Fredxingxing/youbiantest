@@ -2,7 +2,7 @@
     <div id="Home" class="Home">
         <topBar/>
         <HomeTab/>
-          <div v-show="this.$store.state.HomeTabSwiperShow" class="SwiperContainer" style="height: 4rem;">
+          <div class="SwiperContainer" style="height: 4rem;">
         <HomeSwiper/>
           </div>
         <HomePopular/>

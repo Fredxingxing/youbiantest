@@ -6,8 +6,7 @@
         <!--</div>-->
         <div class="protrait">
             <div style="width: 1.12rem;height: 0.64rem; line-height: .64rem;">头像</div>
-            <img v-if="UserInfo.img != null" class="protraitImage" :src="UserInfo.img">
-            <img v-else class="protraitImage" src="../../../assets/img/default.jpg">
+        <img  class="protraitImage" src="../../../assets/img/default.jpg">
         </div>
         <div class="list">
             <ul>
@@ -27,13 +26,13 @@
                     <span>
                         <div class='icon' alt="">地址</div>
                     </span>
-                <span>{{UserInfo.province_code}} {{UserInfo.city_code}} {{UserInfo.area_code}}</span>
+                <span>{{UserInfo.province_code+UserInfo.city_code+UserInfo.area_code}}</span>
             </li>
                 <li>
                     <span>
                         <div class='icon' alt="">手机</div>
                     </span>
-                    <span>{{UserInfo.phone|phone}}</span>
+                    <span>{{UserInfo.phone}}</span>
                 </li>
         </ul></div>
         <div class="UserIdCard">
@@ -43,12 +42,7 @@
              </div>
              <div class="UserIdName">
                  <div class="IdName">身份证号</div>
-                 <div class="IdName" >
-                     <div>
-                     {{UserInfo.id_card|id_card}}
-                     </div>
-                     <img v-if="UserInfo.id_card!=null" style="height: .2rem;margin-top: .26rem;" src="../../../assets/idconfirm.png">
-                 </div>
+                 <div class="IdName">{{UserInfo.id_card|id_card}}</div>
              </div>
         </div>
         <div class="ChangeInfo" @click='ChangeInfo()' >
@@ -58,7 +52,6 @@
 </template>
 
 <script>
-
     import {mapState} from 'vuex'
     export default {
         name: "UserInfo",
@@ -73,19 +66,6 @@
                 else
                     return '未设置'
             },
-            phone:function(val){
-                if(val==null){
-                    return '未设置'
-                }
-                else{
-                    var len = val.length-3-3;
-                    var xing = '';
-                    for (var i=0;i<len;i++) {
-                        xing+='*';
-                    }
-                    return val.substring(0,3)+xing+val.substring(val.length-3);
-                }
-            },
             rel_name:function (val) {
                 if(val==null){
                     return '未设置'
@@ -96,12 +76,12 @@
                     return '未设置'
                 }
                 else{
-                    var len = val.length-3-3;
+                    var len = str.length-3-3;
                     var xing = '';
                     for (var i=0;i<len;i++) {
                         xing+='*';
                     }
-                    return val.substring(0,3)+xing+val.substring(val.length-3);
+                    return str.substring(0,3)+xing+str.substring(str.length-3);
                 }
             }
         },
@@ -124,8 +104,7 @@
                 this.$router.go(-1)
             },
             ChangeInfo:function () {
-                  // this.$router.push({path:'/other/ChangeUserInfo',query:{UserInfo:this.UserInfo}})
-                this.$router.push('/other/ChangeUserInfo')
+                  this.$router.push('/other/ChangeUserInfo')
             }
         }
     }
@@ -179,7 +158,6 @@
         color: #595959;
         height: .64rem;
         line-height: .64rem;
-        display: flex;
     }
     .list{
 

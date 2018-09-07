@@ -66,7 +66,6 @@
 </template>
 
 <script>
-    import { Toast } from 'mint-ui';
     import { mapState } from 'vuex'
     export default {
         name: "OrderDetail",
@@ -78,7 +77,7 @@
             }
         },
         mounted(){
-          //  console.log(this.$route)
+            console.log(this.$route)
             this.$store.dispatch('getOrderDetail',this.$route.query.OrderId)
             // for(var i in this.OrderComments){
             //     this.OrderComments[i].DateDiff = this.getDateDiff(this.getDateTimeStamp(this.OrderComments[i].get_user.update_time))
@@ -95,20 +94,16 @@
                 for(var i in val){
                     val[i].DateDiff = this.getDateDiff(this.getDateTimeStamp(val[i].get_user.update_time))
                 }
-        //        console.log("updated")
-           //     console.log(val)
+                console.log("updated")
+                console.log(val)
                 this.$store.commit('setOrderComments',this.OrderComments)
             },
             TakeOrderRes:function (val) {
+                console.log(val)
                 if(val.code === 400 ){
-
-                    Toast({
-                        message: val.message,
-                        position: 'middle',
-                        duration: 4000
-                    });
+                    alert(val.message)
                     if(val.message === "token错误或已经过期"){
-                     //   console.log(this.$route.query.OrderId)
+                        console.log(this.$route.query.OrderId)
                         this.$router.push({path:'/other/login',query:{OrderId:this.$route.query.OrderId}})
                     }
                 }
@@ -131,14 +126,14 @@
                 this.$router.go(-1)
             },
             TakeOrder:function () {
-              //  console.log(this.$route.query)
-              ////  console.log(window.sessionStorage.token)
+                console.log(this.$route.query)
+                console.log(window.sessionStorage.token)
                 var token = window.sessionStorage.getItem('token')
-                //console.log(token)
+                console.log(token)
                 if(token==null){
                     this.$router.push({path:'/other/login',query:{OrderId:this.$route.query.OrderId}})
                 }
-                 this.$store.dispatch('getTakeOrder',this.$route.query.OrderId)
+                // this.$store.dispatch('getTakeOrder',this.$route.query.OrderId)
 
             },
             getDateTimeStamp:function (dateStr){

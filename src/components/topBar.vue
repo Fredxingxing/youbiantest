@@ -42,16 +42,9 @@
                 console.log(val)
                 this.SearchObject.searchtop = val
                 this.$store.dispatch('getTopSearch',this.SearchObject)
-                if(val ==''){
-                    this.$store.commit('setHomeTabSwiperShow',true)
-                }
-                else{
-                    this.$store.commit('setHomeTabSwiperShow',false)
-                }
             },
             SearchResult:function (val) {
                 console.log(val)
-
             }
         },
         computed:{
