@@ -30,6 +30,8 @@ import Comments from '@/components/User/comment'
 //个人资料修改密码冲会员
 import UserInfo from './components/User/UserInfo/UserInfo'
 import ChangeUserInfo from './components/User/UserInfo/ChangeUserInfo'
+import PhoneChange from './components/User/UserInfo/PhoneChange'
+import IdChange from './components/User/UserInfo/IdChange'
 import SetPwd from '@/components/User/setpwd'
 import Vip from '@/components/User/vip'
 //充值提现
@@ -150,6 +152,14 @@ export default new Router({
           {
               path:'ChangeUserInfo',
               component:ChangeUserInfo
+          },
+          {
+              path:'PhoneChange',
+              component:PhoneChange
+          },
+          {
+              path:'IdChange',
+              component:IdChange
           }
       ]
     }
