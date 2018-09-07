@@ -1,8 +1,11 @@
 <template>
     <div class="TopBar">
       <div class="City" v-if="TopBarCityShow === true">
-          <div class="CityName">武汉</div>
+          <div class="CityName" v-on:click="chooseCity">{{showCity.city}}</div>
           <i class="iconfont icon-jiantou" style="color: white"></i>
+          <div class="slayer" v-show="SelectCity">
+              <v-distpicker type="mobile" @selected="onSelected"></v-distpicker>
+          </div>
       </div>
         <div class="City" v-if="TopBarCityShow === false" v-on:click="Back()">
         <i class="iconfont icon-Left Back" ></i>
@@ -26,13 +29,23 @@
 
 <script>
     import { mapState } from 'vuex'
+    import VDistpicker from "v-distpicker/src/Distpicker";
     export default {
         name: "topBar",
         data(){
           return{
               InputSearch:'',
               SearchObject:{},
+              SelectCity:false,
+              showCity:{
+                  'city':"武汉市"
+              },
           }
+        },
+        filters:{
+            cityName:function (val) {
+
+            }
         },
         watch:{
             TopBarCityShow:function (val) {
@@ -51,7 +64,6 @@
             },
             SearchResult:function (val) {
                 console.log(val)
-
             }
         },
         computed:{
@@ -59,6 +71,8 @@
                 TopBarCityShow:'TopBarCityShow',
                 SearchResult:'SearchResult'
             })
+        },
+        mounted(){
         },
         methods:{
             Back:function(){
@@ -72,7 +86,23 @@
             },
             GoToOrder:function (index) {
                 this.$router.push({path:'/OrderDetail', query:{OrderId:this.$store.state.SearchResult[index].id}})
-            }
+            },
+            chooseCity(){
+                this.SelectCity = true
+            },
+            onSelected(data) {
+                //  alert(data.province + ' | ' + data.city + ' | ' + data.area)
+                //        var city = new Object()
+                //this.showCity.province = data.province.value
+                this.showCity.city = data.city.value
+             //   this.showCity.area = data.area.value
+                console.log(data)
+                this.SelectCity = false
+             //   this.PushObject.province_code = data.province.code
+              //  this.PushObject.city_code = data.city.code
+            //    this.PushObject.area_code = data.area.code
+              //  console.log(this.PushObject)
+            },
         },
     }
 </script>
@@ -89,11 +119,14 @@
       flex-direction: row;
       display: flex;
       align-items: baseline;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
   }
   .CityName{
       color: white;
       margin-top: .20rem;
-      font-size: .3rem;
+      font-size: .28rem;
 }
   .Search{
       width: 6.15rem;
@@ -117,5 +150,29 @@
       color: white;
       font-size: 0.5rem;
       line-height: .8rem;
+  }
+  .cityName{
+      height: 60%;
+      border-radius: 0.05rem;
+      border: 0.01rem solid #E2E2E2;
+      background: #F4F4F4;
+      width: 5rem;
+      margin-left: 0.2rem;
+      padding-left: 0.1rem;
+      overflow: hidden;
+      line-height: .5rem;
+  }
+  .slayer{
+      position: absolute;
+      width: 100%;
+      /* height: 100%; */
+      /* float: right; */
+      top: 0;
+       margin-left: -.06rem;
+      /* padding-left: 1.5rem; */
+      padding-top: .8rem;
+      background: #9999;
+      padding-bottom: 13rem;
+      z-index: 5;
   }
 </style>

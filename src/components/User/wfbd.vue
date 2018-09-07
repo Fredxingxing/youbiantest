@@ -42,6 +42,7 @@
     </div>
 </template>
 <script>
+    import { Toast } from 'mint-ui';
     export default{
         data(){
             return {
@@ -65,7 +66,11 @@
                         token:window.sessionStorage.getItem('token')
                     }
                 }).then(res=>{
-                    alert('删除成功');
+                    Toast({
+                        message: '删除成功',
+                        position: 'middle',
+                        duration: 4000
+                    });
                     this.$store.dispatch('getWfbd',this.tabs)
                 })
             }

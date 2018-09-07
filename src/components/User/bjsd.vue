@@ -51,6 +51,7 @@
     </div>
 </template>
 <script>
+    import { Toast } from 'mint-ui';
     export default{
         data(){
             return {
@@ -76,9 +77,17 @@
                             },
                     }).then(res=>{
                       if(res.data.code==400){
-                         alert('操作失败，请重试')
+                          Toast({
+                              message: '操作失败，请重试',
+                              position: 'middle',
+                              duration: 4000
+                          });
                         }else{
-                            alert('操作成功')
+                          Toast({
+                              message: '操作成功',
+                              position: 'middle',
+                              duration: 4000
+                          });
                             this.changeTab(this.tabs)
                         }
                 })
@@ -97,9 +106,17 @@
                             },
                     }).then(res=>{
                      if(res.data.code==400){
-                         alert('操作失败，请重试')
+                         Toast({
+                             message: '操作失败，请重试',
+                             position: 'middle',
+                             duration: 4000
+                         });
                         }else{
-                            alert('操作成功')
+                         Toast({
+                             message: '操作成功',
+                             position: 'middle',
+                             duration: 4000
+                         });
                             this.changeTab(this.tabs)
                         }
                 })
