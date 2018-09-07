@@ -13,12 +13,15 @@
                   <div>分类</div>
               </div>
                  <select class="Cate" v-model="CateSelectOne" >
+                     <option disabled value="">一级分类</option>
                  <option v-for="one in AllCate" v-bind:value="one.id">{{one.name}}</option>
                  </select>
                  <select class="Cate" v-model="CateSelectTwo">
+                     <option disabled value="">二级分类</option>
                      <option v-for="two in TwoCate" v-bind:value="two.id">{{two.name}}</option>
                  </select>
                  <select class="Cate" v-model="CateSelectThree">
+                     <option disabled value="">三级分类</option>
                      <option v-for="three in ThreeCate" v-bind:value="three.id">{{three.name}}</option>
                  </select>
              </div>
@@ -83,14 +86,15 @@
                </div>
                <file-upload  class="SelectBtn"
                                       v-model="files"
-                                      @input = "inputFile()"
-                                      ref="upload">
+                                      @input-filter="ExtraFiles"
+                                      name="file"
+                                      ref="upload1">
                    选择附件
                </file-upload>
                <ul>
                    <li v-for="(file, index) in files" :key="file.id">
-                       <span>{{file.name}}</span>
-                       <button type="button" @click.prevent="remove(file)">移除</button>
+                       <span style="color: #E05417;text-decoration: underline; margin-left: .3rem">{{file.name}}</span>
+                       <i class="iconfont icon-delete" style="color:#717171;font-size: .30rem; margin-left: .3rem;" @click.prevent="remove(file,1)"></i>
                    </li>
                </ul>
            </div>
@@ -101,24 +105,24 @@
                <div class="ImportantIcon">*</div>
            </div>
            <textarea placeholder="请输入描述" class="DescribeWord" v-model="PushObject.describe"></textarea>
-           <div class="DescribePic">
-               <file-upload class="AddPic"
-                            post-action="http://www.youbian.link/api/v2/release/img"
-                            v-model="images"
-                            :multiple="true"
-                            extensions="gif,jpg,jpeg,png,webp"
-                            accept="image/png,image/gif,image/jpeg,image/webp"
-                            @input = "AddPic()"
-                            name="img"
-                            ref="upload">
-                   <i style="font-size: 0.7rem;color: #98999B;" class="iconfont icon-add"></i>
-                   <div style="color: #98999B;">发布</div>
-               </file-upload>
-               <ul>
-                   <li v-for="(image, index) in images" :key="image.id">
-                       <span>{{image.name}}</span>
-                       <button type="button" @click.prevent="remove(image)">移除</button>
+           <div class="DescribePic" style="display: flex;flex-direction: column-reverse;">
+               <ul style="display: flex; flex-wrap: wrap;">
+                   <li style="width: 25%;" v-for="(image, index) in images" :key="image.id">
+                       <img v-if="image.thumb" :src="image.thumb" width="60" height="auto" />
+                       <i class="iconfont icon-delete" style="color: #DD551B;position: absolute;" @click.prevent="remove(image,2)"></i>
                    </li>
+                   <file-upload class="AddPic"
+                                post-action="http://www.youbian.link/api/v2/release/img"
+                                v-model="images"
+                                :multiple="true"
+                                extensions="gif,jpg,jpeg,png,webp"
+                                accept="image/png,image/gif,image/jpeg,image/webp"
+                                @input-filter = "AddPic"
+                                name="img"
+                                ref="upload2">
+                       <i style="font-size: 0.7rem;color: #98999B;" class="iconfont icon-add"></i>
+                       <div style="color: #98999B;">发布</div>
+                   </file-upload>
                </ul>
            </div>
 
@@ -132,6 +136,7 @@
     import bottomBar from '../bottomBar'
     import VDistpicker from "v-distpicker/src/Distpicker";
     import { mapState } from 'vuex'
+    import { Toast } from 'mint-ui';
     export default {
         name: "PushDetail",
         components: {
@@ -144,10 +149,10 @@
                 sheetVisible:false,
                 SelectCity:false,
                 showCity:{},
-                CateSelectOne:{},
-                CateSelectTwo:{},
+                CateSelectOne:'',
+                CateSelectTwo:'',
                 TwoCate:[],
-                CateSelectThree:{},
+                CateSelectThree:'',
                 ThreeCate:[],
                 actions:[
                     {
@@ -170,12 +175,21 @@
                 console.log(val)
             },
             CateSelectOne:function(val){
+                console.log(val)
                 this.TwoCate = this.AllCate[val-1].son
                 this.PushObject.level_one = val
+                this.ThreeCate = ''
             },
             CateSelectTwo:function(val){
-                //console.log(typeof (val)) number
-                this.ThreeCate = this.TwoCate[val-11].sons
+                console.log(val)
+                console.log(this.TwoCate)
+                for(var i in this. TwoCate){
+                    if(val == this.TwoCate[i].id){
+                        this.ThreeCate = this.TwoCate[i].sons
+                    }
+                }
+                console.log(this.ThreeCate)
+              //  this.ThreeCate = this.TwoCate[val-11].sons
                 this.PushObject.level_two = val
             },
             CateSelectThree:function(val){
@@ -185,8 +199,6 @@
             files:function (val) {
                 console.log("watch")
                 console.log(val)
-                this.PushObject.file = val[0].file
-                console.log(this.PushObject.file)
             },
             images:function (val) {
                 console.log(val)
@@ -202,6 +214,18 @@
                     if (newFile && !oldFile) {
                         // add
                         console.log('add', newFile)
+                        // 创建 `blob` 字段 用于缩略图预览
+                        newFile.blob = ''
+                        let URL = window.URL || window.webkitURL
+                        if (URL && URL.createObjectURL) {
+                            newFile.blob = URL.createObjectURL(newFile.file)
+                        }
+                        // Thumbnails
+                        // 缩略图
+                        newFile.thumb = ''
+                        if (newFile.blob && newFile.type.substr(0, 6) === 'image/') {
+                            newFile.thumb = newFile.blob
+                        }
                     }
                     if (newFile && oldFile) {
                         // update
@@ -211,7 +235,12 @@
                         // remove
                         console.log('remove', oldFile)
                     }
-                    this.$refs.upload.active = true
+                    //自动上传
+                if (Boolean(newFile) !== Boolean(oldFile) || oldFile.error !== newFile.error) {
+                    if (!this.$refs.upload2.active) {
+                        this.$refs.upload2.active = true
+                    }
+                }
             },
             TakePic:function(){
                 console.log("拍照")
@@ -242,9 +271,12 @@
             CateOneSelect(oneindex){
                 console.log(oneindex)
             },
-            inputFile(newFile,oldFile){
+            ExtraFiles(newFile,oldFile){
+                console.log(1111)
                 if (newFile && !oldFile) {
                     // add
+                    this.PushObject.file = newFile.file
+                    console.log(this.PushObject.file)
                     console.log('add', newFile)
                 }
                 if (newFile && oldFile) {
@@ -256,10 +288,24 @@
                     console.log('remove', oldFile)
                 }
             },
-            remove(file) {
-                this.$refs.upload.remove(file)
+            remove(File,index) {
+                console.log(this.files)
+                console.log(this.$refs)
+                if(index==1){
+                    this.$refs.upload1.remove(File)
+                }
+                if(index==2){
+                    this.$refs.upload2.remove(File)
+                }
+                console.log(this.files)
             },
             ConfirmPush:function () {
+                console.log(this.images)
+                var resUrl = []
+                for(var i in this.images){
+                    resUrl.push(this.images[i].response.data)
+                }
+                this.PushObject.resUrl = resUrl.toString()
                 this.$axios.post('/release/release_info',{
                     level_one:this.PushObject.level_one,
                     level_two:this.PushObject.level_two,
@@ -275,13 +321,18 @@
                     video_url:this.PushObject.video_url,
                     file:this.PushObject.file,
                     encryption:this.PushObject.encryption,
-                    img:this.PushObject.imgUrl
+                    img:this.PushObject.resUrl
                 },{
                     headers:{
                         'token':window.sessionStorage.getItem('token')
                     }})
                 .then(function (response) {
                     console.log(response)
+                    Toast({
+                        message: response.data.message,
+                        position: 'middle',
+                        duration: 4000
+                    });
                 })
                 .catch(function (error) {
                     console.log(error)
