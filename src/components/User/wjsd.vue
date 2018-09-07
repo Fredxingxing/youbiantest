@@ -3,32 +3,32 @@
         <ul class="tabs">
             <li :class="{isActive:tabs==5}" @click='changeTab(5)'>全部</li>
             <li :class="{isActive:tabs==1}" @click='changeTab(1)'>已接单</li>
-            <li :class="{isActive:tabs==2}" @click='changeTab(2)'>待通过</li>
+            <li :class="{isActive:tabs==2}" @click='changeTab(2)'>待确认</li>
             <li :class="{isActive:tabs==3}" @click='changeTab(3)'>未通过</li>
             <li :class="{isActive:tabs==4}" @click='changeTab(4)'>已通过</li>
         </ul>
         <ul class="orderlist">
-            <li>
+            <li v-for="(item,key) in wjsd" :key="key">
                 <div class="time-state">
-                    <span class='time'>接单人</span>
+                    <span class='time'>发布人</span>
                     <span class='state'>
                         <div class="txbox">
 
                         </div>
-                        haha
+                        {{item.get_order.get_user.name}}
                     </span>
                 </div>
                 <div class="info">
                     <div class="infoleft">
-                        <div class='title'>标题啊实打实大声道阿萨德阿萨德阿萨德阿萨德</div>
-                        <div class='type'><img src="../../assets/img/icon-type.png" alt="">同城便-同城便-同城便</div>
+                        <div class='title'>{{item.get_order.title}}</div>
+                        <div class='type'><img src="../../assets/img/icon-type.png" alt="">{{item.level_one.name}}-{{item.level_two.name}}-{{item.level_three.name}}</div>
                         <div class="points">
-                            120积分
+                            {{item.get_order.price}}积分
                         </div>
                     </div>
                     <div class="inforight">
                         <div class="num">
-                            订单号：123456
+                            订单号：{{item.order_no}}
                         </div>
                         <div class="cycle">
                             周期：一个月
@@ -36,7 +36,18 @@
                     </div>
                 </div>
                 <div class="operate">
-                    <span class=' state color-85CCA1'>已通过</span><button class='del'>删除订单</button>
+                    <span style='margin-right:3.8rem;margin-left:.4rem' v-if="item.status==0">已接单</span>
+                    <span style='margin-right:3.8rem;margin-left:.4rem' v-if="item.status==1" class='color-ea910f'>待确认</span>
+                    <span style='margin-right:3.8rem;margin-left:.4rem' v-if="item.status==2" class='color-f00'>未通过</span>
+                    <span style='margin-right:3.8rem;margin-left:.4rem' v-if="item.status==3||item.status==4">已通过</span>
+                    <span style='margin-right:3.8rem;margin-left:.4rem' v-if="item.status==5||item.status==7" class='color-5cce5c'>已评价</span>
+                    <!--  -->
+                    <span v-if="item.status==0"><span class='wancheng' @click='complate(item.order_no)'>确认完成</span><span class='del' @click="del(item.order_no)">删除</span></span>
+                    <span v-if="item.status==1"><span>等待确认</span><span class='del' @click="del(item.order_no)">删除</span></span>
+                    <span v-if="item.status==2"><span class='cxwc' @click='cxwc(item.order_no)'>重新完成</span><span class='del' @click="del(item.order_no)">删除</span></span>
+                    <span v-if="item.status==3||item.status==4"><span class='pingjia' @click='dialog(item.order_no,item.get_order.get_user.id)'>评价</span></span>
+                        <!-- <span v-if="item.status==5"><span>等待确认</span><span class='del' @click="del(item.order_no)">删除</span></span> -->
+                    <span v-if="item.status==5||item.status==7"><span class='color-5cce5c'></span></span>
                 </div>
             </li>
         </ul>
@@ -52,12 +63,78 @@
         methods:{
             changeTab(num){
                 this.tabs=num;
-            }
+                this.$store.dispatch('getWjsd',this.tabs)
+            },
+                        cxwc(order_no){
+                var data= {
+                    order_no
+                }
+                this.$axios({
+                    methods: "get",
+                    url:'http://www.youbian.link/api/v1/order/re_completion',
+                    params:data,
+                    headers: {
+                                token:window.sessionStorage.getItem('token')
+                            }
+                    }).then(res=>{
+                        if(res.data.code==400){
+                         alert('失败，请重试')
+                        }else{
+                           alert('操作成功')
+                            this.changeTab(this.tabs)
+                        }
+                    })
+            },
+            complate(order_no){
+                 var data= {
+                    order_no
+                }
+                this.$axios({
+                    methods: "get",
+                    url:'http://www.youbian.link/api/v1/order/confirm_completed',
+                    params:data,
+                    headers: {
+                                token:window.sessionStorage.getItem('token')
+                            }
+                    }).then(res=>{
+                         if(res.data.code==400){
+                         alert('操作失败，请重试')
+                        }else{
+                            alert('操作成功')
+                            this.changeTab(this.tabs)
+                        }
+                    })
+            },
+            del(order_no){
+                 var data= {
+                    order_no
+                }
+                this.$axios({
+                    methods: "get",
+                    url:'http://www.youbian.link/api/v1/order/del_order',
+                    params:data,
+                    headers: {
+                                token:window.sessionStorage.getItem('token')
+                            }
+                    }).then(res=>{
+                         if(res.data.code==400){
+                          alert('失败，请重试')
+                        }else{
+                            alert('删除成功')
+                            this.$store.dispatch('getWjsd',this.tabs)
+                        }
+                    })
+            },
         },
         mounted(){
             this.$store.dispatch('getUserTitle','我接收的')
             this.$store.dispatch('getHasSrh',true)
             this.$store.dispatch('getWjsd',this.tabs)
+        },
+        computed:{
+            wjsd:function(){
+                return this.$store.state.wjsd
+            }
         }
     }
 </script>
@@ -65,6 +142,59 @@
 .isActive{
     border-bottom:.03rem solid #FCA62F; 
 }
+//
+.color-dd5519{
+ color:#dd5519;
+}
+.color-ea910f{
+ color:#ea910f;
+}
+.color-f00{
+ color:#f00;
+}
+.color-5cce5c{
+ color:#5cce5c;
+}
+//
+.wancheng{
+    display: inline-block;
+    padding:.04rem;
+    height: 0.3rem;
+    line-height: .3rem;
+    border:1px solid #ea910f;
+    color:#ea910f;
+    border-radius:.04rem;
+}
+.cxwc{
+    display: inline-block;
+    padding:.04rem;
+    height: 0.3rem;
+    line-height: .3rem;
+    border:1px solid #ea910f;
+    color:#ea910f;
+    border-radius:.04rem;
+}
+.del{
+    display: inline-block;
+    padding:.04rem;
+    height: 0.3rem;
+    line-height: .3rem;
+    border:1px solid #f00;
+    color:#f00;
+    border-radius:.04rem;
+    margin-left:.1rem;
+}
+.pingjia{
+    color:#5cce5c;
+    border:1px solid #5cce5c;
+    display: inline-block;
+    padding:.04rem;
+    height: 0.3rem;
+    line-height: .3rem;
+    border-radius:.04rem;
+    margin-left:.1rem;
+}
+//
 
 .main{
     .tabs{
@@ -113,7 +243,7 @@
                 padding:.24rem .3rem;
                 .infoleft{
                     float: left;
-                    width: 4.6rem;
+                    width: 3.6rem;
                     .title{
                         width: 4.6rem;
                         font-size:.28rem;
@@ -150,7 +280,7 @@
                 .inforight{
                     font-size:.2rem;
                     float: right;
-                    width: 1.8rem;
+                    width: 2.8rem;
                     height: 0.8rem;
                     border:.02rem dashed #FCA62F;
                     color:#E47E59;
@@ -169,17 +299,6 @@
                 border-top:.02rem solid #eaeaea;
                 .state{
                     margin-left:.4rem;
-                }
-                .del{
-                    border:.02rem solid #727272;
-                    background-color: #fff;
-                    color:#727272;
-                    height: 0.5rem;
-                    width: 1.4rem;
-                    border-radius:.1rem;
-                    margin-top:.16rem;
-                    float: right;
-                    margin-right:.4rem;
                 }
             }
         }

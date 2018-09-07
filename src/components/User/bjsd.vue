@@ -15,20 +15,20 @@
                         <div class="txbox">
 
                         </div>
-                        haha
+                        {{item.get_user.name}}
                     </span>
                 </div>
                 <div class="info">
                     <div class="infoleft">
-                        <div class='title'>标题啊实打实大声道阿萨德阿萨德阿萨德阿萨德</div>
-                        <div class='type'><img src="../../assets/img/icon-type.png" alt="">同城便-同城便-同城便</div>
+                        <div class='title'>{{item.get_order.title}}</div>
+                        <div class='type'><img src="../../assets/img/icon-type.png" alt="">{{item.level_one.name}}-{{item.level_two.name}}-{{item.level_three.name}}</div>
                         <div class="points">
-                            120积分
+                            {{item.get_order.price}}积分
                         </div>
                     </div>
                     <div class="inforight">
                         <div class="num">
-                            订单号：123456
+                            订单号：{{item.order_no}}
                         </div>
                         <div class="cycle">
                             周期：一个月
@@ -36,7 +36,15 @@
                     </div>
                 </div>
                 <div class="operate">
-                    <span class=' state color-85CCA1'>已通过</span><button class='del'>删除订单</button>
+                    <span style='display:inline-block;width:2.5rem;margin-left:.4rem;margin-right:2.5rem' v-if="item.status==0" class='state color-ea910f'>等待对方完成</span>
+                    <span style='display:inline-block;width:2.5rem;margin-left:.4rem;margin-right:2.5rem' v-if="item.status==1" class='state color-dd5519'>待确认</span>
+                    <span style='display:inline-block;width:2.5rem;margin-left:.4rem;margin-right:2.5rem' v-if="item.status==2" class='state color-f00'>等待对方再次完成</span>
+                    <span style='display:inline-block;width:2.5rem;margin-left:.4rem;margin-right:3rem' v-if="item.status==3||item.status==5" class='state color-5cce5c'>已通过</span>
+                    <span style='display:inline-block;width:2.5rem;margin-left:.4rem;margin-right:2.5rem' v-if="item.status==4||item.status==7" class='state color-5cce5c'>已评价</span>
+                    <!--  -->
+                    <span v-if="item.status==1"><span class='butongguo' @click='unpass(item.order_no)'>不通过</span>　<span class='tongguo' @click='pass(item.order_no)'>通过</span></span>
+                    <span v-if="item.status==3||item.status==5" class='pingjia' @click="dialog(item.order_no,item.get_user.id)">评价</span>
+                    <span v-if="item.status==4||item.status==7"></span>
                 </div>
             </li>
         </ul>
@@ -52,7 +60,50 @@
         methods:{
             changeTab(num){
                 this.tabs = num;
-            }
+                this.$store.dispatch('getBjsd',this.tabs)
+            },
+            pass(id){
+                var data={
+                    type:3,
+                    order_no:id
+                }
+                 this.$axios({
+                    methods: "get",
+                    url:'http://www.youbian.link/api/v1/order/through',
+                    params:data,
+                    headers: {
+                                token:window.sessionStorage.getItem('token')
+                            },
+                    }).then(res=>{
+                      if(res.data.code==400){
+                         alert('操作失败，请重试')
+                        }else{
+                            alert('操作成功')
+                            this.changeTab(this.tabs)
+                        }
+                })
+            },
+            unpass(goods_id){
+                 var data={
+                    type:2,
+                    order_no:goods_id
+                }
+                 this.$axios({
+                    methods: "get",
+                    url:'http://www.youbian.link/api/v1/order/through',
+                    params:data,
+                    headers: {
+                                token:window.sessionStorage.getItem('token')
+                            },
+                    }).then(res=>{
+                     if(res.data.code==400){
+                         alert('操作失败，请重试')
+                        }else{
+                            alert('操作成功')
+                            this.changeTab(this.tabs)
+                        }
+                })
+            },
         },
         computed:{
             bjsd(){
@@ -67,9 +118,44 @@
     }
 </script>
 <style lang="less" scoped>
+.color-dd5519{
+ color:#dd5519;
+}
+.color-ea910f{
+ color:#ea910f;
+}
+.color-f00{
+ color:#f00;
+}
+.color-5cce5c{
+ color:#5cce5c;
+}
+//
+.tongguo{
+    border:1px solid #ea910f;
+    padding:.04rem;
+    border-radius:.04rem;
+    color:#ea910f;
+    margin-left:.1rem;
+}
+.butongguo{
+    padding:.04rem;
+    border:1px solid #f00;
+    border-radius:.04rem;
+    color:#f00;
+}
+.pingjia{
+    border:1px solid #ea910f;
+    padding:.04rem;
+    border-radius:.04rem;
+    color: #ea910f;
+    margin-left:.1rem;
+}
+//
 .isActive{
     border-bottom:.03rem solid #FCA62F; 
 }
+
 .main{
     .tabs{
         height: 0.8rem;
@@ -117,7 +203,8 @@
                 padding:.24rem .3rem;
                 .infoleft{
                     float: left;
-                    width: 4.6rem;
+                    width: 3.6rem;
+                    overflow: hidden;
                     .title{
                         width: 4.6rem;
                         font-size:.28rem;
@@ -154,7 +241,7 @@
                 .inforight{
                     font-size:.2rem;
                     float: right;
-                    width: 1.8rem;
+                    width: 2.8rem;
                     height: 0.8rem;
                     border:.02rem dashed #FCA62F;
                     color:#E47E59;
