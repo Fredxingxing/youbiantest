@@ -7,8 +7,11 @@ import axios from 'axios'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import  Mint from 'mint-ui'
 import 'mint-ui/lib/style.css'
+import VDistpicker from 'v-distpicker'
 Vue.config.productionTip = false
-
+Vue.component('v-distpicker',VDistpicker)
+const VueUploadComponent = require('vue-upload-component')
+Vue.component('file-upload', VueUploadComponent)
 axios.defaults.baseURL = 'http://www.youbian.link/api/v2';
 // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';

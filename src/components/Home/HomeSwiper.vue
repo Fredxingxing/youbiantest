@@ -66,7 +66,7 @@
             }
         },
         created:function(){
-             vm = this //swiper的坑 本组件的this指向的是swiper
+             vm = this   //swiper的坑 本组件的this指向的是swiper
              vm.$store.dispatch('getHomeBanner')
         },
         mounted() {
