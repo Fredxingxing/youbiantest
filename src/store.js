@@ -37,6 +37,7 @@ export default new Vuex.Store({
       userTitle:'',
       hasSrh:'',
       UserInfo:{},
+      user:'',
       //订单管理:''
       wfbd:'',
       wjsd:'',
@@ -150,6 +151,10 @@ export default new Vuex.Store({
     setIntegral(state,data){
       console.log(data)
       state.integral = data;
+    },
+    setUser(state,data){
+        console.log(data)
+        state.user=data
     }
   },
   actions: {
@@ -360,13 +365,13 @@ export default new Vuex.Store({
       axios({
         method:'get',
         url:'/order/received',
-        data,
+        params:data,
         headers:{
           token:window.sessionStorage.getItem('token')
         }
       }).then(res=>{
-        var data =res.data;
-        console.log(data);
+        var data =res.data.data;
+        context.commit('setWjsd',data)
       })
     },
     getBjsd(context,type){
@@ -396,6 +401,16 @@ export default new Vuex.Store({
         var data =res.data.data;
         context.commit('setVip',data);
       })
+    },
+    getUser(context){
+        axios.get(
+            '/user/info',
+            {headers:{
+                token:window.sessionStorage.getItem('token')
+            }}
+        ).then(res=>{
+            context.commit('setUser',res.data.data)
+        })
     },
     getIntegral(context){
       axios({

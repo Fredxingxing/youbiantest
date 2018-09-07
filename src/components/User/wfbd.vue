@@ -55,7 +55,7 @@
             },
             del(id){
                 var data = {
-                    order_id : id
+                    goods_id : id
                 }
                 this.$axios({
                     method:'get',
@@ -86,7 +86,20 @@
 .isActive{
     border-bottom:.03rem solid #FCA62F; 
 }
-
+//
+.color-dd5519{
+ color:#dd5519;
+}
+.color-ea910f{
+ color:#ea910f;
+}
+.color-f00{
+ color:#f00;
+}
+.color-5cce5c{
+ color:#5cce5c;
+}
+//
 .main{
     .tabs{
         height: 0.8rem;

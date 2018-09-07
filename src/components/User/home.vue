@@ -7,8 +7,8 @@
                     <img src="../../assets/img/default.jpg" alt="" v-else='img=="null"'>
                 </div>
                 <div class="top">
-                    <div class="username" v-if="username">
-                        用户名：{{username}}
+                    <div class="username" v-if="user.name">
+                        用户名：{{user.name}}
                     </div>
                     <div class="username" v-else="username">
                         <router-link tag='span' to="/other/login" >登录</router-link>/
@@ -16,7 +16,7 @@
                     </div>
                     <div class="points">
                         <span style='line-height:.3rem'>积分余额</span>
-                        <span class='font-16 color-FCA62F'>{{point}}<router-link tag='span' to='/other/detail' style='display:inline;font-size:.2rem;color:#727272;margin-left:.1rem'>明细>></router-link></span>
+                        <span class='font-16 color-FCA62F'>{{user.integral}}<router-link tag='span' to='/other/detail' style='display:inline;font-size:.2rem;color:#727272;margin-left:.1rem'>明细>></router-link></span>
                     </div>
                     <div class="chongzhi">
                         <router-link tag='button' to='/other/tx'>
@@ -27,8 +27,11 @@
                         </router-link>
                     </div>
                 </div>
-                <p class='vip'>
+                <p class='vip' v-if='user.grade_status==0'>
                     普通会员 <router-link tag='span' to="/other/vip">去升级</router-link>
+                </p>
+                 <p class='vip' v-if='user.grade_status==1'>
+                    {{user.members_end}}到期 <router-link tag='span' to="/other/vip">去续费</router-link>
                 </p>
             </div>
         </div>
@@ -39,19 +42,19 @@
                     <span>
                         <img class='icon' src="../../assets/img/icon-wfbd.png" alt="">我发布的
                     </span>
-                    <span>0<i class='iconfont icon-right'></i></span>
+                    <span>{{user.release_num1}}<i class='iconfont icon-right'></i></span>
                 </router-link>
                 <router-link to='/other/bjsd' tag='li'>
                     <span>
                          <img class='icon' src="../../assets/img/icon-bjsd.png" alt="">被接收的
                     </span>
-                    <span>0<i class='iconfont icon-right'></i></span>
+                    <span>{{user.receive_num2}}<i class='iconfont icon-right'></i></span>
                 </router-link>
                 <router-link to='/other/wjsd' tag='li'>
                     <span>
                         <img class='icon' src="../../assets/img/icon-wjsd.png" alt="">我接收的
                     </span>
-                    <span>0<i class='iconfont icon-right'></i></span>
+                    <span>{{user.receive_num1}}<i class='iconfont icon-right'></i></span>
                 </router-link>
             </ul>
         </div>
@@ -100,9 +103,17 @@
                 this.$router.push('/other/login')
             }
         },
+        computed:{
+            user:function(){
+                return this.$store.state.user
+            }
+        },
         components:{
             BottomBar
         },
+        mounted(){
+            this.$store.dispatch('getUser')
+        }
         
     }
 </script>
@@ -181,8 +192,9 @@
                 line-height: .64rem;
                 color:#666;
                 span{
-                    margin-left: 4rem;
-                    font-size: .24rem;
+                    float: right;
+                    margin-right:.2rem;
+                    text-decoration: underline;
                 }
             }
         }
