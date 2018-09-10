@@ -3,9 +3,12 @@
       <div class="City" v-if="TopBarCityShow === true">
           <div class="CityName" v-on:click="chooseCity">{{showCity.city}}</div>
           <i class="iconfont icon-jiantou" style="color: white"></i>
-          <div class="slayer" v-show="SelectCity">
-              <v-distpicker type="mobile" @selected="onSelected"></v-distpicker>
-          </div>
+          <!--<div class="slayer" v-show="SelectCity">-->
+              <!--<v-distpicker type="mobile" @selected="onSelected"></v-distpicker>-->
+          <!--</div>-->
+          <van-popup v-model="SelectCity" position="bottom" :overlay="true">
+              <van-area  :area-list="areaList" :columns-num="2" @confirm="CitySelected" @cancel="CityCancel" />
+          </van-popup>
       </div>
         <div class="City" v-if="TopBarCityShow === false" v-on:click="Back()">
         <i class="iconfont icon-Left Back" ></i>
@@ -29,7 +32,7 @@
 
 <script>
     import { mapState } from 'vuex'
-    import VDistpicker from "v-distpicker/src/Distpicker";
+    import areaList from'../util/area'
     export default {
         name: "topBar",
         data(){
@@ -40,6 +43,7 @@
               showCity:{
                   'city':"武汉市"
               },
+              areaList:areaList
           }
         },
         filters:{
@@ -90,26 +94,27 @@
             chooseCity(){
                 this.SelectCity = true
             },
-            onSelected(data) {
-                //  alert(data.province + ' | ' + data.city + ' | ' + data.area)
-                //        var city = new Object()
-                //this.showCity.province = data.province.value
-                this.showCity.city = data.city.value
-             //   this.showCity.area = data.area.value
+            CitySelected(data){
                 console.log(data)
-                this.SelectCity = false
-             //   this.PushObject.province_code = data.province.code
-              //  this.PushObject.city_code = data.city.code
-            //    this.PushObject.area_code = data.area.code
-              //  console.log(this.PushObject)
+                this.showCity.city = data[1].name
+                this.SelectCity =false
             },
+            CityCancel(){
+                this.SelectCity =false
+            }
+            // onSelected(data) {
+            //     this.showCity.city = data.city.value
+            //     console.log(data)
+            //     this.SelectCity = false
+            //
+            // },
         },
     }
 </script>
 
 <style scoped>
   .TopBar{
-      width: 7.50rem;
+      width: 100%;
       height: .80rem;
       display: flex;
       justify-content: space-evenly;
@@ -168,7 +173,7 @@
       /* height: 100%; */
       /* float: right; */
       top: 0;
-       margin-left: -.06rem;
+       /*margin-left: -.06rem;*/
       /* padding-left: 1.5rem; */
       padding-top: .8rem;
       background: #9999;

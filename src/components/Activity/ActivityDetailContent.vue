@@ -24,6 +24,7 @@
     .DetailContainer{
         width: 90%;
         margin: 5%;
+        color: #000000;
     }
     .DetailContainer img{
         width:100% !important;

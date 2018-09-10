@@ -13,7 +13,7 @@
         <ActivityDetailContent/>
         <div @click="ToTop" class="BackToTop">
             <i class="iconfont icon-back_to_top"></i>
-            <div style="font-size: .1rem;color: #767575">顶部</div>
+            <span style="font-size: .1rem;">顶部</span>
         </div>
     </div>
 </template>
@@ -51,8 +51,25 @@
                 this.$router.go(-1)
             },
             ToTop:function () {
-                document.body.scrollTop = 0
-                document.documentElement.scrollTop = 0
+              //  document.body.scrollTop = 0
+              //  document.documentElement.scrollTop = 0
+              var time = setInterval(function () {
+                    console.log("定时循环回到顶部")
+                    var top = document.body.scrollTop || document.documentElement.scrollTop;
+                    console.log(top)
+                    var speed = top / 4;
+                    console.log(speed)
+                    if (document.body.scrollTop!=0) {
+                        console.log("it's over")
+                        document.body.scrollTop -= speed;
+                    }else {
+                        console.log(11111)
+                        document.documentElement.scrollTop -= speed;
+                    }
+                    if (top == 0) {
+                        clearInterval(time);
+                    }
+                }, 30);
             }
         }
     }
@@ -74,6 +91,9 @@
 .DetailTitle{
     font-size: .42rem;
     color: #000000;
+    width: 100%;
+    text-align: center;
+    margin-top: 0.2rem;
 }
 .DetailPic{
     width: 100%;
@@ -97,6 +117,20 @@
     position: fixed;
     right: 0.2rem;
     bottom: 0.5rem;
+    color: black;
+    transition: color 2s;
+}
+.BackToTop:hover{
+    width: .5rem;
+    /*height: .5rem;*/
+    display: flex;
+    flex-direction: column;
+    align-self: flex-end;
+    text-align: center;
+    position: fixed;
+    right: 0.2rem;
+    bottom: 0.5rem;
+    color: #dd5519;
 }
     .TopBar{
         height: .8rem;

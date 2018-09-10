@@ -1,14 +1,16 @@
 <template>
     <div id="Home" class="Home">
         <topBar/>
+        <div>
         <HomeTab/>
-          <div v-show="this.$store.state.HomeTabSwiperShow" class="SwiperContainer" style="height: 4rem;">
-        <HomeSwiper/>
-          </div>
+        <div v-show="this.$store.state.HomeTabSwiperShow" class="SwiperContainer" style="height: 4rem;">
+            <HomeSwiper/>
+        </div>
         <HomePopular/>
         <HomeOrder/>
         <div>
-        <bottomBar/>
+          <bottomBar/>
+        </div>
         </div>
     </div>
 </template>
@@ -21,6 +23,7 @@
     import HomeHot  from './HomeHot'
     import HomeOrder from './HomeOrder'
     import HomePopular from './HomePopular'
+    import { mapState } from 'vuex'
     export default {
         name: "Home",
         components:{
@@ -31,7 +34,18 @@
             HomeOrder,
             bottomBar,
             HomePopular
-        }
+        },
+        watch: {
+            TopBarCityShow: function (val) {
+                //do method again
+            },
+        },
+        computed:{
+            ...mapState({
+                TopBarCityShow:'TopBarCityShow',
+                SearchResult:'SearchResult'
+            })
+        },
     }
 </script>
 

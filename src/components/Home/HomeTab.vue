@@ -49,7 +49,7 @@
 
 <style scoped>
 .HomeTab{
-    width: 7.50rem;
+    width: 100%;
     height: 3.50rem;
     display: flex;
     align-content: space-around;

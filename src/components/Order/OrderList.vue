@@ -40,7 +40,7 @@
             </div>
         </div>
         <div class="OrderList">
-            <ul style="height: 100%;" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="20">
+            <ul style="height: 100%;" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
              <li class="order" v-for="(Order,Orderindex) in OrderListshow" v-on:click="GoToDetail(Orderindex)">
                 <div class="orderdetail">
                     <div class="detailText">
@@ -225,7 +225,7 @@
                     this.i = this.i + 5
                     console.log(this.OrderListshow)
                     this.loading = false;
-                }, 2500);
+                }, 500);
             }
         }
     }

@@ -42,7 +42,7 @@
 <style scoped>
 .bottomBar{
     display: flex;
-    width:7.50rem;
+    width:100%;
     height: 1.05rem;
     justify-content: space-around;
     background: #ffff;

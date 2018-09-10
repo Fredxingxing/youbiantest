@@ -6,7 +6,8 @@
        </div>
         <div  class="changebox">
             <div style="width:1.6rem;text-align: right;">验证码：</div>
-            <input style="height: .4rem;" placeholder="输入验证码" v-model="checknum"><button class='repwd' :disabled="disabled" @click='getCheck'>{{check}}</button>
+            <input style="height: .4rem;" placeholder="输入验证码" v-model="checknum">
+            <button class='repwd' :disabled="disabled" @click='getCheck'>{{check}}</button>
         </div>
         <div class="ChangeInfo" @click='CommitInfo()'>
             提交信息
@@ -31,55 +32,74 @@
                 var data = {
                     phone:this.phonenum
                 }
-                this.$axios.post(
-                    '/member/sendSms',
-                    data
-                ).then(res=>{
-                    console.log(res)
-                    if(res.status==200){
-                        Toast({
-                            message: "发送成功",
-                            position: 'middle',
-                            duration: 4000
-                        });
-                    }
-                    else {
-                        Toast({
-                            message: res.data.message,
-                            position: 'middle',
-                            duration: 4000
-                        });
-                    }
-                })
-                var time = 60;
-                var timer = setInterval(()=>{
-                    time--;
-                    this.check = time + "秒后重试";
-                    this.disabled = true;
-                    if (time==0) {
-                        clearInterval(timer);
-                        this.check = "获取验证码";
-                        this.disabled = false;
-                    }
-                },1000);
-            },
-            CommitInfo:function(){
-                this.$axios.post('user/phone_edit',{
-                    phone:this.phonenum,
-                    code:this.checknum
-                },{
-                    headers:{
-                        'token':window.sessionStorage.getItem('token')
-                    }})
-                    .then(function (res) {
+                console.log(this.phonenum)
+                if(this.phonenum == ''){
+                    Toast({
+                        message: '请填写手机号',
+                        position: 'middle',
+                        duration: 4000
+                    });
+                }
+                else {
+                    this.$axios.post(
+                        '/member/sendSms',
+                        data
+                    ).then(res => {
                         console.log(res)
-                        Toast({
-                            message: res.data.message,
-                            position: 'middle',
-                            duration: 4000
-                        });
+                        if (res.status == 200) {
+                            Toast({
+                                message: "发送成功",
+                                position: 'middle',
+                                duration: 4000
+                            });
+                        }
+                        else {
+                            Toast({
+                                message: res.data.message,
+                                position: 'middle',
+                                duration: 4000
+                            });
+                        }
                     })
 
+                    var time = 60;
+                    var timer = setInterval(() => {
+                        time--;
+                        this.check = time + "秒后重试";
+                        this.disabled = true;
+                        if (time == 0) {
+                            clearInterval(timer);
+                            this.check = "获取验证码";
+                            this.disabled = false;
+                        }
+                    }, 1000);
+                }
+            },
+            CommitInfo:function(){
+                if(this.phonenum === ''){
+                    Toast({
+                        message: '请填写手机号',
+                        position: 'middle',
+                        duration: 4000
+                    });
+                }
+                else{
+                    this.$axios.post('user/phone_edit',{
+                        phone:this.phonenum,
+                        code:this.checknum
+                    },{
+                        headers:{
+                            'token':window.sessionStorage.getItem('token')
+                        }})
+                        .then(function (res) {
+                            console.log(res)
+                            Toast({
+                                message: res.data.message,
+                                position: 'middle',
+                                duration: 4000
+                            });
+                        })
+                }
             },
         },
     }
@@ -115,10 +135,10 @@
         font-size: .32rem;
     }
     .repwd{
-        font-size: .24rem;
-        color: #727272;
+        font-size: .12rem;
         float: right;
-        background-color: #fff;
+        background-color: #DC551B;
+        color: #fff;
         border: 0;
         outline: none;
         position: absolute;

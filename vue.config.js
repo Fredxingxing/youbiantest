@@ -34,9 +34,9 @@
 //     //     }
 //     // },
 //     css: { // 配置高于chainWebpack中关于css loader的配置
-//         modules: true, // 是否开启支持‘foo.module.css’样式
-//         extract: true, // 是否使用css分离插件 ExtractTextPlugin，采用独立样式文件载入，不采用<style>方式内联至html文件中
-//         sourceMap: false, // 是否在构建样式地图，false将提高构建速度
+//       //  modules: true, // 是否开启支持‘foo.module.css’样式
+//      //   extract: true, // 是否使用css分离插件 ExtractTextPlugin，采用独立样式文件载入，不采用<style>方式内联至html文件中
+//      //   sourceMap: false, // 是否在构建样式地图，false将提高构建速度
 //         loaderOptions: { // css预设器配置项
 //             css: {
 //                 localIdentName: '[name]-[hash]',
@@ -83,16 +83,25 @@
     // 生产环境是否生成 sourceMap 文件
     productionSourceMap: true,
     // css相关配置
-    // css: {
-    //     // 是否使用css分离插件 ExtractTextPlugin
-    //     extract: true,
-    //     // 开启 CSS source maps?
-    //     sourceMap: false,
-    //     // css预设器配置项
-    //     loaderOptions: {},
-    //     // 启用 CSS modules for all css / pre-processor files.
-    //     modules: false
-    // },
+    css: {
+        // 是否使用css分离插件 ExtractTextPlugin
+       // extract: true,
+        // 开启 CSS source maps?
+     //   sourceMap: false,
+        // css预设器配置项
+        loaderOptions: {
+            postcss:{
+                'postcss-theme-variables':{
+                    vars: {
+                        orange: '#f85'
+                    },
+                    prefix: '$'
+                }
+            }
+        },
+        // 启用 CSS modules for all css / pre-processor files.
+     //   modules: false
+    },
     // use thread-loader for babel & TS in production build
     // enabled by default if the machine has more than 1 cores
     parallel: require('os').cpus().length > 1,

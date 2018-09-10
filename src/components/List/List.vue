@@ -17,15 +17,37 @@
             <mt-tab-container-item id="1">
                 <!--<mt-cell v-for="n in 10" :title="'内容 ' + n" />-->
                 <img class="banner" src="../../assets/List/banner.png">
-                <div v-if="PublishList!=undefined">
+                <div v-if="PublishList!=undefined" class="ProtraitBox">
+                    <div class="ProtraitContainer">
                 <img class="Protrait2" v-if="PublishList[1] !=undefined && Listselected==1" :src="PublishList[1].get_user.img">
+                    <img class="Protrait2" v-else src="../../assets/img/default.jpg">
                 <img class="Protrait1" v-if="PublishList[0] !=undefined && Listselected==1 " :src="PublishList[0].get_user.img">
+                    <img class="Protrait1" v-else src="../../assets/img/default.jpg">
                 <img class="Protrait3" v-if="PublishList[2] !=undefined && Listselected==1 " :src="PublishList[2].get_user.img">
+                    <img class="Protrait3" v-else src="../../assets/img/default.jpg">
+                    </div>
+                    <div class="ProtraitUser">
+                        <div class="normalWidth" v-if="PublishList[1] !=undefined && Listselected==1">{{PublishList[1].get_user.name}}</div>
+                        <div class="normalWidth" v-else>虚位以待</div>
+                        <div class="firstWidth" v-if="PublishList[0] !=undefined && Listselected==1">
+                            <div>{{PublishList[0].get_user.name}}</div>
+                            <div>发布数：{{PublishList[0].sum}}</div>
+                        </div>
+                        <div class="firstWidth" v-else>虚位以待</div>
+                        <div class="normalWidth" v-if="PublishList[2] !=undefined && Listselected==1">{{PublishList[2].get_user.name}}</div>
+                        <div class="normalWidth" v-else>虚位以待</div>
+                    </div>
                 </div>
                 <div class="ListTime">
-                    <img class="DateBtn" @click="ClickTime(1)" :src="Listtype===1 ? DayShow : Day">
-                    <img class="DateBtn" @click="ClickTime(2)" :src="Listtype===2 ? WeekShow : Week">
-                    <img class="DateBtn" @click="ClickTime(3)" :src="Listtype===3 ? MonthShow : Month">
+                    <div class="DateBox">
+                       <img class="DateBtn" @click="ClickTime(1)" :src="Listtype===1 ? DayShow : Day">
+                    </div>
+                    <div  class="DateBox">
+                       <img class="DateBtn" @click="ClickTime(2)" :src="Listtype===2 ? WeekShow : Week">
+                    </div>
+                    <div  class="DateBox">
+                       <img class="DateBtn" @click="ClickTime(3)" :src="Listtype===3 ? MonthShow : Month">
+                    </div>
                 </div>
                 <div class="ListTop10">
                     <div class="ListTopTitle">
@@ -47,15 +69,37 @@
             <mt-tab-container-item id="2">
                 <!--<mt-cell v-for="n in 4" :title="'测试 ' + n" />-->
                 <img class="banner" src="../../assets/List/banner.png">
-                <div v-if="TakenList!=undefined">
-                <img class="Protrait2" v-if="TakenList[1] !=undefined && Listselected==2" :src="TakenList[1].get_user.img">
-                <img class="Protrait1" v-if="TakenList[0] !=undefined && Listselected==2 " :src="TakenList[0].get_user.img">
-                <img class="Protrait3" v-if="TakenList[2] !=undefined && Listselected==2 " :src="TakenList[2].get_user.img">
+                <div v-if="TakenList!=undefined" class="ProtraitBox">
+                    <div class="ProtraitContainer">
+                 <img class="Protrait2" v-if="TakenList[1] !=undefined && Listselected==2" :src="TakenList[1].get_user.img">
+                    <img class="Protrait2" v-else src="../../assets/img/default.jpg">
+                 <img class="Protrait1" v-if="TakenList[0] !=undefined && Listselected==2 " :src="TakenList[0].get_user.img">
+                    <img class="Protrait1" v-else src="../../assets/img/default.jpg">
+                 <img class="Protrait3" v-if="TakenList[2] !=undefined && Listselected==2 " :src="TakenList[2].get_user.img">
+                    <img class="Protrait3" v-else src="../../assets/img/default.jpg">
+                    </div>
+                    <div class="ProtraitUser">
+                        <div class="normalWidth" v-if="TakenList[1] !=undefined && Listselected==2">{{TakenList[1].get_user.name}}</div>
+                        <div class="normalWidth" v-else>虚位以待</div>
+                        <div class="firstWidth" v-if="TakenList[0] !=undefined && Listselected==2">
+                            <div>{{TakenList[0].get_user.name}}</div>
+                            <div>发布数：{{TakenList[0].sum}}</div>
+                        </div>
+                        <div class="firstWidth" v-else>虚位以待</div>
+                        <div class="normalWidth" v-if="TakenList[2] !=undefined && Listselected==2">{{TakenList[2].get_user.name}}</div>
+                        <div class="normalWidth" v-else>虚位以待</div>
+                    </div>
                 </div>
                 <div class="ListTime">
-                    <img class="DateBtn" @click="ClickTime(1)" :src="Listtype===1 ? DayShow : Day">
-                    <img class="DateBtn" @click="ClickTime(2)" :src="Listtype===2 ? WeekShow : Week">
-                    <img class="DateBtn" @click="ClickTime(3)" :src="Listtype===3 ? MonthShow : Month">
+                    <div class="DateBox">
+                        <img class="DateBtn" @click="ClickTime(1)" :src="Listtype===1 ? DayShow : Day">
+                    </div>
+                    <div  class="DateBox">
+                        <img class="DateBtn" @click="ClickTime(2)" :src="Listtype===2 ? WeekShow : Week">
+                    </div>
+                    <div  class="DateBox">
+                        <img class="DateBtn" @click="ClickTime(3)" :src="Listtype===3 ? MonthShow : Month">
+                    </div>
                 </div>
                 <div class="ListTop10">
                     <div class="ListTopTitle">
@@ -253,29 +297,79 @@
     height: 2.6rem;
     width: 100%;
 }
+.ProtraitBox{
+    position: absolute;
+    top: 0;
+    width: 60%;
+    height: 2.6rem;
+    margin: 0 20%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+}
+.ProtraitContainer{
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    height: 73%;
+    align-items: flex-end;
+}
 .Protrait2{
     width: .91rem;
-    position: absolute;
+    /*position: absolute;*/
     z-index: 999;
-    left: 1.9rem;
-    top: .97rem;
+    /*left: 1.9rem;*/
+    /*top: .97rem;*/
     border-radius: .455rem;
+    height: .91rem;
+    margin-top: 0.23rem;
+    margin-left: 0.05rem;
 }
 .Protrait1{
     width: 1.18rem;
-    position: absolute;
+    /*position: absolute;*/
     z-index: 999;
-    left: 3.2rem;
-    top: .67rem;
+    /*left: 3.2rem;*/
+    /*top: .67rem;*/
     border-radius: .59rem;
+    height: 1.18rem;
+    margin-bottom: 0.03rem;
+    margin-left: 0.05rem;
 }
 .Protrait3{
     width: .91rem;
-    position: absolute;
+    /*position: absolute;*/
     z-index: 999;
-    left: 4.74rem;
-    top: .91rem;
+    /*left: 4.74rem;*/
+    /*top: .91rem;*/
     border-radius: .455rem;
+    height: .91rem;
+    margin-bottom: 0.08rem;
+    margin-left: 0.03rem;
+}
+.ProtraitUser{
+    height: 27%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 0.2rem;
+    color: #fff;
+    text-align: center;
+}
+.normalWidth{
+    width: 30%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.firstWidth{
+    width: 40%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .Week{}
 .WeekShow{}
@@ -324,6 +418,11 @@
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+}
+.DateBox{
+    flex: 1;
+    justify-content: center;
+    display: flex;
 }
 .DateBtn{
     width: 1.4rem;

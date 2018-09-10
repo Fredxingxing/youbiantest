@@ -19,8 +19,8 @@
                       </div>
                   </div>
                      <div class="CheckDetail" >
-                         <router-link :to="{path:'/Activity/Detail',query:{id:Activity.id}}" tag="span" style="display: flex">
-                             <mt-button type="default" @click="CheckDetail">查看详情</mt-button>
+                         <router-link :to="{path:'/Activity/Detail',query:{id:Activity.id}}" tag="span" class="DetailBtn">
+                             <mt-button type="default" @click="CheckDetail" style="width: 100%;height: 70%;">查看详情</mt-button>
                          </router-link>
                    </div>
                  </div>
@@ -39,8 +39,8 @@
                         </div>
                     </div>
                     <div class="CheckDetail" >
-                        <router-link :to="{path:'/Activity/Detail',query:{id:Activity.id}}" tag="span" style="display: flex">
-                            <mt-button type="default" @click="CheckDetail">查看详情</mt-button>
+                        <router-link :to="{path:'/Activity/Detail',query:{id:Activity.id}}" tag="div" class="DetailBtn">
+                            <mt-button type="default" @click="CheckDetail" style="width: 100%;height: 70%;">查看详情</mt-button>
                         </router-link>
                     </div>
                 </div>
@@ -59,8 +59,8 @@
                         </div>
                     </div>
                     <div class="CheckDetail" >
-                        <router-link :to="{path:'/Activity/Detail',query:{id:Activity.id}}" tag="span" style="display: flex">
-                            <mt-button type="default" @click="CheckDetail">查看详情</mt-button>
+                        <router-link :to="{path:'/Activity/Detail',query:{id:Activity.id}}" tag="span" class="DetailBtn">
+                            <mt-button type="default" @click="CheckDetail" style="width: 100%;height: 70%;">查看详情</mt-button>
                         </router-link>
                     </div>
                 </div>
@@ -114,6 +114,7 @@
 .ActProgress{
     font-size: 0.3rem;
     margin-left: 0.1rem;
+    margin-bottom: 0.1rem;
 }
 .Card{
     margin-top: 0.1rem;
@@ -148,5 +149,10 @@
     justify-content: flex-end;
     margin-top: .1rem;
     margin-right: .3rem;
+}
+.DetailBtn{
+    display: flex;
+    width: 26%;
+    align-items: center;
 }
 </style>

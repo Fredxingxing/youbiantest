@@ -48,7 +48,7 @@
         background: #ffffff;
 }
 .ActivityTitle{
-    width: 7.50rem;
+    width: 100%;
     height: .80rem;
     background: #FCA62F;
     font-size: 0.40rem;
