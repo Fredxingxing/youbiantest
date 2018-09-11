@@ -6,8 +6,8 @@
         </div>
         <div class="OrderDetail">
             <div class="order">
-            <div class="orderTop">
-                <div class="user">
+            <div class="orderTop" >
+                <div class="user" v-on:click.stop="GotoUser(Orderindex)">
                     <i class="iconfont icon-icon_user oderTopFont"></i>
                     <span style="font-size: .25rem;margin-left: .15rem;">{{OrderDetail.get_user.name}}</span>
                 </div>
@@ -50,7 +50,8 @@
             </div>
             <div class="DetailComment">
                 <div class="CommentTopBar">全部评论({{OrderComments.length}})</div>
-                <div class="Comment" v-for="(Comments,CommentsIndex) in OrderComments">
+                <ul style="height: 100%;width: 100%" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
+                <li class="Comment" v-for="(Comments,CommentsIndex) in CommentsListshow">
                     <i class="iconfont UserImage icon-icon_user "></i>
                     <div class="UserContent">
                         <div class="UserTop">
@@ -59,7 +60,8 @@
                         </div>
                         <div class="UserComment">{{Comments.content_receive}}</div>
                     </div>
-                </div>
+                </li>
+                </ul>
             </div>
         </div>
     </div>
@@ -74,7 +76,11 @@
             return{
                 // videoUrl:'http://vjs.zencdn.net/v/oceans.mp4',
                 videoImg:'',
-                playStatus:'autoplay'
+                playStatus:'autoplay',
+                loading:false,
+                i:0,
+                AllList:[],
+                CommentsListshow:[]
             }
         },
         mounted(){
@@ -101,7 +107,6 @@
             },
             TakeOrderRes:function (val) {
                 if(val.code === 400 ){
-
                     Toast({
                         message: val.message,
                         position: 'middle',
@@ -113,9 +118,22 @@
                     }
                 }
                 else if(val.code === 200){
-                    alert('成功接单')
+                    Toast({
+                        message: '成功接单',
+                        position: 'bottom',
+                        duration: 4000
+                    });
                 }
-
+            },
+            i:function (val) {
+                if (val > this.AllList.length || val == this.AllList.length) {
+                    this.loading = true;
+                    Toast({
+                        message: '没有更多评论了',
+                        position: 'bottom',
+                        duration: 4000
+                    });
+                }
             }
         },
         computed:{
@@ -140,6 +158,23 @@
                 }
                  this.$store.dispatch('getTakeOrder',this.$route.query.OrderId)
 
+            },
+            GotoUser:function(){
+                var user = this. OrderDetail.user_id
+                this.$router.push({path:'/UserOrder',query:{UserId:user}})
+            },
+            loadMore:function() {
+                console.log("im in")
+                this.loading = true;
+                setTimeout(() => {
+                    var PushList = this.AllList.slice(this.i, this.i + 5)
+                    for(var j in PushList){
+                        this.CommentsListshow.push(PushList[j])
+                    }
+                    this.i = this.i + 5
+                    console.log(this.CommentsListshow)
+                    this.loading = false;
+                }, 500);
             },
             getDateTimeStamp:function (dateStr){
                    return Date.parse(dateStr.replace(/-/gi,"/"));
@@ -284,7 +319,7 @@
 /*****************order样式************/
 .order{
     display: flex;
-    width: 7.50rem;
+    width: 100%;
     height: 2.40rem;
     flex-direction: column;
     background: #ffffff;

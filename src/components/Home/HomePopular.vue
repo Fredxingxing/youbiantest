@@ -58,7 +58,8 @@
     width: 100%;
     height: 2rem;
     display: flex;
-    margin:.3rem 0 0.3rem 0rem;
+    padding-top: 0.3rem;
+    margin:0 0 0.3rem 0;
 }
 .PopularName{
     width: 30%;

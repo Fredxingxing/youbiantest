@@ -111,8 +111,10 @@
         components:{
             BottomBar
         },
-        mounted(){
-            this.$store.dispatch('getUser')
+        created(){
+            if(window.sessionStorage.getItem('token')){
+                this.$store.dispatch('getUser')
+            }
         }
         
     }

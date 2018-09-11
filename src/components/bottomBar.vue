@@ -24,7 +24,7 @@
             <div>榜单</div>
         </div>
         </router-link>
-        <router-link to="/User" tag="div">
+        <router-link to="/user" tag="div">
         <div class="item">
             <i class="iconfont icon-myselected"></i>
             <div>我的</div>

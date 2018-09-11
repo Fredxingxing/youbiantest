@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import router from './router'
+import { Toast } from 'mint-ui';
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -23,6 +24,7 @@ export default new Vuex.Store({
       OrderDetail:{},
       OrderComments:[],
       TakeOrderRes:{},
+      UserOrder:{},
       //活动
       ActivityList:[],
       ActivityDetail:{},
@@ -86,7 +88,6 @@ export default new Vuex.Store({
             list[a].update_time = list[a].update_time.substring(0,10)
         }
       state.OrderList = list
-      console.log(state.OrderList)
     },
     setOrderId(state,OrderId){
       state.OrderId = OrderId
@@ -98,9 +99,12 @@ export default new Vuex.Store({
     setOrderComments(state,Comments){
         state.OrderComments = Comments
     },
-      setTakeOrderRes(state,Res){
+    setTakeOrderRes(state,Res){
         state.TakeOrderRes = Res
-      },
+    },
+    setUserOrder(state,UserOrder){
+        state.UserOrder = UserOrder
+    },
     setActivityList(state,List){
       state.ActivityList = List
     },
@@ -234,6 +238,21 @@ export default new Vuex.Store({
         .catch(function (error) {
             console.log(error)
         })
+     },
+     getUserOrder(context,UserId){
+        axios.get('/user/enter_img',{
+            params:{
+                user_id:UserId
+            }
+         })
+        .then(function (res) {
+            var UserOrderInfo = res.data.data
+            context.commit('setUserOrder',UserOrderInfo)
+            console.log(UserOrderInfo)
+        })
+        .catch(function (res) {
+
+         })
      },
     getTakeOrder(context,OrderId){
     //    console.log(window.sessionStorage.getItem('token'))

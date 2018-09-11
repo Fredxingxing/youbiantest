@@ -40,7 +40,7 @@
             </div>
         </div>
         <div class="OrderList">
-            <ul style="height: 100%;" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
+            <ul style="height: 100%;width: 100%" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
              <li class="order" v-for="(Order,Orderindex) in OrderListshow" v-on:click="GoToDetail(Orderindex)">
                 <div class="orderdetail">
                     <div class="detailText">
@@ -68,9 +68,10 @@
                        </div>
                     </div>
                 </div>
-                <div class="orderTop">
-                    <div class="user">
-                        <i class="iconfont icon-icon_user"></i>
+                <div class="orderTop" >
+                    <div class="user" v-on:click.stop="GotoUser(Orderindex)">
+                        <img v-if="Order.img !=''" :src="Order.img" style="width: 0.45rem;height: .45rem;border-radius: 50%;">
+                        <i  v-else class="iconfont icon-icon_user"></i>
                         <span style="font-size: .25rem;margin-left: .15rem;">{{Order.get_user.name}}</span>
                     </div>
                     <div class="orderDate">
@@ -85,6 +86,7 @@
 
 <script>
     import topBar from '../topBar'
+    import { Toast } from 'mint-ui';
     import { mapState } from 'vuex'
     export default {
         name: "OrderList",
@@ -106,7 +108,6 @@
                 TypeSelected:"",
                 Getobject:{},
                 TypeList:["OrderSelector","PriceSelector"," DateSelector","StatusSelector"],
-                orderlist:[],
                 SortSelect:-1,
                 SortName:["综合","价格","完成时间","发布数量",],
                 OrderSelNum:'',
@@ -121,20 +122,22 @@
             }
         },
         mounted() {
-
             this.Getobject = new Object()
             this.Getobject.levelone = this.$route.query.level_one
             this.Getobject.leveltwo = this.$route.query.level_two
             this.Getobject.levelthree = this.$route.query.level_three
             console.log(this.Getobject)
+            this.i = 0;
             this.$store.dispatch('getOrderList',this.Getobject)
             this.$store.commit('setTopBarShow',false)
         },
         watch:{
             OrderList:function (val) {
                 //do method again
-                this.orderlist = val
+                console.log('OrderList')
                 this.AllList = val
+                console.log(this.AllList)
+                console.log('over')
             },
             OrderSelNum:function(val){
                 this.Getobject.type = parseInt(val)+1
@@ -161,8 +164,13 @@
                 //    this.$store.dispatch('getOrderList',this.Getobject)
             },
             i:function (val) {
-                if(val > this.AllList.length||val == this.AllList.length){
+                if(val>this.AllList.length||val==this.AllList.length){
                     this.loading = true;
+                    Toast({
+                        message: '没有更多了',
+                        position: 'bottom',
+                        duration: 4000
+                    });
                 }
             }
         },
@@ -211,7 +219,11 @@
             CheckSelector:function(){
             },
             GoToDetail:function (index) {
-                this.$router.push({path:'/OrderDetail',query:{OrderId:this.orderlist[index].id}})
+                this.$router.push({path:'/OrderDetail',query:{OrderId:this.OrderListshow[index].id}})
+            },
+            GotoUser:function(index){
+                var user = this.OrderListshow[index].user_id
+                this.$router.push({path:'/UserOrder',query:{UserId:user}})
             },
             loadMore:function() {
                 console.log("im in")
@@ -223,6 +235,7 @@
                         this.OrderListshow.push(PushList[j])
                     }
                     this.i = this.i + 5
+                    console.log('this.OrderListshow')
                     console.log(this.OrderListshow)
                     this.loading = false;
                 }, 500);
@@ -330,12 +343,12 @@
     height:100%;
     z-index:10;
     background: rgba(0,0,0,0.3);
-    margin-top: 1.64rem
+    margin-top: 1.64rem;
 }
     /*****************order样式************/
 .order{
     display: flex;
-    width: 7.50rem;
+    width: 100%;
     height: 2.40rem;
     flex-direction: column;
     background: #ffffff;

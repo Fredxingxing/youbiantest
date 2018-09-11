@@ -12,6 +12,7 @@ import List from './components/List/List'
 //分类进
 import OrderList from './components/Order/OrderList'
 import OrderDetail from './components/Order/OrderDetail'
+import UserOrder from './components/Order/UserOrder'
 //发布
 import PushDetail from './components/Push/PushDetail'
 //个人中心
@@ -88,6 +89,11 @@ export default new Router({
           path: '/PushDetail',
           name: 'PushDetail',
           component: PushDetail
+      },
+      {
+        path:'/UserOrder',
+        name:'UserOrder',
+        component:UserOrder
       },
     {
       path: '/user',

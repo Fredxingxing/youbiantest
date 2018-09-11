@@ -109,7 +109,7 @@
                <ul style="display: flex; flex-wrap: wrap;">
                    <li style="width: 25%;" v-for="(image, index) in images" :key="image.id">
                        <img v-if="image.thumb" :src="image.thumb" width="60" height="auto" />
-                       <i class="iconfont icon-delete" style="color: #DD551B;position: absolute;" @click.prevent="remove(image,2)"></i>
+                       <i class="iconfont icon-delete" style="color: #DD551B;position: absolute;margin-left: 0.1rem;" @click.prevent="remove(image,2)"></i>
                    </li>
                    <file-upload class="AddPic"
                                 post-action="http://www.youbian.link/api/v2/release/img"
@@ -383,7 +383,7 @@
     width: 1.56rem;
     margin-left: 0.2rem;
     padding-left: 0.1rem;
-    font-size: 0.1rem;
+    font-size: 0.20rem;
 }
 /*.chooseCity{*/
         /*width: 1.2rem;*/

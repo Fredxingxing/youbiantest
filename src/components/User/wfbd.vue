@@ -6,7 +6,7 @@
             <li :class="{isActive:tabs==3}" @click='changeTab(3)'>已完成</li>
         </ul>
         <ul class="orderlist">
-            <li v-for='(item,key) in wfbd' :key=key>
+            <li v-for='(item,key) in wfbd' :key=key @click="GotoDetail(key)">
                 <div class="time-state">
                     <span class='time'>{{item.update_time}}</span>
                     <span class='state color-FCA62F' v-if="item.type==0">待接单</span>
@@ -35,7 +35,7 @@
                     </div>
                 </div>
                 <div class="operate" v-if='item.type==0||item.type==2'>
-                    <button class='del' @click='del(item.id)'>删除订单</button>
+                    <button class='del' @click.stop='del(item.id)'>删除订单</button>
                 </div>
             </li>
         </ul>
@@ -53,6 +53,9 @@
             changeTab(num){
                 this.tabs=num;
                 this.$store.dispatch('getWfbd',this.tabs)
+            },
+            GotoDetail(index){
+                this.$router.push({path:'/OrderDetail',query:{OrderId:this.wfbd[index].goods_id}})
             },
             del(id){
                 var data = {

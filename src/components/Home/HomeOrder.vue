@@ -1,6 +1,6 @@
 <template>
     <div style="display: flex;flex-direction: column;height: 100%;width: 100%;">
-        <ul style="height: 100%;" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
+        <ul style="height: 100%;width: 100%;" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
          <li class="order" v-for="(Order,Orderindex) in OrderListshow" v-on:click="GoToDetail(Orderindex)">
           <div class="orderdetail">
                 <div class="detailText">
@@ -28,9 +28,10 @@
                     </div>
                 </div>
             </div>
-          <div class="orderTop">
+          <div class="orderTop" v-on:click.stop="GotoUser(Orderindex)">
              <div class="user">
-                 <i class="iconfont icon-icon_user"></i>
+                 <img v-if="Order.img !=''" :src="Order.img" style="width: 0.45rem;height: .45rem;border-radius: 50%;">
+                 <i  v-else class="iconfont icon-icon_user"></i>
                  <span style="font-size: .3rem;margin-left: .15rem;">{{Order.get_user.name}}</span>
              </div>
                <div class="orderDate">
@@ -44,6 +45,7 @@
 
 <script>
     import {mapState} from 'vuex'
+    import { Toast } from 'mint-ui';
     export default {
         name: "HomeOrder",
         data(){
@@ -61,7 +63,7 @@
             console.log(this.$store.state.OrderList)
         },
         mounted() {
-
+            this.i = 0;
         },
         beforeUpdate(){
 
@@ -70,12 +72,16 @@
             OrderList:function (val) {
            //     console.log(val.slice(0,3))
                 this.AllList = val
-
                 //do method again
             },
             i:function (val) {
                 if(val>this.AllList.length||val==this.AllList.length){
                     this.loading = true;
+                    Toast({
+                        message: '没有更多了',
+                        position: 'bottom',
+                        duration: 4000
+                    });
                 }
             }
         },
@@ -100,7 +106,11 @@
                     console.log(this.OrderListshow)
                     this.loading = false;
                 }, 500);
-            }
+            },
+            GotoUser:function(index){
+                var user = this.OrderListshow[index].user_id
+                this.$router.push({path:'/UserOrder',query:{UserId:user}})
+            },
         },
     }
 </script>
@@ -108,7 +118,7 @@
 <style scoped>
 .order{
     display: flex;
-    width: 7.50rem;
+    width: 100%;
     height: 2.40rem;
     flex-direction: column;
     background: #ffffff;

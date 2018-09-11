@@ -8,10 +8,10 @@
             <li :class="{isActive:tabs==4}" @click='changeTab(4)'>已通过</li>
         </ul>
         <ul class="orderlist">
-            <li v-for='(item,key) in bjsd' :key="key">
+            <li v-for='(item,key) in bjsd' :key="key"  @click="GotoDetail(key)">
                 <div class="time-state">
                     <span class='time'>接单人</span>
-                    <span class='state'>
+                    <span class='state'  v-on:click.stop="GotoUser(key)">
                         <div class="txbox">
 
                         </div>
@@ -120,6 +120,13 @@
                             this.changeTab(this.tabs)
                         }
                 })
+            },
+            GotoDetail(index){
+                this.$router.push({path:'/OrderDetail',query:{OrderId:this.bjsd[index].goods_id}})
+            },
+            GotoUser:function(index){
+                var user = this.wjsd[index].user_id
+                this.$router.push({path:'/UserOrder',query:{UserId:user}})
             },
         },
         computed:{

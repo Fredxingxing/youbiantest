@@ -134,7 +134,7 @@
       font-size: .28rem;
 }
   .Search{
-      width: 6.15rem;
+      width: 82%;;
       /*z-index: 999;*/
       /*height: .50rem;*/
       /*background: white;*/

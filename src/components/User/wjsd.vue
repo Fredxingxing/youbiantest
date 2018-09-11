@@ -8,12 +8,14 @@
             <li :class="{isActive:tabs==4}" @click='changeTab(4)'>已通过</li>
         </ul>
         <ul class="orderlist">
-            <li v-for="(item,key) in wjsd" :key="key">
-                <div class="time-state">
+            <li v-for="(item,key) in wjsd" :key="key"  @click="GotoDetail(key)">
+                <div class="time-state" v-on:click.stop="GotoUser(key)">
                     <span class='time'>发布人</span>
                     <span class='state'>
-                        <div class="txbox">
+                      <div class="txbox">
                         </div>
+                        <!--<img v-if="item.img !=''" :src="item.img" style="width: 0.45rem;height: .45rem;border-radius: 50%;">-->
+                        <!--<i   class="iconfont icon-icon_user"></i>-->
                         {{item.get_order.get_user.name}}
                     </span>
                 </div>
@@ -149,6 +151,13 @@
                         }
                     })
             },
+            GotoDetail(index){
+                this.$router.push({path:'/OrderDetail',query:{OrderId:this.wjsd[index].goods_id}})
+            },
+            GotoUser:function(index){
+                var user = this.wjsd[index].user_id
+                this.$router.push({path:'/UserOrder',query:{UserId:user}})
+            },
         },
         mounted(){
             this.$store.dispatch('getUserTitle','我接收的')
@@ -259,6 +268,9 @@
                         border-radius:50%;
                         overflow: hidden;
                         background-color: #eaeaea;
+                    }
+                    .icon-icon_user{
+                        font-size: .45rem;
                     }
                 }
             }
