@@ -125,7 +125,7 @@
     margin-top: .2rem;
 }
 .orderTop{
-    width: 7.50rem;
+    width: 100%;
     height: .75rem;
     display: flex;
     justify-content: space-between;
@@ -219,6 +219,7 @@
     /*width: 1.80rem;*/
     height: .9rem;
     margin-left: .15rem;
+    width: 20%;
  }
 .detailNum{
     border-style: dashed;

@@ -405,6 +405,7 @@
     /*width: 1.80rem;*/
     height: .9rem;
     margin-left: .15rem;
+    width: 20%;
 }
 .detailNum{
     border-style: dashed;
