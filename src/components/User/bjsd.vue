@@ -12,9 +12,8 @@
                 <div class="time-state">
                     <span class='time'>接单人</span>
                     <span class='state'  v-on:click.stop="GotoUser(key)">
-                        <div class="txbox">
-
-                        </div>
+                        <img v-if="item.get_user.img !=undefined" :src="item.get_user.img " class="txbox">
+                        <i  v-else  class="iconfont icon-icon_user" style="margin-left: 0.4rem;font-size: 0.45rem;"></i>
                         {{item.get_user.name}}
                     </span>
                 </div>
@@ -42,8 +41,8 @@
                     <span style='display:inline-block;width:2.5rem;margin-left:.4rem;margin-right:3rem' v-if="item.status==3||item.status==5" class='state color-5cce5c'>已通过</span>
                     <span style='display:inline-block;width:2.5rem;margin-left:.4rem;margin-right:2.5rem' v-if="item.status==4||item.status==7" class='state color-5cce5c'>已评价</span>
                     <!--  -->
-                    <span v-if="item.status==1"><span class='butongguo' @click='unpass(item.order_no)'>不通过</span>　<span class='tongguo' @click='pass(item.order_no)'>通过</span></span>
-                    <span v-if="item.status==3||item.status==5" class='pingjia' @click="dialog(item.order_no,item.get_user.id)">评价</span>
+                    <span v-if="item.status==1"><span class='butongguo' @click.stop='unpass(item.order_no)'>不通过</span>　<span class='tongguo' @click.stop='pass(item.order_no)'>通过</span></span>
+                    <span v-if="item.status==3||item.status==5" class='pingjia' @click.stop="dialog(item.order_no,item.get_user)">评价</span>
                     <span v-if="item.status==4||item.status==7"></span>
                 </div>
             </li>
@@ -122,11 +121,15 @@
                 })
             },
             GotoDetail(index){
+
                 this.$router.push({path:'/OrderDetail',query:{OrderId:this.bjsd[index].goods_id}})
             },
             GotoUser:function(index){
-                var user = this.wjsd[index].user_id
+                var user = this.bjsd[index].get_order.get_user.id
                 this.$router.push({path:'/UserOrder',query:{UserId:user}})
+            },
+            dialog(order_no,get_user){
+                this.$router.push({path:'/other/comment',query:{OrderId:order_no,User:get_user,Type:0}}) //我接收的为1 被接收的为0
             },
         },
         computed:{

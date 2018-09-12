@@ -5,8 +5,8 @@
             <file-upload class="AddPic"
                          post-action="http://www.youbian.link/api/v2/release/img"
                          v-model="images"
-                         extensions="gif,jpg,jpeg,png,webp"
-                         accept="image/png,image/gif,image/jpeg,image/webp"
+                         extensions="jpg,jpeg,png,webp"
+                         accept="image/png,image/jpeg,image/jpg,image/webp"
                          @input-filter = "AddPic"
                          name="img"
                          ref="upload">

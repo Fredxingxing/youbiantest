@@ -3,20 +3,24 @@
         <div class="userinfo">
             <div class="infobox">
                 <div class="touxiang">
-                    <img :src="img" alt="" v-if='img!="null"'>
-                    <img src="../../assets/img/default.jpg" alt="" v-else='img=="null"'>
+                    <img :src="img" alt="" v-if='img'>
+                    <img src="../../assets/img/default.jpg" alt="" v-else>
                 </div>
                 <div class="top">
                     <div class="username" v-if="user.name">
                         用户名：{{user.name}}
+                        <div style="height: 1rem;margin-right: 0.5rem;">
+                            <div style=" font-size:0.1rem;height:0.4rem;">接单：{{user.receive_num1}}</div>
+                            <div style=" font-size:0.1rem;height:0.4rem;">发单：{{user.release_num1}}</div>
+                        </div>
                     </div>
                     <div class="username" v-else="username">
                         <router-link tag='span' to="/other/login" >登录</router-link>/
                         <router-link tag='span' to="/other/register" >注册</router-link>
                     </div>
                     <div class="points">
-                        <span style='line-height:.3rem'>积分余额</span>
-                        <span class='font-16 color-FCA62F'>{{user.integral}}<router-link tag='span' to='/other/detail' style='display:inline;font-size:.2rem;color:#727272;margin-left:.1rem'>明细>></router-link></span>
+                        <span style='line-height:.3rem;text-align: left;'>积分余额</span>
+                        <span class='font-16 color-FCA62F' style="text-align: left;">{{user.integral}}<router-link tag='span' to='/other/detail' style='display:inline;font-size:.2rem;color:#727272;margin-left:.1rem'>明细>></router-link></span>
                     </div>
                     <div class="chongzhi">
                         <router-link tag='button' to='/other/tx'>
@@ -31,6 +35,7 @@
                     普通会员 <router-link tag='span' to="/other/vip">去升级</router-link>
                 </p>
                  <p class='vip' v-if='user.grade_status==1'>
+                     <img src="../../assets/userVip.png" style="width: 8%;">
                     {{user.members_end}}到期 <router-link tag='span' to="/other/vip">去续费</router-link>
                 </p>
             </div>
@@ -152,8 +157,11 @@
                     font-size:.32rem;
                     padding-left:1.8rem;
                     line-height: .8rem;
+                    display: flex;
+                    justify-content: space-between;
                 }
                 .points{
+                    margin-left: 40%;
                     span{
                         width:100%;
                         display: inline-block;
@@ -182,7 +190,7 @@
                 left:.48rem;
                 border-radius:50%;
                 overflow: hidden;
-                background-color: #666;
+              //  background-color: #666;
                 img{
                     width: 100%;
                 }

@@ -55,7 +55,7 @@
                 this.$store.dispatch('getWfbd',this.tabs)
             },
             GotoDetail(index){
-                this.$router.push({path:'/OrderDetail',query:{OrderId:this.wfbd[index].goods_id}})
+                this.$router.push({path:'/OrderDetail',query:{OrderId:this.wfbd[index].id}})
             },
             del(id){
                 var data = {
@@ -210,6 +210,7 @@
                     margin-top:.16rem;
                     float: right;
                     margin-right:.4rem;
+                    line-height: 0.5rem;
                 }
             }
         }

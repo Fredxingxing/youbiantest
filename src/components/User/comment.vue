@@ -1,10 +1,9 @@
 <template>
     <div class="main">
         <div class="user">
-            <div class="txbox">
-
-            </div>
-            haha
+            <img v-if="OrderObject.User.img !=undefined" :src="OrderObject.User.img " class="txbox">
+            <i  v-else  class="iconfont icon-icon_user" style="margin-left: 0.4rem;font-size: 0.45rem;"></i>
+            {{OrderObject.User.name}}
         </div>
         <textarea class="content" v-model='content' placeholder="请输入您想评价的内容">
         </textarea>
@@ -15,23 +14,51 @@
     </div>
 </template>
 <script>
+    import { Toast } from 'mint-ui';
     export default{
         data(){
             return {
                 content:'',
-                num:200
+                num:200,
+                OrderObject:{},
+                CommentUrl:['order/be_comment','order/comment'] //0 被接受 1 已接收
             }
         },
         methods:{
             comment(){
-                
+                var _this = this
+                this.$axios.post(_this.CommentUrl[_this.OrderObject.Type],{
+                    be_evaluated:this.OrderObject.User.id,
+                    order_no:this.OrderObject.OrderId,
+                    content_receive:this.content,
+                },
+                {
+                    headers:{
+                        'token':window.sessionStorage.getItem('token')
+                    }})
+                    .then(function (response) {
+                        console.log(response.data)
+                        Toast({
+                            message: response.data.message,
+                            position: 'bottom',
+                            duration: 4000
+                        });
+                        setTimeout( function () {
+                            if(response.data.code == 200) {
+                                _this.$router.go(-1)
+                            }
+                        },1000)
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                    });
             }
         },
         watch:{
             content:function(){
                 var length = this.content.length;
                 this.num = 200 - length;
-                if(this.num<0){
+                if(this.num < 0){
                     this.content = this.content.substring(0,200)
                 }
             }
@@ -39,6 +66,8 @@
         mounted(){
             this.$store.dispatch('getUserTitle','发表评价')
             this.$store.dispatch('getHasSrh',false)
+            this.OrderObject = this.$route.query
+            console.log(this.OrderObject)
         }
     }
 </script>

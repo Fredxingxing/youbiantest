@@ -19,12 +19,19 @@
                 <img class="banner" src="../../assets/List/banner.png">
                 <div v-if="PublishList!=undefined" class="ProtraitBox">
                     <div class="ProtraitContainer">
-                <img class="Protrait2" v-if="PublishList[1] !=undefined && Listselected==1 && PublishList[1].get_user.img!=''" :src="PublishList[1].get_user.img">
-                    <img class="Protrait2" v-else src="../../assets/img/default.jpg">
-                <img class="Protrait1" v-if="PublishList[0] !=undefined && Listselected==1 && PublishList[0].get_user.img!=''" :src="PublishList[0].get_user.img">
-                    <img class="Protrait1" v-else src="../../assets/img/default.jpg">
                 <img class="Protrait3" v-if="PublishList[2] !=undefined && Listselected==1 && PublishList[2].get_user.img!=''" :src="PublishList[2].get_user.img">
-                    <img class="Protrait3" v-else src="../../assets/img/default.jpg">
+                        <div class="ProtraitItem">
+                          <img class="Protrait2" v-if="PublishList[1] !=undefined && Listselected==1 && PublishList[1].get_user.img!=''" :src="PublishList[1].get_user.img">
+                          <img class="Protrait2" v-else src="../../assets/img/default.jpg">
+                        </div>
+                        <div class="ProtraitItem">
+                          <img class="Protrait1" v-if="PublishList[0] !=undefined && Listselected==1 && PublishList[0].get_user.img!=''" :src="PublishList[0].get_user.img">
+                          <img class="Protrait1" v-else src="../../assets/img/default.jpg">
+                        </div>
+                        <div class="ProtraitItem">
+                          <img class="Protrait3" v-if="PublishList[2] !=undefined && Listselected==1 && PublishList[2].get_user.img!=''" :src="PublishList[2].get_user.img">
+                          <img class="Protrait3" v-else src="../../assets/img/default.jpg">
+                        </div>
                     </div>
                     <div class="ProtraitUser">
                         <div class="normalWidth" v-if="PublishList[1] !=undefined && Listselected==1">{{PublishList[1].get_user.name}}</div>
@@ -71,12 +78,18 @@
                 <img class="banner" src="../../assets/List/banner.png">
                 <div v-if="TakenList!=undefined" class="ProtraitBox">
                     <div class="ProtraitContainer">
-                 <img class="Protrait2" v-if="TakenList[1] !=undefined && Listselected==2 && TakenList[1].get_user.img!=''" :src="TakenList[1].get_user.img">
-                    <img class="Protrait2" v-else src="../../assets/img/default.jpg">
-                 <img class="Protrait1" v-if="TakenList[0] !=undefined && Listselected==2 && TakenList[0].get_user.img!=''" :src="TakenList[0].get_user.img">
-                    <img class="Protrait1" v-else src="../../assets/img/default.jpg">
-                 <img class="Protrait3" v-if="TakenList[2] !=undefined && Listselected==2 && TakenList[2].get_user.img!=''" :src="TakenList[2].get_user.img">
-                    <img class="Protrait3" v-else src="../../assets/img/default.jpg">
+                        <div class="ProtraitItem">
+                          <img class="Protrait2" v-if="TakenList[1] !=undefined && Listselected==2 && TakenList[1].get_user.img!=''" :src="TakenList[1].get_user.img">
+                          <img class="Protrait2" v-else src="../../assets/img/default.jpg">
+                        </div>
+                        <div class="ProtraitItem">
+                           <img class="Protrait1" v-if="TakenList[0] !=undefined && Listselected==2 && TakenList[0].get_user.img!=''" :src="TakenList[0].get_user.img">
+                           <img class="Protrait1" v-else src="../../assets/img/default.jpg">
+                        </div>
+                        <div class="ProtraitItem">
+                           <img class="Protrait3" v-if="TakenList[2] !=undefined && Listselected==2 && TakenList[2].get_user.img!=''" :src="TakenList[2].get_user.img">
+                           <img class="Protrait3" v-else src="../../assets/img/default.jpg">
+                        </div>
                     </div>
                     <div class="ProtraitUser">
                         <div class="normalWidth" v-if="TakenList[1] !=undefined && Listselected==2">{{TakenList[1].get_user.name}}</div>
@@ -315,6 +328,11 @@
     height: 1.898rem;
     align-items: flex-end;
 }
+.ProtraitItem{
+    width: 33.33%;
+    display: flex;
+    justify-content: center;
+}
 .Protrait2{
     width: .91rem;
     /*position: absolute;*/
@@ -324,7 +342,7 @@
     border-radius: .455rem;
     height: .91rem;
     margin-top: 0.23rem;
-    margin-left: 0.05rem;
+    margin-left: 0.18rem;
 }
 .Protrait1{
     width: 1.18rem;
@@ -346,7 +364,7 @@
     border-radius: .455rem;
     height: .91rem;
     margin-bottom: 0.08rem;
-    margin-left: 0.03rem;
+    margin-left: -0.07rem;
 }
 .ProtraitUser{
     height:.702rem;

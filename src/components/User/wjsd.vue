@@ -12,10 +12,8 @@
                 <div class="time-state" v-on:click.stop="GotoUser(key)">
                     <span class='time'>发布人</span>
                     <span class='state'>
-                      <div class="txbox">
-                        </div>
-                        <!--<img v-if="item.img !=''" :src="item.img" style="width: 0.45rem;height: .45rem;border-radius: 50%;">-->
-                        <!--<i   class="iconfont icon-icon_user"></i>-->
+                        <img v-if="item.get_order.get_user.img !=undefined" :src="item.get_order.get_user.img " class="txbox">
+                        <i  v-else  class="iconfont icon-icon_user" style="margin-left: 0.4rem;font-size: 0.45rem;"></i>
                         {{item.get_order.get_user.name}}
                     </span>
                 </div>
@@ -43,10 +41,10 @@
                     <span style='margin-right:3.8rem;margin-left:.4rem' v-if="item.status==3||item.status==4">已通过</span>
                     <span style='margin-right:3.8rem;margin-left:.4rem' v-if="item.status==5||item.status==7" class='color-5cce5c'>已评价</span>
                     <!--  -->
-                    <span v-if="item.status==0"><span class='wancheng' @click='complate(item.order_no)'>确认完成</span><span class='del' @click="del(item.order_no)">删除</span></span>
-                    <span v-if="item.status==1"><span>等待确认</span><span class='del' @click="del(item.order_no)">删除</span></span>
-                    <span v-if="item.status==2"><span class='cxwc' @click='cxwc(item.order_no)'>重新完成</span><span class='del' @click="del(item.order_no)">删除</span></span>
-                    <span v-if="item.status==3||item.status==4"><span class='pingjia' @click='dialog(item.order_no,item.get_order.get_user.id)'>评价</span></span>
+                    <span v-if="item.status==0"><span class='wancheng' @click.stop='complate(item.order_no)'>确认完成</span><span class='del' @click="del(item.order_no)">删除</span></span>
+                    <span v-if="item.status==1"><span>等待确认</span><span class='del' @click.stop="del(item.order_no)">删除</span></span>
+                    <span v-if="item.status==2"><span class='cxwc' @click.stop='cxwc(item.order_no)'>重新完成</span><span class='del' @click.stop="del(item.order_no)">删除</span></span>
+                    <span v-if="item.status==3||item.status==4"><span class='pingjia' @click.stop='dialog(item.order_no,item.get_order.get_user)'>评价</span></span>
                         <!-- <span v-if="item.status==5"><span>等待确认</span><span class='del' @click="del(item.order_no)">删除</span></span> -->
                     <span v-if="item.status==5||item.status==7"><span class='color-5cce5c'></span></span>
                 </div>
@@ -155,9 +153,12 @@
                 this.$router.push({path:'/OrderDetail',query:{OrderId:this.wjsd[index].goods_id}})
             },
             GotoUser:function(index){
-                var user = this.wjsd[index].user_id
+                var user = this.wjsd[index].get_order.get_user.id
                 this.$router.push({path:'/UserOrder',query:{UserId:user}})
             },
+            dialog(order_no,get_user){
+                this.$router.push({path:'/other/comment',query:{OrderId:order_no,User:get_user,Type:1}}) //我接收的为1 被接收的为0
+          },
         },
         mounted(){
             this.$store.dispatch('getUserTitle','我接收的')
@@ -168,7 +169,12 @@
             wjsd:function(){
                 return this.$store.state.wjsd
             }
-        }
+        },
+        watch:{
+            bjsd:function (val) {
+                console.log(val)
+            }
+        },
     }
 </script>
 <style lang="less" scoped>

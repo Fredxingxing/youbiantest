@@ -4,8 +4,8 @@
             <file-upload class="AddPic"
                          post-action="http://www.youbian.link/api/v2/release/img"
                          v-model="Idface"
-                         extensions="gif,jpg,jpeg,png,webp"
-                         accept="image/png,image/gif,image/jpeg,image/webp"
+                         extensions="jpg,jpeg,png,webp"
+                         accept="image/png,image/jpeg,image/jpg,image/webp"
                          @input-filter = "Addfont"
                          name="img"
                          ref="upload1">
@@ -19,8 +19,8 @@
             <file-upload class="AddPic"
                          post-action="http://www.youbian.link/api/v2/release/imgs"
                          v-model="Idback"
-                         extensions="gif,jpg,jpeg,png,webp"
-                         accept="image/png,image/gif,image/jpeg,image/webp"
+                         extensions="jpg,jpeg,png,webp"
+                         accept="image/png,image/jpeg,image/webp"
                          @input-filter = "Addback"
                          name="imgs"
                          ref="upload2">

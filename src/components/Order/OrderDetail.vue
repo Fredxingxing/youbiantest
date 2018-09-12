@@ -8,7 +8,8 @@
             <div class="order">
             <div class="orderTop" >
                 <div class="user" v-on:click.stop="GotoUser(Orderindex)">
-                    <i class="iconfont icon-icon_user oderTopFont"></i>
+                    <img v-if="OrderDetail.get_user.img !=''" :src="OrderDetail.get_user.img" style="width: 0.45rem;height: .45rem;border-radius: 50%;">
+                    <i  v-else class="iconfont icon-icon_user"></i>
                     <span style="font-size: .25rem;margin-left: .15rem;">{{OrderDetail.get_user.name}}</span>
                 </div>
                 <mt-button class="Btndetail" @click="TakeOrder()">快速接单</mt-button>
@@ -38,12 +39,24 @@
         </div>
             <div class="DetailInfo">
                 <div class="InfoTitle">详细信息</div>
-                <video v-if="OrderDetail.video_url!=''" :src = "OrderDetail.video_url" class="InfoVideo" :poster="videoImg"  controls="controls" width="100%"></video>
-                <div class="DownloadShare">
-                   <div class="Download" v-if="OrderDetail.file!=null">下载附件</div>
-                   <!--<div class="Share">分享订单</div>-->
-                 </div>
-                <!--<img class="InfoPicture" src="../../assets/OderDetail.png">-->
+                <div v-if="OrderDetail.img">
+                    <div   v-for="img in OrderDetail.img">
+                        <img  class="InfoPicture" :src="img">
+                    </div>
+                </div>
+                <div class="UrlBox">
+                  <a v-if="OrderDetail.video_url" :href="OrderDetail.video_url" class="InfoVideo">
+                  <i class="iconfont icon-video"></i>
+                    <div>点击进入视频</div>
+                  </a>
+                  <div class="DownloadShare">
+                    <a class="Download" v-if="OrderDetail.file!=null" :herf="DownloadFile" @click="Download()" download="附件">
+                        <i class="iconfont icon-download"></i>
+                        <div>下载附件</div>
+                    </a>
+                   <!--<div class="Share">分享订单</div>-->        </div>
+
+                </div>
                 <div v-html="OrderDetail.describe" class="InfoDescription" v-if="OrderDetail.describe!=''">
                    {{OrderDetail.describe}}
                 </div>
@@ -52,7 +65,8 @@
                 <div class="CommentTopBar">全部评论({{OrderComments.length}})</div>
                 <ul style="height: 100%;width: 100%" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
                 <li class="Comment" v-for="(Comments,CommentsIndex) in CommentsListshow">
-                    <i class="iconfont UserImage icon-icon_user "></i>
+                    <img v-if="Comments.get_user.img" :src="Comments.get_user.img" style="width: 0.84rem;height: .84rem;margin-right: 0.2rem;border-radius: 50%;">
+                    <i v-else class="iconfont UserImage icon-icon_user "></i>
                     <div class="UserContent">
                         <div class="UserTop">
                             <div class="UserName">{{Comments.get_user.name}}</div>
@@ -80,7 +94,8 @@
                 loading:false,
                 i:0,
                 AllList:[],
-                CommentsListshow:[]
+                CommentsListshow:[],
+                DownloadFile:{}
             }
         },
         mounted(){
@@ -96,6 +111,7 @@
         },
         watch:{
             OrderDetail:function (val) {
+                console.log(val)
             },
             OrderComments:function (val) {
                 for(var i in val){
@@ -104,6 +120,7 @@
         //        console.log("updated")
            //     console.log(val)
                 this.$store.commit('setOrderComments',this.OrderComments)
+                this.AllList = val
             },
             TakeOrderRes:function (val) {
                 if(val.code === 400 ){
@@ -162,6 +179,40 @@
             GotoUser:function(){
                 var user = this. OrderDetail.user_id
                 this.$router.push({path:'/UserOrder',query:{UserId:user}})
+            },
+            Download:function(){
+                var Token  = window.sessionStorage.getItem('token')
+                if(Token) {
+                    var _this = this
+                    this.$axios.get('/receive/download_file', {
+                        params: {
+                            order_id: _this.OrderDetail.id
+                        },
+                        headers: {
+                            token: Token
+                        }
+                    })
+                        .then(function (response) {
+                            console.log(response)
+                            _this.DownloadFile = response.data.data
+                            console.log(_this.DownloadFile)
+                            location.href = _this.DownloadFile;
+                            // var UserInfo = response.data.data
+                        })
+                        .catch(function (error) {
+                            console.log(error)
+                        });
+                }
+                else{
+                    Toast({
+                        message: '请登录',
+                        position: 'bottom',
+                        duration: 4000
+                    });
+                    setTimeout(() => {
+                        this.$router.push('/other/login')
+                    },500)
+                }
             },
             loadMore:function() {
                 console.log("im in")
@@ -233,7 +284,7 @@
     margin-left: 0.3rem;
 }
 .FontSize{
-    font-size: 0.12rem;
+    font-size: 0.2rem;
 }
 .OrderDetail{
     display: flex;
@@ -242,32 +293,47 @@
 .DetailInfo{
     display: flex;
     flex-direction: column;
+    background: #fff;
 }
 .InfoTitle{
     background: #ffffff;
     font-size: .28rem;
     padding: 0.3rem;
 }
+.UrlBox{
+    display: flex;
+    width: 70%;
+    justify-content: space-around;
+}
+.InfoVideo{
+    background: #fff;
+    padding: 0.5rem 0 0.1rem 0.4rem;
+    display: flex;
+    color: #E28667;
+}
 .DownloadShare{
     display: flex;
     flex-direction: row;
     background: #ffff;
-    padding: 0.3rem 0 0.5rem 0.4rem;
+    padding: 0.5rem 0 0.5rem 0.4rem;
 }
-.Download{}
+.Download{
+    display: flex;
+    color: #E28667;
+}
 .Share{
     color: #E68763;
     font-size: 0.24rem;
     margin-left: 0.2rem;
 }
 .InfoPicture{
-
+    width: 100%;
 }
 .InfoDescription{
     display: flex;
     flex-direction: column;
     background: #ffff;
-    padding: 0.8rem 0 0.7rem 0.3rem;
+    padding: 0.5rem 0 0.5rem 0.3rem;
     color: #4D4D4D;
 }
 .DetailComment{
@@ -326,7 +392,7 @@
     margin: 0.12rem 0 0.3rem 0;
 }
 .orderTop{
-    width: 7.50rem;
+    width: 100%;
     height: .75rem;
     display: flex;
     justify-content: space-between;
@@ -410,6 +476,12 @@
 .detailNum{
     border-style: dashed;
     border-width: 0.02rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    font-size: 0.24rem;
+    line-height: 190%;
 }
 .orderNum{
     background: #FFF1E1;

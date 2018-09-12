@@ -54,7 +54,7 @@
                      </div>
                      <div class="orderTop">
                          <div class="user">
-                             <img v-if="Order.img !=''" :src="Order.img" style="width: 0.45rem;height: .45rem;border-radius: 50%;">
+                             <img v-if="Order.get_user.img !=''" :src="Order.get_user.img" style="width: 0.45rem;height: .45rem;border-radius: 50%;">
                              <i  v-else class="iconfont icon-icon_user"></i>
                              <span style="font-size: .3rem;margin-left: .15rem;">{{Order.get_user.name}}</span>
                          </div>

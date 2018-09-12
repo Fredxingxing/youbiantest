@@ -115,13 +115,13 @@
                                 post-action="http://www.youbian.link/api/v2/release/img"
                                 v-model="images"
                                 :multiple="true"
-                                extensions="gif,jpg,jpeg,png,webp"
-                                accept="image/png,image/gif,image/jpeg,image/webp"
+                                extensions="jpg,jpeg,png,webp"
+                                accept="image/png,image/jpeg,image/jpg,image/webp"
                                 @input-filter = "AddPic"
                                 name="img"
                                 ref="upload2">
                        <i style="font-size: 0.7rem;color: #98999B;" class="iconfont icon-add"></i>
-                       <div style="color: #98999B;">发布</div>
+                       <div style="color: #98999B;">添加</div>
                    </file-upload>
                </ul>
            </div>
@@ -300,43 +300,57 @@
                 console.log(this.files)
             },
             ConfirmPush:function () {
-                console.log(this.images)
-                var resUrl = []
-                for(var i in this.images){
-                    resUrl.push(this.images[i].response.data)
+                var Token = window.sessionStorage.getItem('token')
+                if (Token) {
+                    console.log(this.images)
+                    var resUrl = []
+                    for (var i in this.images) {
+                        resUrl.push(this.images[i].response.data)
+                    }
+                    this.PushObject.resUrl = resUrl.toString()
+                    this.$axios.post('/release/release_info', {
+                        level_one: this.PushObject.level_one,
+                        level_two: this.PushObject.level_two,
+                        level_three: this.PushObject.level_three,
+                        title: this.PushObject.title,
+                        price: this.PushObject.price,
+                        number: this.PushObject.number,
+                        cycle: this.PushObject.cycle,
+                        describe: this.PushObject.describe,
+                        province_code: this.PushObject.province_code,
+                        city_code: this.PushObject.city_code,
+                        area_code: this.PushObject.area_code,
+                        video_url: this.PushObject.video_url,
+                        file: this.PushObject.file,
+                        encryption: this.PushObject.encryption,
+                        img: this.PushObject.resUrl
+                    }, {
+                        headers: {
+                            'token': window.sessionStorage.getItem('token')
+                        }
+                    })
+                        .then(function (response) {
+                            console.log(response)
+                            Toast({
+                                message: response.data.message,
+                                position: 'middle',
+                                duration: 4000
+                            });
+                        })
+                        .catch(function (error) {
+                            console.log(error)
+                        })
                 }
-                this.PushObject.resUrl = resUrl.toString()
-                this.$axios.post('/release/release_info',{
-                    level_one:this.PushObject.level_one,
-                    level_two:this.PushObject.level_two,
-                    level_three:this.PushObject.level_three,
-                    title:this.PushObject.title,
-                    price:this.PushObject.price,
-                    number:this.PushObject.number,
-                    cycle:this.PushObject.cycle,
-                    describe:this.PushObject.describe,
-                    province_code:this.PushObject.province_code,
-                    city_code:this.PushObject.city_code,
-                    area_code:this.PushObject.area_code,
-                    video_url:this.PushObject.video_url,
-                    file:this.PushObject.file,
-                    encryption:this.PushObject.encryption,
-                    img:this.PushObject.resUrl
-                },{
-                    headers:{
-                        'token':window.sessionStorage.getItem('token')
-                    }})
-                .then(function (response) {
-                    console.log(response)
+                else{
                     Toast({
-                        message: response.data.message,
-                        position: 'middle',
+                        message: '请登录',
+                        position: 'bottom',
                         duration: 4000
                     });
-                })
-                .catch(function (error) {
-                    console.log(error)
-                })
+                    setTimeout(() => {
+                        this.$router.push('/other/login')
+                    },500)
+                }
             }
         },
     }

@@ -25,6 +25,7 @@
     </div>
 </template>
 <script>
+    import { Toast } from 'mint-ui';
     export default{
         data(){
             return {
@@ -46,9 +47,20 @@
                     {headers:{token:window.sessionStorage.getItem('token')}}
                 ).then(res=>{
                     if(res.data.code==400){
-
+                        Toast({
+                            message: res.data.message,
+                            position: 'bottom',
+                            duration: 4000
+                        });
                     }else{
-                         alert('success')
+                        Toast({
+                            message: '充值成功',
+                            position: 'middle',
+                            duration: 4000
+                        });
+                        setTimeout(() => {
+                            this.$router.push('/user')
+                        },500)
                     }
                 })
             }
