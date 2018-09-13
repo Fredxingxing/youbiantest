@@ -56,7 +56,7 @@
                     </span>
                     <div style="display: flex;"  v-on:click="changePhone">
                         <div>{{UserInfo.phone|phone}}</div>
-                        <img  style="height: .2rem;margin-top: .26rem; margin-left: 0.1rem;" src="../../../assets/changphone.png">
+                        <img  style="height: .2rem;margin-top: .22rem; margin-left: 0.1rem;" src="../../../assets/changphone.png">
                     </div>
                 </li>
             </ul>
@@ -75,7 +75,7 @@
                     <div>
                         {{UserInfo.id_card|id_card}}
                     </div>
-                    <img  style="height: .2rem;margin-top: .26rem;margin-left: 0.1rem;" src="../../../assets/changeid.png">
+                    <img  style="height: .2rem;margin-top: .24rem;margin-left: 0.1rem;" src="../../../assets/changeid.png">
                 </div>
             </div>
         </div>
@@ -103,7 +103,11 @@
                 SelectCity:false,
                 showCity:{},
                 showdefualtpic:true,
-                PushObject:{}
+                PushObject:{
+                    province_code:'',
+                    city_code:'',
+                    area_code:''
+                }
             }
         },
         filters:{
@@ -255,12 +259,21 @@
                         'token':window.sessionStorage.getItem('token')
                     }})
                     .then(function (response) {
-                        console.log(response)
+                        if(response.data.code ==200){
                         Toast({
                             message: response.data.message,
                             position: 'middle',
                             duration: 4000
                         });
+                        this.$route.push('/other/UserInfo')
+                        }
+                        else{
+                            Toast({
+                                message: response.data.message,
+                                position: 'middle',
+                                duration: 4000
+                            });
+                        }
                     })
                     .catch(function (error) {
                         console.log(error)

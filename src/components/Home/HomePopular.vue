@@ -42,6 +42,7 @@
                     query:{level_three:this.$store.state.HomePopular[dadindex].sons[sonindex].id}})
             },
             imgUrl:function (path) {
+                console.log(images('./'+path))
                 return images('./'+path)
             },
         }

@@ -8,7 +8,7 @@
             <div class="order">
             <div class="orderTop" >
                 <div class="user" v-on:click.stop="GotoUser(Orderindex)">
-                    <img v-if="OrderDetail.get_user.img !=''" :src="OrderDetail.get_user.img" style="width: 0.45rem;height: .45rem;border-radius: 50%;">
+                    <img v-if="OrderDetail.get_user.img" :src="OrderDetail.get_user.img" style="width: 0.45rem;height: .45rem;border-radius: 50%;">
                     <i  v-else class="iconfont icon-icon_user"></i>
                     <span style="font-size: .25rem;margin-left: .15rem;">{{OrderDetail.get_user.name}}</span>
                 </div>
@@ -39,23 +39,21 @@
         </div>
             <div class="DetailInfo">
                 <div class="InfoTitle">详细信息</div>
+                <embed v-if="OrderDetail.video_url" frameborder="0" :src="OrderDetail.video_url" allowFullScreen="true" align="middle" style="width: 100%;height: 5rem;margin-bottom: 0.5rem;">
+                <div class="UrlBox">
+
+                    <div class="DownloadShare" v-if="OrderDetail.file">
+                        <a class="Download" :herf="DownloadFile" @click="Download()" download="附件">
+                            <i class="iconfont icon-download"></i>
+                            <div>下载附件</div>
+                        </a>
+                        <!--<div class="Share">分享订单</div>-->
+                    </div>
+                </div>
                 <div v-if="OrderDetail.img">
                     <div   v-for="img in OrderDetail.img">
                         <img  class="InfoPicture" :src="img">
                     </div>
-                </div>
-                <div class="UrlBox">
-                  <a v-if="OrderDetail.video_url" :href="OrderDetail.video_url" class="InfoVideo">
-                  <i class="iconfont icon-video"></i>
-                    <div>点击进入视频</div>
-                  </a>
-                  <div class="DownloadShare">
-                    <a class="Download" v-if="OrderDetail.file!=null" :herf="DownloadFile" @click="Download()" download="附件">
-                        <i class="iconfont icon-download"></i>
-                        <div>下载附件</div>
-                    </a>
-                   <!--<div class="Share">分享订单</div>-->        </div>
-
                 </div>
                 <div v-html="OrderDetail.describe" class="InfoDescription" v-if="OrderDetail.describe!=''">
                    {{OrderDetail.describe}}
@@ -145,11 +143,13 @@
             i:function (val) {
                 if (val > this.AllList.length || val == this.AllList.length) {
                     this.loading = true;
+                    if(val>5){
                     Toast({
                         message: '没有更多评论了',
                         position: 'bottom',
                         duration: 4000
                     });
+                    }
                 }
             }
         },
@@ -302,8 +302,8 @@
 }
 .UrlBox{
     display: flex;
-    width: 70%;
     justify-content: space-around;
+    flex-direction: column;
 }
 .InfoVideo{
     background: #fff;

@@ -70,7 +70,7 @@
                 </div>
                 <div class="orderTop" >
                     <div class="user" v-on:click.stop="GotoUser(Orderindex)">
-                        <img v-if="Order.get_user.img !=''" :src="Order.get_user.img" style="width: 0.45rem;height: .45rem;border-radius: 50%;">
+                        <img v-if="Order.get_user.img" :src="Order.get_user.img" style="width: 0.45rem;height: .45rem;border-radius: 50%;">
                         <i  v-else class="iconfont icon-icon_user"></i>
                         <img v-if="Order.get_user.grade_status ==1" src="../../assets/vip.png" style="position: absolute; left: 0.5rem;margin-top: 0.25rem;">
                         <span style="font-size: .25rem;margin-left: .15rem;">{{Order.get_user.name}}</span>
@@ -165,13 +165,15 @@
                 //    this.$store.dispatch('getOrderList',this.Getobject)
             },
             i:function (val) {
-                if(val>this.AllList.length||val==this.AllList.length){
+                if(val > this.AllList.length||val==this.AllList.length){
                     this.loading = true;
-                    Toast({
-                        message: '没有更多了',
-                        position: 'bottom',
-                        duration: 4000
-                    });
+                    if(val > 5) {
+                        Toast({
+                            message: '没有更多了',
+                            position: 'bottom',
+                            duration: 4000
+                        });
+                    }
                 }
             }
         },

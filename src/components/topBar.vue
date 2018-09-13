@@ -23,9 +23,9 @@
              <!--<i class="iconfont icon-search" style="margin-top: 0.1rem;"></i>-->
              <!--<input type="search" class="SearchInput mint-searchbar-core" v-model="InputSearch" placeholder="文献翻译">-->
           <!--</div>-->
-          <div class="mint-search-list Searchdropdown" style="display: none;">
-              <div class="mint-search-list-warp"></div>
-          </div>
+          <!--<div class="mint-search-list Searchdropdown" style="display: none;">-->
+              <!--<div class="mint-search-list-warp"></div>-->
+          <!--</div>-->
       </div>
     </div>
 </template>

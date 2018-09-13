@@ -19,17 +19,16 @@
                 <img class="banner" src="../../assets/List/banner.png">
                 <div v-if="PublishList!=undefined" class="ProtraitBox">
                     <div class="ProtraitContainer">
-                <img class="Protrait3" v-if="PublishList[2] !=undefined && Listselected==1 && PublishList[2].get_user.img!=''" :src="PublishList[2].get_user.img">
                         <div class="ProtraitItem">
-                          <img class="Protrait2" v-if="PublishList[1] !=undefined && Listselected==1 && PublishList[1].get_user.img!=''" :src="PublishList[1].get_user.img">
+                          <img class="Protrait2" v-if="PublishList[1] !=undefined && Listselected==1 && PublishList[1].get_user.img" :src="PublishList[1].get_user.img">
                           <img class="Protrait2" v-else src="../../assets/img/default.jpg">
                         </div>
                         <div class="ProtraitItem">
-                          <img class="Protrait1" v-if="PublishList[0] !=undefined && Listselected==1 && PublishList[0].get_user.img!=''" :src="PublishList[0].get_user.img">
+                          <img class="Protrait1" v-if="PublishList[0] !=undefined && Listselected==1 && PublishList[0].get_user.img" :src="PublishList[0].get_user.img">
                           <img class="Protrait1" v-else src="../../assets/img/default.jpg">
                         </div>
                         <div class="ProtraitItem">
-                          <img class="Protrait3" v-if="PublishList[2] !=undefined && Listselected==1 && PublishList[2].get_user.img!=''" :src="PublishList[2].get_user.img">
+                          <img class="Protrait3" v-if="PublishList[2] !=undefined && Listselected==1 && PublishList[2].get_user.img" :src="PublishList[2].get_user.img">
                           <img class="Protrait3" v-else src="../../assets/img/default.jpg">
                         </div>
                     </div>
@@ -79,15 +78,15 @@
                 <div v-if="TakenList!=undefined" class="ProtraitBox">
                     <div class="ProtraitContainer">
                         <div class="ProtraitItem">
-                          <img class="Protrait2" v-if="TakenList[1] !=undefined && Listselected==2 && TakenList[1].get_user.img!=''" :src="TakenList[1].get_user.img">
+                          <img class="Protrait2" v-if="TakenList[1] !=undefined && Listselected==2 && TakenList[1].get_user.img" :src="TakenList[1].get_user.img">
                           <img class="Protrait2" v-else src="../../assets/img/default.jpg">
                         </div>
                         <div class="ProtraitItem">
-                           <img class="Protrait1" v-if="TakenList[0] !=undefined && Listselected==2 && TakenList[0].get_user.img!=''" :src="TakenList[0].get_user.img">
+                           <img class="Protrait1" v-if="TakenList[0] !=undefined && Listselected==2 && TakenList[0].get_user.img" :src="TakenList[0].get_user.img">
                            <img class="Protrait1" v-else src="../../assets/img/default.jpg">
                         </div>
                         <div class="ProtraitItem">
-                           <img class="Protrait3" v-if="TakenList[2] !=undefined && Listselected==2 && TakenList[2].get_user.img!=''" :src="TakenList[2].get_user.img">
+                           <img class="Protrait3" v-if="TakenList[2] !=undefined && Listselected==2 && TakenList[2].get_user.img" :src="TakenList[2].get_user.img">
                            <img class="Protrait3" v-else src="../../assets/img/default.jpg">
                         </div>
                     </div>

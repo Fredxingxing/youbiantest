@@ -29,15 +29,12 @@
                        el: '.swiper-pagination',
                        //  clickable:true,
                    },
-                //  loop:true,
                   on: {
                       click: function () {
                            const realIndex = this.realIndex;
                             vm.GoToActivity(realIndex);
                        }
                      },
-                //  slidesPerView:1,
-                  spaceBetween:30,
                 //  observeParents:true,
               //    observer:true,
                   //  centeredSlides:true,
@@ -45,7 +42,10 @@
                       delay:3500,
                       disableOnInteraction:false
                   },
-                  speed:600
+                  speed:600,
+                //   loop:true,
+                   slidesPerView:1,
+                   spaceBetween:30,
               }
           }
         },

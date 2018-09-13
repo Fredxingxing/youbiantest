@@ -7,7 +7,7 @@
                     <img src="../../assets/img/default.jpg" alt="" v-else>
                 </div>
                 <div class="top">
-                    <div class="username" v-if="user.name">
+                    <div class="username" v-if="user.name" style="   display: flex; justify-content: space-between;">
                         用户名：{{user.name}}
                         <div style="height: 1rem;margin-right: 0.5rem;">
                             <div style=" font-size:0.1rem;height:0.4rem;">接单：{{user.receive_num1}}</div>
@@ -106,6 +106,7 @@
             logout(){
                 window.sessionStorage.clear();
                 this.$router.push('/other/login')
+                this.$store.commit('setUser',{})
             }
         },
         computed:{
@@ -157,8 +158,6 @@
                     font-size:.32rem;
                     padding-left:1.8rem;
                     line-height: .8rem;
-                    display: flex;
-                    justify-content: space-between;
                 }
                 .points{
                     margin-left: 40%;

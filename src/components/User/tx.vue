@@ -33,6 +33,7 @@
     </div>
 </template>
 <script>
+    import { Toast } from 'mint-ui';
     export default{
         data(){
             return {
@@ -53,15 +54,27 @@
                     recharge:this.recharge,
                     rel_name:this.rel_name
                 }
+                var _this = this
                 this.$axios.post(
                     '/money/withdrawal',
                     data,
                     {headers:{token:window.sessionStorage.getItem('token')}}
                 ).then(res=>{
                     if(res.data.code==400){
-                      
+                        Toast({
+                            message: res.data.message,
+                            position: 'middle',
+                            duration: 4000
+                        });
                     }else{
-                      alert('success')
+                        Toast({
+                            message: res.data.message,
+                            position: 'middle',
+                            duration: 4000
+                        });
+                        setTimeout( function () {
+                            _this.$router.go(-1)
+                        },1000)
                     }
                 })
             }

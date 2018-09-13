@@ -109,7 +109,7 @@
                <ul style="display: flex; flex-wrap: wrap;">
                    <li style="width: 25%;" v-for="(image, index) in images" :key="image.id">
                        <img v-if="image.thumb" :src="image.thumb" width="60" height="auto" />
-                       <i class="iconfont icon-delete" style="color: #DD551B;position: absolute;margin-left: 0.1rem;" @click.prevent="remove(image,2)"></i>
+                       <i class="iconfont icon-delete" style="color: #DD551B;position: absolute;margin-left: -0.1rem; margin-top: -0.1rem;" @click.prevent="remove(image,2)"></i>
                    </li>
                    <file-upload class="AddPic"
                                 post-action="http://www.youbian.link/api/v2/release/img"
@@ -308,6 +308,7 @@
                         resUrl.push(this.images[i].response.data)
                     }
                     this.PushObject.resUrl = resUrl.toString()
+                    var _this = this
                     this.$axios.post('/release/release_info', {
                         level_one: this.PushObject.level_one,
                         level_two: this.PushObject.level_two,
@@ -336,6 +337,11 @@
                                 position: 'middle',
                                 duration: 4000
                             });
+                            setTimeout(function () {
+                                if(response.data.code==200){
+                                    _this.$router.push('/user')
+                                }
+                            },1000)
                         })
                         .catch(function (error) {
                             console.log(error)

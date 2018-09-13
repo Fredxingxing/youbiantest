@@ -43,6 +43,7 @@ export default new Vuex.Store({
       //订单管理:''
       wfbd:'',
       wjsd:'',
+   //   OrderManagerTabNum:5,
       bjsd:'',
       //升级会员显示
       vip:'',
@@ -144,6 +145,9 @@ export default new Vuex.Store({
       console.log(data)
       state.wjsd = data
     },
+    //  setOrderManagerTabNum(state,data){
+    //   state.OrderManagerTabNum = data
+    // },
     setWfbd(state,data){
       console.log(data)
       state.wfbd = data

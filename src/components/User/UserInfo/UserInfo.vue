@@ -6,7 +6,7 @@
         <!--</div>-->
         <div class="protrait">
             <div style="width: 1.12rem;height: 0.64rem; line-height: .64rem;">头像</div>
-            <img v-if="UserInfo.img != null" class="protraitImage" :src="UserInfo.img">
+            <img v-if="UserInfo.img" class="protraitImage" :src="UserInfo.img">
             <img v-else class="protraitImage" src="../../../assets/img/default.jpg">
         </div>
         <div class="list">
@@ -47,7 +47,7 @@
                      <div>
                      {{UserInfo.id_card|id_card}}
                      </div>
-                     <img v-if="UserInfo.id_card!=null" style="height: .2rem;margin-top: .26rem;" src="../../../assets/idconfirm.png">
+                     <img v-if="UserInfo.id_card" style="height: .2rem;margin-top: .26rem;" src="../../../assets/idconfirm.png">
                  </div>
              </div>
         </div>
@@ -118,6 +118,8 @@
         },
         mounted(){
             this.$store.dispatch('getUserInfo')
+            this.$store.dispatch('getUserTitle','个人信息')
+            this.$store.dispatch('getHasSrh',false)
         },
         methods:{
             Back:function(){

@@ -28,6 +28,7 @@
     </div>
 </template>
 <script>
+    import { Toast } from 'mint-ui';
     export default{
         data(){
             return {
@@ -48,6 +49,7 @@
                     password2:this.password2,
                     password2_confirm:this.password2_confirm
                 }
+                var _this = this
                 this.$axios.post(
                     '/user/password_edit',
                     data,
@@ -57,7 +59,22 @@
                         }
                     }
                 ).then(res=>{
-                    console.log(res)
+                    if(res.data.code==400){
+                        Toast({
+                            message: res.data.message,
+                            position: 'middle',
+                            duration: 4000
+                        });
+                    }else{
+                        Toast({
+                            message: res.data.message,
+                            position: 'middle',
+                            duration: 4000
+                        });
+                        setTimeout( function () {
+                                _this.$router.go(-1)
+                        },1000)
+                    }
                 })
             }
         }

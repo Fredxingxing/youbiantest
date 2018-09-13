@@ -10,7 +10,7 @@
          </mt-header>
          <div class="UserInfoContainer">
                <div class="UserInfoBox">
-                   <img v-if="UserOrder.img!=''" class="UserProtrait" :src="UserOrder.img">
+                   <img v-if="UserOrder.img" class="UserProtrait" :src="UserOrder.img">
                    <img v-else class="UserProtrait" src="../../assets/img/default.jpg">
                    <div class="UserInfo">
                        <div>用户名：{{UserOrder.name}}</div>
@@ -54,7 +54,7 @@
                      </div>
                      <div class="orderTop">
                          <div class="user">
-                             <img v-if="Order.get_user.img !=''" :src="Order.get_user.img" style="width: 0.45rem;height: .45rem;border-radius: 50%;">
+                             <img v-if="Order.get_user.img" :src="Order.get_user.img" style="width: 0.45rem;height: .45rem;border-radius: 50%;">
                              <i  v-else class="iconfont icon-icon_user"></i>
                              <span style="font-size: .3rem;margin-left: .15rem;">{{Order.get_user.name}}</span>
                          </div>
@@ -101,11 +101,13 @@
             i:function (val) {
                 if(val > this.AllList.length||val==this.AllList.length){
                     this.loading = true;
-                    Toast({
-                        message: '没有更多订单',
-                        position: 'bottom',
-                        duration: 4000
-                    });
+                    if(val>5) {
+                        Toast({
+                            message: '没有更多订单',
+                            position: 'bottom',
+                            duration: 4000
+                        });
+                    }
                 }
             },
             UserOrder:function (val) {
