@@ -11,7 +11,7 @@
                 <div v-show="this.$store.state.HomeTabSwiperShow" class="DetailSwiper swiper-container">
                     <HomeSwiper/>
                 </div>
-                <div class="DetailContainer">
+                <div class="TabDetailContainer">
                     <div class="DetailClass" v-for="(menudetail,titleindex) in HomeDetail">
                         <div class="DetailTitle BtnTitle ">{{menudetail.name}}</div>
                         <div class="DetailContentContainer">
@@ -92,7 +92,7 @@
     display: flex;
     flex-direction: row;
     background: #ffffff;
-    padding-bottom: 1.05rem;
+    padding-bottom: 1.5rem;
 }
 .MenuTab{
     display: flex;
@@ -125,7 +125,7 @@
     height: 3.00rem;
     font-size: .50rem;
 }
-.DetailContainer{
+.TabDetailContainer{
      display: flex;
      flex-direction: column;
      margin:.1rem 0 .1rem 0;
@@ -153,9 +153,9 @@
     margin: 0.15rem 0 0.15rem 0;
 }
 .Btn{
-    height: .5rem;
-    line-height: .5rem;
-    font-size: .20rem;
+    height: .6rem;
+    line-height: .6rem;
+    font-size: .25rem;
     color: #595959;
     background: #F6F5F0;
     border-radius: 0.15rem;

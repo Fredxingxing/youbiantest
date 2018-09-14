@@ -17,7 +17,7 @@
         <ul class="list">
             <li v-for="(item,key) in integral" :key=key>
                 <ul class='item'>
-                    <li>
+                    <li style="text-align: left; margin-left: 0.3rem;">
                         <img src='../../assets/img/icon-cz.png' v-if="item.status==0||item.status==5||item.status==6">
                         <img src='../../assets/img/icon-tx.png' v-if="item.status==1">
                         <img src='../../assets/img/icon-jl.png' v-if="item.status==2">
@@ -25,7 +25,9 @@
                         <img src='../../assets/img/icon-wjsd.png' v-if="item.status==4">
                         <span >{{PointSource[item.status]}}</span>
                     </li>
-                    <li :class='{chongzhi:item.status==0,jiangli:item.status==2}'>
+                    <li :class='{decrease:item.status==1||item.status==3,add:item.status==2||item.status==4}'>
+                      <span v-if="item.status==0||item.status==2||item.status==4">+</span>
+                      <span v-else>-</span>
                         {{item.recharge}}
                     </li>
                     <li>
@@ -59,10 +61,10 @@
     }
 </script>
 <style lang="less" scoped>
-.chongzhi{
-    color:#dd5519
+.decrease{
+    color:#FFAA54
 }
-.jiangli{
+.add{
     color:#f00;
 }
 .main{

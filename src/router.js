@@ -42,7 +42,7 @@ import PDetail from '@/components/User/detail'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
 
     {
@@ -179,3 +179,20 @@ export default new Router({
     // }
   ]
 })
+router.beforeEach((to,from,next)=>{
+  const TestIdPage = ['PushDetail']
+    var isLogin = window.sessionStorage.getItem('token')
+    if(TestIdPage.indexOf(to.name)>= 0) {
+        if (!isLogin) {
+            router.push('/other/login')
+        }
+    }
+    //已登录的情况进入登录页 跳转首页
+    if(to.name =='/other/login'){
+    if(isLogin) {
+      router.push({name:'home'})
+    }
+    }
+    next()
+});
+export default router

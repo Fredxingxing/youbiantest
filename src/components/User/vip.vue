@@ -65,6 +65,7 @@
     </div>
 </template>
 <script>
+    import { Toast } from 'mint-ui';
     export default{
         data(){
             return {
@@ -88,6 +89,7 @@
                     member_time:this.type,
                     now_price:this.points
                 }
+                var _this = this
                 this.$axios.post(
                    '/user/open_members',
                     data,
@@ -98,6 +100,16 @@
                     }
                 ).then(res=>{
                     console.log(res)
+                    Toast({
+                        message: res.data.message,
+                        position: 'middle',
+                        duration: 2000
+                    });
+                    if(res.data.code==200) {
+                        setTimeout(function () {
+                            _this.$router.go(-1)
+                        }, 500)
+                    }
                 })
             },
             change(num,price){

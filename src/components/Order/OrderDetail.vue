@@ -20,7 +20,11 @@
                     <div class="orderInfo">
                         <div class="orderCate">
                             <i class="iconfont icon-cate FontSize"></i>
-                            <div class="FontSize">{{OrderDetail.get_one.name}}-{{OrderDetail.get_two.name}}-{{OrderDetail.get_three.name}}</div>
+                            <div class="FontSize" v-if="OrderDetail.get_one" style="display:flex;">
+                                {{OrderDetail.get_one.name}}
+                                <div v-if="OrderDetail.get_two"> -{{OrderDetail.get_two.name}}</div>
+                                <div v-if="OrderDetail.get_three">-{{OrderDetail.get_three.name}}</div>
+                            </div>
                         </div>
                         <div class="orderDate">
                             <i class="iconfont icon-date FontSize"></i>
@@ -466,7 +470,6 @@
     font-size: .15rem;
     text-align: left;
     margin-right: .45rem;
-    margin-top: .25rem;
     color: #DD5519;
     /*width: 1.80rem;*/
     height: .9rem;
@@ -477,13 +480,10 @@
     border-style: dashed;
     border-width: 0.02rem;
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
     font-size: 0.24rem;
-    line-height: 190%;
 }
 .orderNum{
+    height: 50%;
     background: #FFF1E1;
     padding-left: .15rem;
     border-bottom: dashed;
@@ -491,5 +491,6 @@
 }
 .orderTime{
     padding-left: .15rem;
+    height: 50%;
 }
 </style>

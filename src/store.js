@@ -311,6 +311,13 @@ export default new Vuex.Store({
            })
             .then(function (response) {
                 var PublishList = response.data.data
+                if(response.data.code==400){
+                    Toast({
+                        message: response.data.message,
+                        position: 'bottom',
+                        duration: 800
+                    });
+                }
                 context.commit('setPublishList',PublishList)
             })
             .catch(function (error) {
@@ -325,6 +332,13 @@ export default new Vuex.Store({
         })
             .then(function (response) {
                 var TakenList = response.data.data
+                if(response.data.code==400){
+                    Toast({
+                        message: response.data.message,
+                        position: 'bottom',
+                        duration: 800
+                    });
+                }
                 context.commit('setTakenList',TakenList)
             })
             .catch(function (error) {

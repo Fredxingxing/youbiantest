@@ -23,6 +23,7 @@
     </div>
 </template>
 <script>
+    import { Toast } from 'mint-ui';
     export default{
         data(){
             return {
@@ -40,24 +41,37 @@
                 var data = {
                     phone:this.phone
                 }
-                this.$axios.post(
-                    '/member/sendSms',
-                    data
-                ).then(res=>{
-                    console.log(res)
-                })
-                var time = 60;
-                var timer = setInterval(()=>{    
-                    time--;
-                    console.log(time)
-                    this.check = time + "秒后重试";
-                    this.disabled = true;
-                    if (time==0) {
-                    clearInterval(timer); 
-                    this.check = "获取验证码";
-                    this.disabled = false;
-                    }
-                },1000);
+                if(this.phone){
+                    Toast({
+                        message: '手机号不能为空',
+                        position: 'middle',
+                        duration: 1000
+                    });
+                }
+                else {
+                    this.$axios.post(
+                        '/member/sendSms',
+                        data
+                    ).then(res => {
+                        console.log(res)
+                        Toast({
+                            message: res.data.message,
+                            position: 'middle',
+                            duration: 1000
+                        });
+                    })
+                    var time = 60;
+                    var timer = setInterval(() => {
+                        time--;
+                        this.check = time + "秒后重试";
+                        this.disabled = true;
+                        if (time == 0) {
+                            clearInterval(timer);
+                            this.check = "获取验证码";
+                            this.disabled = false;
+                        }
+                    }, 1000);
+                }
             },
             register(){
                 var data = {
@@ -72,6 +86,11 @@
                     data
                 ).then(res=>{
                     console.log(res)
+                        Toast({
+                            message: res.data.message,
+                            position: 'bottom',
+                            duration: 1000
+                        });
                 })
             }
         },
@@ -127,6 +146,9 @@
         text-align: right;
         font-size:.28rem;
         color:#727272;
+        width: 50%;
+        margin-left: 50%;
+        height: 5%;
     }
 }
 </style>

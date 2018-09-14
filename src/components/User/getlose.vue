@@ -20,6 +20,7 @@
     </div>
 </template>
 <script>
+    import { Toast } from 'mint-ui';
     export default{
         data(){
             return {
@@ -33,6 +34,11 @@
         },
         methods:{
              getCheck(){
+                 Toast({
+                     message: '已发送',
+                     position: 'middle',
+                     duration: 1000
+                 });
                 var data = {
                     phone:this.phone
                 }
@@ -45,7 +51,6 @@
                 var time = 60;
                 var timer = setInterval(()=>{    
                     time--;
-                    console.log(time)
                     this.check = time + "秒后重试";
                     this.disabled = true;
                     if (time==0) {
@@ -123,6 +128,9 @@
         text-align: right;
         font-size:.28rem;
         color:#727272;
+        width: 50%;
+        margin-left: 50%;
+        height: 5%;
     }
 }
 </style>

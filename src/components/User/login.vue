@@ -35,6 +35,11 @@ import { Toast } from 'mint-ui';
                     console.log(res)
                     if(res.data.code==200){
                         console.log(res.data)
+                        Toast({
+                            message: '登录成功',
+                            position: 'middle',
+                            duration: 1000
+                        });
                         window.sessionStorage.setItem('token',res.data.data.token);
                         window.sessionStorage.setItem('username',res.data.data.user.name);
                         window.sessionStorage.setItem('img',res.data.data.user.img)
@@ -47,7 +52,11 @@ import { Toast } from 'mint-ui';
                             this.$router.push('/user')
                         }
                     }else{
-                        alert('账号或密码错误')
+                        Toast({
+                            message: '账号或密码错误',
+                            position: 'middle',
+                            duration: 1000
+                        });
                     }
                 })
             }
@@ -101,6 +110,9 @@ import { Toast } from 'mint-ui';
         text-align: right;
         font-size:.28rem;
         color:#727272;
+        width: 50%;
+        margin-left: 50%;
+        height: 5%;
     }
 }
 </style>

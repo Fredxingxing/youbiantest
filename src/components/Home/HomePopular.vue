@@ -2,12 +2,12 @@
     <div class="HomePopular">
         <div class="PopularContainer" v-for="(popular,popularindex) in HomePopular">
             <div class="PopularName" >
-                <!--:style="{backgroundImage:'url(' + (PopularSrc+popular.name+'.png') + ')'}-->
-                <img :src="imgUrl(popular.id+'.png')" class="PopularImg">
+                <router-link :to="{path:'/HomeTabDetail',query:{id:popular.id}}" tag="img" :src="imgUrl(popular.id+'.png')" class="PopularImg">
+                </router-link>
             </div>
             <div class="PopularSons" >
                 <div class="PopularSon"v-for="(popularson,sonindex) in popular.sons">
-                    <div class="SonName" @click="GoToOrderList(popularindex,sonindex)">{{popularson.name}}</div>
+                    <div class="SonName" @click="GoToOrderList(popularindex,sonindex)" v-if="popularson.name">{{popularson.name}}</div>
                 </div>
             </div>
         </div>
@@ -42,7 +42,6 @@
                     query:{level_three:this.$store.state.HomePopular[dadindex].sons[sonindex].id}})
             },
             imgUrl:function (path) {
-                console.log(images('./'+path))
                 return images('./'+path)
             },
         }
@@ -73,7 +72,7 @@
     height: 100%;
 }
 .PopularSons{
-    width: 65%;
+    width: 68%;
     height: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -93,7 +92,19 @@
     /*margin-top: .1rem;*/
     width: 1.6rem;
     line-height: .5rem;
+    font-size: 0.24rem;
   }
+.SonName:hover{
+    margin-right: 0.1rem;
+    border: 0.01rem solid  #D5D5D5;
+    height: .5rem;
+    /*margin-top: .1rem;*/
+    width: 1.6rem;
+    line-height: .5rem;
+    background: #DD5519;
+    color: #fff;
+    font-size: 0.24rem;
+}
 
 .PopularSon:nth-child(1){
     margin-top:0;

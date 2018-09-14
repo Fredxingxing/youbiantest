@@ -38,7 +38,11 @@
                                      <div class="orderInfo">
                                          <div class="orderCate">
                                              <i class="iconfont icon-cate FontSize"></i>
-                                             <div class="FontSize">{{Order.get_one.name}}-{{Order.get_two.name}}-{{Order.get_three.name}}</div>
+                                             <div class="FontSize" v-if="Order.get_one" style="display:flex;">
+                                                 {{Order.get_one.name}}
+                                                 <div v-if="Order.get_two"> -{{Order.get_two.name}}</div>
+                                                 <div v-if="Order.get_three">-{{Order.get_three.name}}</div>
+                                             </div>
                                          </div>
                                      </div>
                                      <div class="orderIntegral">{{Order.price}}积分</div>
@@ -235,7 +239,8 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        box-shadow: .01rem 0.005rem 0rem .01rem #bbbbbb;
+        /*box-shadow: .01rem 0.005rem 0rem .01rem #bbbbbb;*/
+        border-top: 0.02rem solid #ECECEC;
     }
     .user{
         margin-left: .2rem;
@@ -319,7 +324,6 @@
         font-size: .15rem;
         text-align: left;
         margin-right: .45rem;
-        margin-top: .1rem;
         color: #DD5519;
         /*width: 1.80rem;*/
         height: .9rem;
@@ -329,8 +333,11 @@
     .detailNum{
         border-style: dashed;
         border-width: 0.02rem;
+        height: 100%;
+        font-size: 0.24rem;
     }
     .orderNum{
+        height: 50%;
         background: #FFF1E1;
         padding-left: .15rem;
         border-bottom: dashed;
@@ -338,6 +345,7 @@
     }
     .orderTime{
         padding-left: .15rem;
+        height: 50%;
     }
     .FontSize{
         font-size: 0.12rem;

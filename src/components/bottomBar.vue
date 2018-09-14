@@ -24,7 +24,7 @@
             <div>榜单</div>
         </div>
         </router-link>
-        <router-link to="/user" tag="div">
+        <router-link to="/user" tag="div" active-class="iconActive">
         <div class="item">
             <i class="iconfont icon-myselected"></i>
             <div>我的</div>
@@ -35,7 +35,12 @@
 
 <script>
     export default {
-        name: "bottomBar"
+        name: "bottomBar",
+        data(){
+            return{
+
+            }
+        },
     }
 </script>
 

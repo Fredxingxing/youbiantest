@@ -2,7 +2,7 @@
     <div style="display: flex;flex-direction: column;height: 100%;width: 100%;">
         <ul style="height: 100%;width: 100%;" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
          <li class="order" v-for="(Order,Orderindex) in OrderListshow" v-on:click="GoToDetail(Orderindex)">
-          <div class="orderdetail">
+          <div class="orderdetail" >
                 <div class="detailText">
                     <div class="orderTitle">
                         <div style="overflow: hidden;margin-right: 0.1rem;text-overflow:ellipsis;white-space: nowrap;">{{Order.title}}</div>
@@ -14,7 +14,11 @@
                             <div class="orderInfo">
                                 <div class="orderCate">
                                     <i class="iconfont icon-cate FontSize"></i>
-                                    <div class="FontSize">{{Order.get_one.name}}-{{Order.get_two.name}}-{{Order.get_three.name}}</div>
+                                    <div class="FontSize" v-if="Order.get_one" style="display:flex;">
+                                        {{Order.get_one.name}}
+                                        <div v-if="Order.get_two"> -{{Order.get_two.name}}</div>
+                                        <div v-if="Order.get_three">-{{Order.get_three.name}}</div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="orderIntegral">{{Order.price}}积分</div>
@@ -32,7 +36,7 @@
              <div class="user">
                  <img v-if="Order.get_user.img" :src="Order.get_user.img" style="width: 0.45rem;height: .45rem;border-radius: 50%;">
                  <i  v-else class="iconfont icon-icon_user"></i>
-                 <img v-if="Order.get_user.grade_status ==1" src="../../assets/vip.png" style="position: absolute; left: 0.5rem;margin-top: 0.25rem;">
+                 <img v-if="Order.get_user.grade_status ==1" src="../../assets/vip.png" style="position: absolute; left: 0.5rem;margin-top: 0.25rem;width: 0.2rem;height: 0.2rem;">
                  <span style="font-size: .3rem;margin-left: .15rem;">{{Order.get_user.name}}</span>
              </div>
                <div class="orderDate">
@@ -78,11 +82,11 @@
             i:function (val) {
                 if(val>this.AllList.length||val==this.AllList.length){
                     this.loading = true;
-                    Toast({
-                        message: '没有更多了',
-                        position: 'bottom',
-                        duration: 4000
-                    });
+                        Toast({
+                            message: '没有更多了',
+                            position: 'bottom',
+                            duration: 4000
+                        });
                 }
             }
         },
@@ -97,7 +101,7 @@
             },
             loadMore:function() {
                 console.log("im in")
-                 this.loading = true;
+                this.loading = true;
                 setTimeout(() => {
                     var PushList = this.AllList.slice(this.i, this.i + 3)
                      for(var j in PushList){
@@ -131,7 +135,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: .01rem 0.005rem 0rem .01rem #bbbbbb;
+    /*box-shadow: .01rem 0.005rem 0rem .01rem #bbbbbb;*/
+    border-top: 0.02rem solid #ECECEC;
 }
 .user{
     margin-left: .2rem;
@@ -215,7 +220,6 @@
     font-size: .15rem;
     text-align: left;
     margin-right: .45rem;
-    margin-top: .1rem;
     color: #DD5519;
     /*width: 1.80rem;*/
     height: .9rem;
@@ -225,8 +229,11 @@
 .detailNum{
     border-style: dashed;
     border-width: 0.02rem;
+    height: 100%;
+    font-size: 0.24rem;
 }
 .orderNum{
+    height: 50%;
     background: #FFF1E1;
     padding-left: .15rem;
     border-bottom: dashed;
@@ -234,6 +241,7 @@
 }
 .orderTime{
     padding-left: .15rem;
+    height: 50%;
 }
 .FontSize{
     font-size: 0.12rem;

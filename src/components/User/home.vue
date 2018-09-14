@@ -79,12 +79,14 @@
                     <span><i class='iconfont icon-right'></i></span>
                 </router-link>
                 <li>
+                    <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=491275464&site=qq&menu=yes" style="width: 100%;display: flex;justify-content: space-between;color: #2C3E50;">
                     <span>
-                        <img class='icon' src="../../assets/img/icon-lxkf.png" alt="">联系客服
+                         <img class='icon' src="../../assets/img/icon-lxkf.png" alt="">联系客服
                     </span>
                     <span><i class='iconfont icon-right'></i></span>
+                    </a>
                 </li>
-            </ul>
+             </ul>
         </div>
         <div class="logout" @click='logout' v-if='username'>
             退出登录
@@ -192,6 +194,7 @@
               //  background-color: #666;
                 img{
                     width: 100%;
+                    height: 100%;
                 }
             }
             .vip{
