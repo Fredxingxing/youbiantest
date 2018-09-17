@@ -17,7 +17,7 @@
                         <div class="DetailContentContainer">
                             <router-link :to="{path:'/OrderList',query:{level_one:TabId,level_two:menudetail.id,level_three:content.id}}"
                                          tag="span"    class="DetailContent" v-for="(content,contentindex) in menudetail.sons">
-                                <div class="Btn" v-on:click="GoToOrder(titleindex,contentindex)">{{content.name}}</div>
+                                <div class="Btn" v-on:click="GoToOrder(titleindex,contentindex)">{{content.name|Name}}</div>
                           </router-link>
                         </div>
                     </div>
@@ -44,6 +44,11 @@
             return{
                 Tabindex:0,
                 TabId:0,
+            }
+        },
+        filters:{
+            Name:function (val) {
+                return val.substring(0,6)
             }
         },
         watch:{

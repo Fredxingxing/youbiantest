@@ -35,13 +35,16 @@
                     </div>
                 </div>
                 <div class="operate">
-                    <span style='display:inline-block;width:2.5rem;margin-left:.4rem;margin-right:2.5rem' v-if="item.status==0" class='state color-ea910f'>等待对方完成</span>
-                    <span style='display:inline-block;width:2.5rem;margin-left:.4rem;margin-right:2.5rem' v-if="item.status==1" class='state color-dd5519'>待确认</span>
+                    <span style='display:inline-block;width:2.5rem;margin-left:.4rem;margin-right:2.5rem' v-if="item.status==0" class='state color-5C5C5C'>等待对方完成</span>
+                    <span style='display:inline-block;width:2.5rem;margin-left:.4rem;margin-right:2.5rem' v-if="item.status==1" class='state color-FBB14C'>待确认</span>
                     <span style='display:inline-block;width:2.5rem;margin-left:.4rem;margin-right:2.5rem' v-if="item.status==2" class='state color-f00'>等待对方再次完成</span>
                     <span style='display:inline-block;width:2.5rem;margin-left:.4rem;margin-right:3rem' v-if="item.status==3||item.status==5" class='state color-5cce5c'>已通过</span>
                     <span style='display:inline-block;width:2.5rem;margin-left:.4rem;margin-right:2.5rem' v-if="item.status==4||item.status==7" class='state color-5cce5c'>已评价</span>
                     <!--  -->
-                    <span v-if="item.status==1"><span class='butongguo' @click.stop='unpass(item.order_no)'>不通过</span>　<span class='tongguo' @click.stop='pass(item.order_no)'>通过</span></span>
+                    <span v-if="item.status==1">
+                        <span class='butongguo' @click.stop='unpass(item.order_no)'>不通过</span>　
+                        <span class='tongguo' @click.stop='pass(item.order_no)'>通过</span>
+                    </span>
                     <span v-if="item.status==3||item.status==5" class='pingjia' @click.stop="dialog(item.order_no,item.get_user)">评价</span>
                     <span v-if="item.status==4||item.status==7"></span>
                 </div>
@@ -145,11 +148,11 @@
     }
 </script>
 <style lang="less" scoped>
-.color-dd5519{
- color:#dd5519;
+.color-FBB14C{
+ color:#FBB14C;
 }
-.color-ea910f{
- color:#ea910f;
+.color-5C5C5C{
+ color:#5C5C5C;
 }
 .color-f00{
  color:#f00;

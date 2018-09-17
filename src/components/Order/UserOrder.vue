@@ -19,8 +19,8 @@
                    </div>
                </div>
                <div class="TakePushBtn">
-                   <div class="Take" :class="Btn==0?'CheckBtn':'defualtBtn'" v-on:click="ChangeOrderList(0)">接单&nbsp{{UserOrder.receive_num}}</div>
-                   <div class="Push" :class="Btn==1?'CheckBtn':'defualtBtn'" v-on:click="ChangeOrderList(1)">发单&nbsp{{UserOrder.release_num}}</div>
+                   <div class="Take" :class="Btn==0?'CheckBtn':'defualtBtn'" v-on:click="ChangeOrderList(0)" style="margin-left: 16%;">接单&nbsp{{UserOrder.receive_num}}</div>
+                   <div class="Push" :class="Btn==1?'CheckBtn':'defualtBtn'" v-on:click="ChangeOrderList(1)" style="margin-left: 10%; margin-right: 16%;">发单&nbsp{{UserOrder.release_num}}</div>
                </div>
          </div>
          <div style="display: flex;flex-direction: column;height: 100%;width: 100%;">
@@ -205,7 +205,7 @@
         width: 100%;
     }
     .CheckBtn{
-        width: 25%;
+        flex: 1;
         text-align: center;
         background: #dd5519;
         color: #fff;
@@ -215,7 +215,7 @@
         transition: .5s;
     }
     .defualtBtn{
-        width: 25%;
+        flex: 1;
         text-align: center;
         background: #EFF3F6;
         color: #5D5E60;

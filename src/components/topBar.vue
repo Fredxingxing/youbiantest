@@ -127,14 +127,18 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      flex-grow: 0.5;
+      padding-left: 0.2rem;
   }
   .CityName{
       color: white;
       margin-top: .20rem;
       font-size: .28rem;
+      margin-right: 0.05rem;
 }
   .Search{
-      width: 82%;;
+      flex-grow: 5;
+      margin-right: 0.2rem;
       /*z-index: 999;*/
       /*height: .50rem;*/
       /*background: white;*/

@@ -80,23 +80,29 @@
                <input placeholder="请输入视频链接" class="Input" v-model="PushObject.video_url">
            </div>
            <div class="ExtraPlu">
-               <div class="Name">
+               <div style="display: flex;">
+                <div class="Name">
                    <img class="Pic" src="../../assets/Push/file.png">
                    <div>附件</div>
                </div>
-               <file-upload  class="SelectBtn"
+                 <file-upload  class="SelectBtn"
                                       v-model="files"
                                       @input-filter="ExtraFiles"
                                       name="file"
                                       ref="upload1">
                    选择附件
                </file-upload>
-               <ul>
-                   <li v-for="(file, index) in files" :key="file.id">
+                 <ul>
+                     <li v-for="(file, index) in files" :key="file.id">
                        <span style="color: #E05417;text-decoration: underline; margin-left: .3rem">{{file.name}}</span>
                        <i class="iconfont icon-delete" style="color:#717171;font-size: .30rem; margin-left: .3rem;" @click.prevent="remove(file,1)"></i>
                    </li>
-               </ul>
+                 </ul>
+               </div>
+               <div style="display: flex;margin-left: 18%;align-items: baseline;" v-on:click="encryptionCheck" v-if="Showencryption" :class="encryption ? 'check':'uncheck'">
+                   <i class="iconfont icon-check"></i>
+                   <div style=" margin-left: 0.1rem;">文件加密</div>
+               </div>
            </div>
        </div>
        <div class="Describe">
@@ -163,6 +169,8 @@
                        method:this.OpenLiberay
                     }
                 ],
+                encryption:false,
+                Showencryption:false,
                 files:[],
                 images:[],
             }
@@ -272,7 +280,7 @@
                 console.log(oneindex)
             },
             ExtraFiles(newFile,oldFile){
-                console.log(1111)
+                this.Showencryption = true
                 if (newFile && !oldFile) {
                     // add
                     this.PushObject.file = newFile.file
@@ -288,11 +296,15 @@
                     console.log('remove', oldFile)
                 }
             },
+            encryptionCheck(){
+                this.encryption = !this.encryption
+            },
             remove(File,index) {
                 console.log(this.files)
                 console.log(this.$refs)
                 if(index==1){
                     this.$refs.upload1.remove(File)
+                    this.Showencryption = false
                 }
                 if(index==2){
                     this.$refs.upload2.remove(File)
@@ -308,6 +320,9 @@
                         resUrl.push(this.images[i].response.data)
                     }
                     this.PushObject.resUrl = resUrl.toString()
+                    if(this.encryption){
+                        this.PushObject.encryption = 1
+                    }
                     var _this = this
                     this.$axios.post('/release/release_info', {
                         level_one: this.PushObject.level_one,
@@ -544,8 +559,15 @@
     .ExtraPlu{
         height: 50%;
         display: flex;
-        align-items: center;
+        flex-direction: column;
+        justify-content: space-around;
         margin-left: .3rem;
+        .check{
+            color:#0DC9BD
+        }
+        .uncheck{
+            color: #2c3e50;
+        }
     }
 }
 .Describe{

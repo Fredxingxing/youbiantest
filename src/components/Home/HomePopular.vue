@@ -7,7 +7,7 @@
             </div>
             <div class="PopularSons" >
                 <div class="PopularSon"v-for="(popularson,sonindex) in popular.sons">
-                    <div class="SonName" @click="GoToOrderList(popularindex,sonindex)" v-if="popularson.name">{{popularson.name}}</div>
+                    <div class="SonName" @click="GoToOrderList(popularindex,sonindex)" v-if="popularson.name">{{popularson.name|Name}}</div>
                 </div>
             </div>
         </div>
@@ -23,6 +23,11 @@
           return{
               // PopularSrc:'../../assets/HomePopular/'
           }
+        },
+        filters:{
+            Name:function (val) {
+                return val.substring(0,6)
+            }
         },
         watch:{
             HomePopular:function (val) {

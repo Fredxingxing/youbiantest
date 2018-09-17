@@ -14,7 +14,7 @@
     }
 </script>
 <style lang="less">
-  @import "http://at.alicdn.com/t/font_792290_1df2xuatek4.css";
+  @import "http://at.alicdn.com/t/font_792290_76p8nmzv9yd.css";
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

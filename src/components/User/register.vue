@@ -41,7 +41,8 @@
                 var data = {
                     phone:this.phone
                 }
-                if(this.phone){
+                console.log(this.phone)
+                if(!this.phone){
                     Toast({
                         message: '手机号不能为空',
                         position: 'middle',
@@ -55,7 +56,7 @@
                     ).then(res => {
                         console.log(res)
                         Toast({
-                            message: res.data.message,
+                            message: '已发送',
                             position: 'middle',
                             duration: 1000
                         });
@@ -91,6 +92,9 @@
                             position: 'bottom',
                             duration: 1000
                         });
+                    if(res.data.code==200){
+                        this.$router.push('/user')
+                    }
                 })
             }
         },

@@ -27,7 +27,7 @@
                     <span>
                         <div class='icon' alt="">地址</div>
                     </span>
-                <span>{{UserInfo.province_code}} {{UserInfo.city_code}} {{UserInfo.area_code}}</span>
+                <span>{{Address}}</span>
             </li>
                 <li>
                     <span>
@@ -103,6 +103,18 @@
                     }
                     return val.substring(0,3)+xing+val.substring(val.length-3);
                 }
+            },
+            // province_code:function (val) {
+            //     if(val==null){
+            //         return '未设置'
+            //     }
+            //     else{
+            //         return this.UserInfo.province_code + ' ' + this.UserInfo.city_code + ' ' + this.UserInfo.area_code
+            //     }
+            // }
+        },
+        data(){
+            return{
             }
         },
         watch:{
@@ -114,7 +126,15 @@
         computed:{
             ...mapState({
                 UserInfo:'UserInfo',
-            })
+            }),
+            Address:function () {
+                if(this.UserInfo.province_code==null){
+                    return '未设置'
+                }
+                else{
+                    return this.UserInfo.province_code + ' ' + this.UserInfo.city_code + ' ' + this.UserInfo.area_code
+                }
+            }
         },
         mounted(){
             this.$store.dispatch('getUserInfo')

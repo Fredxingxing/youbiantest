@@ -16,6 +16,7 @@ export default new Vuex.Store({
       HomeBanner:[],
       HomePopular:[],
       AllCate:[],
+      ServicePhone:'',
       HomeTabSwiperShow:true,
       //订单
       OrderList:[],
@@ -79,6 +80,9 @@ export default new Vuex.Store({
     setAllCate(state,Cate){
         state.AllCate = Cate
        // console.log(state.AllCate)
+    },
+    setServicePhone(state,Phone){
+        state.ServicePhone = Phone
     },
     setOrderSelected(state,OrderSelected){
         state.OrderSelected = OrderSelected
@@ -198,9 +202,11 @@ export default new Vuex.Store({
                 var Banner = response.data.data.banner
                 var Popular = response.data.data.popular
                 var Cate = response.data.data.cate
+                var phone = response.data.data.phone
                 context.commit('setHomeBanner',Banner)
                 context.commit("setHomePopular",Popular)
                 context.commit("setAllCate",Cate)
+                context.commit('setServicePhone',phone)
             })
             .catch(function (error) {
                 console.log(error)
@@ -317,6 +323,26 @@ export default new Vuex.Store({
                         position: 'bottom',
                         duration: 800
                     });
+                    PublishList = [
+                        {
+                         get_user:{
+                           img:'',
+                           name:''
+                          }
+                        },
+                        {
+                            get_user:{
+                                img:'',
+                                name:''
+                            }
+                        },
+                        {
+                            get_user:{
+                                img:'',
+                                name:''
+                            }
+                        }
+                    ]
                 }
                 context.commit('setPublishList',PublishList)
             })
@@ -338,6 +364,26 @@ export default new Vuex.Store({
                         position: 'bottom',
                         duration: 800
                     });
+                     TakenList = [
+                             {
+                                 get_user:{
+                                     img:'',
+                                     name:''
+                                 }
+                             },
+                             {
+                                 get_user:{
+                                     img:'',
+                                     name:''
+                                 }
+                             },
+                             {
+                                 get_user:{
+                                     img:'',
+                                     name:''
+                                 }
+                             }
+                    ]
                 }
                 context.commit('setTakenList',TakenList)
             })

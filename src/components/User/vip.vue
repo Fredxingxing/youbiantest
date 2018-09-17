@@ -1,5 +1,17 @@
 <template>
     <div class="main">
+        <div class="UserBox">
+           <div class="Protrait">
+               <img v-if='img' class="protraitImage" :src="img"  >
+               <img v-else src="../../assets/img/default.jpg" class="protraitImage" >
+           </div>
+            <div class="UserInfo">
+                <div class="NamePhone">优便用户 {{username}}
+                  <div class="PhoneNumber">{{phone|phone}}</div>
+                </div>
+                <div class="VipWord">{{VipWord}}</div>
+            </div>
+        </div>
         <div class="czbox">
             <div class="type" :class='{isActive:type==0}' @click='change(0,vip.rule[0].now_price)'>
                 <p>
@@ -70,17 +82,46 @@
         data(){
             return {
                 points:88,
-                type:0
+                type:0,
+                username:window.sessionStorage.getItem('username'),
+                img:window.sessionStorage.getItem('img'),
+                grade_status:window.sessionStorage.getItem('grade_status'),
+                phone:window.sessionStorage.getItem('phone'),
+                members_end:window.sessionStorage.getItem('members_end')
+            }
+        },
+        filters:{
+            phone:function (val) {
+                if(val==null){
+                    return ''
+                }
+                else{
+                    var len = val.length-3-4;
+                    var xing = '';
+                    for (var i=0;i<len;i++) {
+                        xing+='*';
+                    }
+                    return '('+val.substring(0,3)+xing+val.substring(val.length-4)+')';
+                }
             }
         },
         mounted(){
             this.$store.dispatch('getUserTitle','优便会员')
             this.$store.dispatch('getHasSrh',false);
             this.$store.dispatch('getVip');
+            console.log(window.sessionStorage)
         },
         computed:{
             vip(){
                 return this.$store.state.vip;
+            },
+            VipWord:function () {
+                if(this.grade_status==0){
+                    return ' 您当前未开通优便VIP'
+                }
+                if(this.grade_status==1){
+                    return '您的优便会员将在 ' + this.members_end.substring(0,10) + ' 到期'
+                }
             }
         },
         methods:{
@@ -127,12 +168,48 @@
 .main{
     height: calc(100vh - 0.8rem);
     background: #fff;
+    .UserBox{
+        display: flex;
+        height: 1.5rem;
+        background: #FCA62F;
+        justify-content: space-evenly;
+        .Protrait{
+          width: 0.5rem;
+            display: flex;
+           .protraitImage{
+                width: 1.2rem;
+                height: 1.2rem;
+                border-radius: 50%;
+            }
+        }
+        .UserInfo{
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 0.2rem;
+            justify-content: space-around;
+            color: #4F483E;
+            .NamePhone{
+                display: flex;
+                align-items: baseline;
+                font-size: 0.3rem;
+                .PhoneNumber{
+                    color: #987A54;
+                    font-size: 0.24rem;
+                    margin-left: 0.2rem;
+                }
+            }
+            .VipWord{
+                font-size: 0.26rem;
+                margin-left: 0.05rem;
+            }
+        }
+    }
     .czbox{
         background-color: #ffffff;
         display:flex;
         justify-content: space-around;
         flex-wrap: wrap;
-        padding:1rem 0 .4rem;
+        padding:.3rem 0 .4rem;
         .type{
             width: 2.5rem;
             height: 1.3rem;

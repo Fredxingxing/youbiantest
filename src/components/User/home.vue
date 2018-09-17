@@ -3,8 +3,8 @@
         <div class="userinfo">
             <div class="infobox">
                 <div class="touxiang">
-                    <img :src="img" alt="" v-if='img'>
-                    <img src="../../assets/img/default.jpg" alt="" v-else>
+                    <img v-if='user.img' :src="user.img" alt="" >
+                    <img v-else src="../../assets/img/default.jpg" alt="" >
                 </div>
                 <div class="top">
                     <div class="username" v-if="user.name" style="   display: flex; justify-content: space-between;">
@@ -32,11 +32,15 @@
                     </div>
                 </div>
                 <p class='vip' v-if='user.grade_status==0'>
-                    普通会员 <router-link tag='span' to="/other/vip">去升级</router-link>
+                    普通会员 <router-link tag='span' to="/other/vip">去升级
+                    <i class="iconfont icon-you" style="font-size: 0.12rem;"></i>
+                </router-link>
                 </p>
                  <p class='vip' v-if='user.grade_status==1'>
-                     <img src="../../assets/userVip.png" style="width: 8%;">
-                    {{user.members_end}}到期 <router-link tag='span' to="/other/vip">去续费</router-link>
+                     <img src="../../assets/userVip.png" style="width: 8%;margin-right: 0.1rem;margin-top: 0.1rem;">
+                    {{user.members_end}}到期 <router-link tag='span' to="/other/vip">去续费
+                     <i class="iconfont icon-you" style="font-size: 0.12rem;"></i>
+                 </router-link>
                 </p>
             </div>
         </div>
@@ -79,7 +83,8 @@
                     <span><i class='iconfont icon-right'></i></span>
                 </router-link>
                 <li>
-                    <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=491275464&site=qq&menu=yes" style="width: 100%;display: flex;justify-content: space-between;color: #2C3E50;">
+                    <!--<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=491275464&site=qq&menu=yes" style="width: 100%;display: flex;justify-content: space-between;color: #2C3E50;">-->
+                    <a :href="ServicePhone" style="width: 100%;display: flex;justify-content: space-between;color: #2C3E50;">
                     <span>
                          <img class='icon' src="../../assets/img/icon-lxkf.png" alt="">联系客服
                     </span>
@@ -96,6 +101,7 @@
 </template>
 <script>
     import BottomBar from '@/components/bottomBar'
+    import { mapState } from 'vuex'
     export default{
         data(){
             return {
@@ -114,6 +120,9 @@
         computed:{
             user:function(){
                 return this.$store.state.user
+            },
+            ServicePhone:function () {
+                return 'tel:'+this.$store.state.ServicePhone
             }
         },
         components:{
@@ -123,6 +132,7 @@
             if(window.sessionStorage.getItem('token')){
                 this.$store.dispatch('getUser')
             }
+
         }
         
     }
@@ -200,13 +210,13 @@
             .vip{
                 text-indent:.26rem;
                 text-align: left;
-                font-size:.28rem;
+                font-size:.20rem;
                 line-height: .64rem;
                 color:#666;
                 span{
                     float: right;
                     margin-right:.2rem;
-                    text-decoration: underline;
+                    color: #DF5F1A;
                 }
             }
         }

@@ -16,7 +16,7 @@
             <input type="password" v-model="repassword" placeholder="确认密码">
         </div>
         <button class='login' @click='repwd'>重置密码</button>
-        <div class="register">登录/注册</div>
+        <div class="register" @click="GoTologin">登录/注册</div>
     </div>
 </template>
 <script>
@@ -33,6 +33,9 @@
             }
         },
         methods:{
+             GoTologin(){
+                this.$router.push('/other/login')
+             },
              getCheck(){
                  Toast({
                      message: '已发送',
@@ -72,7 +75,11 @@
                     '/member/retrieve_password',
                     data
                 ).then(res=>{
-                    console.log(res)
+                    Toast({
+                        message: res.data.message,
+                        position: 'middle',
+                        duration: 1000
+                    });
                 })
             }
         },

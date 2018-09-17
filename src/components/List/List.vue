@@ -3,18 +3,18 @@
         <div class="ListTop">
             <div class="ListName">榜单</div>
             <div class="Tab">
-                <mt-navbar class="TabList" v-model="Listselected">
+                <div class="TabList">
                     <div class="TabContainer ">
-                      <mt-tab-item id="1" class="TabName mint-tab-item-label">发布榜单</mt-tab-item>
+                      <div :class="Listselected==1?'TabNameCheck':'TabName'" v-on:click="ChangeList(1)">发布榜单</div>
                      </div>
                     <div class="TabContainer ">
-                      <mt-tab-item id="2" class="TabName mint-tab-item-label">接单榜单</mt-tab-item>
+                      <div :class="Listselected==2?'TabNameCheck':'TabName'" v-on:click="ChangeList(2)">接单榜单</div>
                      </div>
-                </mt-navbar>
+                </div>
             </div>
         </div>
-        <mt-tab-container v-model="Listselected">
-            <mt-tab-container-item id="1">
+        <div >
+            <div v-if="this. Listselected ==1">
                 <!--<mt-cell v-for="n in 10" :title="'内容 ' + n" />-->
                 <img class="banner" src="../../assets/List/banner.png">
                 <div v-if="PublishList!=undefined" class="ProtraitBox">
@@ -48,9 +48,11 @@
                     <div class="DateBox">
                        <img class="DateBtn" @click="ClickTime(1)" :src="Listtype===1 ? DayShow : Day">
                     </div>
+                    <div class="ListTimeLine">____</div>
                     <div  class="DateBox">
                        <img class="DateBtn" @click="ClickTime(2)" :src="Listtype===2 ? WeekShow : Week">
                     </div>
+                    <div class="ListTimeLine">____</div>
                     <div  class="DateBox">
                        <img class="DateBtn" @click="ClickTime(3)" :src="Listtype===3 ? MonthShow : Month">
                     </div>
@@ -61,7 +63,7 @@
                         <div class="ListItem">发布订单</div>
                         <div class="ListItem">用户名称</div>
                     </div>
-                    <div class="ListTopUser" v-show="!BlankList" v-for="(users,index) in PublishList">
+                    <div class="ListTopUser"  v-for="(users,index) in PublishList">
                         <div class="ListItem" v-bind:class=" index < 3 ? 'ListTop3 img':'ListTop7'">
                             {{index+1}}
                         </div>
@@ -71,8 +73,8 @@
                     </div>
                     <!--../../assets/img/default.jpg-->
                 </div>
-            </mt-tab-container-item>
-            <mt-tab-container-item id="2">
+            </div>
+            <div  v-if="this. Listselected ==2">
                 <!--<mt-cell v-for="n in 4" :title="'测试 ' + n" />-->
                 <img class="banner" src="../../assets/List/banner.png">
                 <div v-if="TakenList!=undefined" class="ProtraitBox">
@@ -91,14 +93,14 @@
                         </div>
                     </div>
                     <div class="ProtraitUser">
-                        <div class="normalWidth" v-if="TakenList[1] !=undefined && Listselected==2">{{TakenList[1].get_user.name}}</div>
+                        <div class="normalWidth" v-if="TakenList[1] !=undefined && Listselected==2 && TakenList[1].get_user.name">{{TakenList[1].get_user.name}}</div>
                         <div class="normalWidth" v-else>虚位以待</div>
-                        <div class="firstWidth" v-if="TakenList[0] !=undefined && Listselected==2">
+                        <div class="firstWidth" v-if="TakenList[0] !=undefined && Listselected==2 && TakenList[0].get_user.name">
                             <div>{{TakenList[0].get_user.name}}</div>
-                            <div>发布数：{{TakenList[0].sum}}</div>
+                            <div>接单数：{{TakenList[0].sum}}</div>
                         </div>
                         <div class="firstWidth" v-else>虚位以待</div>
-                        <div class="normalWidth" v-if="TakenList[2] !=undefined && Listselected==2">{{TakenList[2].get_user.name}}</div>
+                        <div class="normalWidth" v-if="TakenList[2] !=undefined && Listselected==2 && TakenList[2].get_user.name">{{TakenList[2].get_user.name}}</div>
                         <div class="normalWidth" v-else>虚位以待</div>
                     </div>
                 </div>
@@ -119,7 +121,7 @@
                         <div class="ListItem">接单订单</div>
                         <div class="ListItem">用户名称</div>
                     </div>
-                    <div class="ListTopUser" v-if="BlankList==false" v-for="(users,index) in TakenList">
+                    <div class="ListTopUser" v-if="users.sum||users.get_user.name" v-for="(users,index) in TakenList">
                         <div class="ListItem" v-bind:class=" index < 3 ? 'ListTop3 img':'ListTop7'">
                             {{index+1}}
                             <!--<img v-if = "index < 3 && index > -1"  src="../../assets/medal.png">-->
@@ -128,8 +130,8 @@
                         <div class="ListItem" v-bind:class="index < 3  ? 'ListTop3':'ListTop7'">{{users.get_user.name}}</div>
                     </div>
                 </div>
-            </mt-tab-container-item>
-        </mt-tab-container>
+            </div>
+        </div>
         <div style="height: 1.05rem;background: #ffffff"></div>
         <bottom-bar/>
     </div>
@@ -147,7 +149,6 @@
         data(){
             return{
                 Listselected:'1',
-                BlankList:false,
                 Listtype:3,
                 Publishusers:[
                     {
@@ -185,32 +186,10 @@
         },
         watch:{
             PublishList:function (val) {
-                console.log(val)
-                if (val==undefined){
-                    this.BlankList = true
-                }
-                else{
-                    this.BlankList = false
-                }
                 //user_id
             },
             TakenList:function (val) {
-                console.log(val)
-                this.BlankList = false
-                if (val==undefined){
-                    console.log(1111)
-                    this.BlankList = true
-                }
             },
-            Listselected:function (val) {
-                console.log(val)
-                if(val==1){
-                    this.$store.dispatch('getPublishList',this.Listtype)
-                }
-                if(val==2){
-                    this.$store.dispatch('getTakenList',this.Listtype)
-                }
-            }
         },
         computed:{
             ...mapState({
@@ -219,16 +198,16 @@
             })
         },
         mounted(){
-            if(this. Listselected === '1'){ //发布
+            if(this. Listselected == 1){ //发布
                 this.$store.dispatch('getPublishList',this.Listtype)
             }
-            if(this. Listselected === '2'){ //接单
+            if(this. Listselected == 2){ //接单
                 this.$store.dispatch('getTakenList',this.Listtype)
             }
         },
         methods:{
           ClickTime:function (i) {
-              if(this. Listselected === '1'){//发布
+              if(this. Listselected == 1){//发布
                   this.Listtype = i
                   if(this.Listtype === 1 ){
                       this.$store.dispatch('getPublishList',this.Listtype)
@@ -240,7 +219,7 @@
                       this.$store.dispatch('getPublishList',this.Listtype)
                   }
           }
-              if(this. Listselected=== '2'){//接单
+              if(this. Listselected== 2){//接单
                   this.Listtype = i
                   if(this.Listtype === 1 ){
                       this.$store.dispatch('getTakenList',this.Listtype)
@@ -251,6 +230,15 @@
                   if(this.Listtype === 3 ){
                       this.$store.dispatch('getTakenList',this.Listtype)
                   }
+              }
+          },
+          ChangeList:function (type) {
+              this.Listselected = type
+              if(type==1){
+                  this.$store.dispatch('getPublishList',this.Listtype)
+              }
+              if(type==2){
+                  this.$store.dispatch('getTakenList',this.Listtype)
               }
           }
         },
@@ -284,13 +272,28 @@
 }
 .TabList{
     background: #FCA62F;
-    font-size: .24rem;
+    font-size: .31rem;
     margin-bottom: .1rem;
+    display: flex;
+    width: 100%;
 }
 .TabContainer{
- margin: 0 .1rem 0 .3rem;
+    /*margin: 0 .1rem 0 .3rem; */
+    width: 100%;
+    /* text-align: center; */
+    display: flex;
+    justify-content: center;
 }
 .TabName {
+    text-align: center;
+    padding-bottom: 0.05rem;
+}
+.TabNameCheck{
+    border-bottom: 0.03rem solid #DF5417;
+    color: #fff;
+    width: 75%;
+    padding-bottom: 0.05rem;
+    text-align: center;
 }
 .mint-navbar .mint-tab-item.is-selected {
     border-bottom: .04rem solid #DD5519;
@@ -311,7 +314,7 @@
 }
 .ProtraitBox{
     position: absolute;
-    top: 0;
+    top: 0.9rem;
     width: 60%;
     height: 2.6rem;
     margin: 0 20%;
@@ -444,5 +447,11 @@
 .DateBtn{
     width: 1.4rem;
     height: .5rem;
+}
+.ListTimeLine{
+    margin-bottom: 5%;
+    color: #C8C8C8;
+    margin-left: -4%;
+    margin-right: -4%;
 }
 </style>

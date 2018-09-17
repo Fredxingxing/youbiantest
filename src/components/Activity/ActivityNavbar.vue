@@ -115,6 +115,9 @@
     font-size: 0.3rem;
     margin-left: 0.1rem;
     margin-bottom: 0.1rem;
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 0.04rem solid #C8C8C8;
 }
 .Card{
     margin-top: 0.1rem;

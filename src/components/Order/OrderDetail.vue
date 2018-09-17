@@ -48,10 +48,13 @@
 
                     <div class="DownloadShare" v-if="OrderDetail.file">
                         <a class="Download" :herf="DownloadFile" @click="Download()" download="附件">
-                            <i class="iconfont icon-download"></i>
-                            <div>下载附件</div>
+                            <i class="iconfont icon-download" style="font-size: 0.37rem;line-height: 0.37rem;margin-right: 0.1rem;"></i>
+                            下载附件
                         </a>
-                        <!--<div class="Share">分享订单</div>-->
+                        <div class="Share" @click="Share()">
+                            <i class="iconfont icon-share"></i>
+                            分享订单
+                        </div>
                     </div>
                 </div>
                 <div v-if="OrderDetail.img">
@@ -218,6 +221,9 @@
                     },500)
                 }
             },
+            Share:function(){
+                console.log('Share')
+            },
             loadMore:function() {
                 console.log("im in")
                 this.loading = true;
@@ -319,7 +325,7 @@
     display: flex;
     flex-direction: row;
     background: #ffff;
-    padding: 0.5rem 0 0.5rem 0.4rem;
+    padding: 0rem 0 0.5rem 0.4rem;
 }
 .Download{
     display: flex;
@@ -327,7 +333,6 @@
 }
 .Share{
     color: #E68763;
-    font-size: 0.24rem;
     margin-left: 0.2rem;
 }
 .InfoPicture{
@@ -337,7 +342,7 @@
     display: flex;
     flex-direction: column;
     background: #ffff;
-    padding: 0.5rem 0 0.5rem 0.3rem;
+    padding: 1.5rem 0 0.5rem 0.3rem;
     color: #4D4D4D;
 }
 .DetailComment{
@@ -475,6 +480,7 @@
     height: .9rem;
     margin-left: .15rem;
     width: 20%;
+    margin-top: 0.4rem;
 }
 .detailNum{
     border-style: dashed;

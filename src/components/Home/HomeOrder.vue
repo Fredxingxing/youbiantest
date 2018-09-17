@@ -44,6 +44,10 @@
              </div>
          </div>
          </li>
+            <div class="CheckMore" v-if="OrderListshow.length >= 3||show">
+                <div style="font-size: 0.32rem; margin-bottom: 0.25rem;">{{CheckMore}}</div>
+                <i class="iconfont icon-More"></i>
+            </div>
         </ul>
     </div>
 </template>
@@ -58,7 +62,9 @@
                 loading:false,
                 AllList:[],
                 i:0,
-                OrderListshow:[]
+                OrderListshow:[],
+                CheckMore:'查看更多',
+                show:true
             }
         },
         created(){
@@ -82,11 +88,14 @@
             i:function (val) {
                 if(val>this.AllList.length||val==this.AllList.length){
                     this.loading = true;
+                    setTimeout(function () {
                         Toast({
-                            message: '没有更多了',
+                            message: '没有更多订单',
                             position: 'bottom',
                             duration: 4000
                         });
+                    },1000)
+                         this.CheckMore = '已全部加载'
                 }
             }
         },
@@ -110,7 +119,7 @@
                         this.i = this.i + 3
                     console.log(this.OrderListshow)
                     this.loading = false;
-                }, 500);
+                }, 800);
             },
             GotoUser:function(index){
                 var user = this.OrderListshow[index].user_id
@@ -121,6 +130,15 @@
 </script>
 
 <style scoped>
+    .CheckMore{
+        height: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 0.2rem;
+        margin-top: 0.5rem;
+        color: #747577;
+    }
 .order{
     display: flex;
     width: 100%;

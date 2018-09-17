@@ -61,9 +61,12 @@
                 </li>
             </ul>
         </div>
-        <div class="slayer" v-show="SelectCity">
-            <v-distpicker type="mobile" @selected="onSelected"></v-distpicker>
-        </div>
+        <!--<div class="slayer" v-show="SelectCity">-->
+            <!--<v-distpicker type="mobile" @selected="onSelected"></v-distpicker>-->
+        <!--</div>-->
+        <van-popup v-model="SelectCity" position="bottom" :overlay="true">
+            <van-area  :area-list="areaList" :columns-num="3" @confirm="CitySelected" @cancel="CityCancel" />
+        </van-popup>
         <div class="UserIdCard">
             <div class="UserIdName">
                 <div class="IdName">真实姓名</div>
@@ -90,6 +93,7 @@
     import VDistpicker from "v-distpicker/src/Distpicker";
     import { Toast } from 'mint-ui';
     import {mapState} from 'vuex'
+    import areaList from'../../../util/area'
     export default {
         name: "ChangeUserInfo",
         components: {
@@ -107,7 +111,8 @@
                     province_code:'',
                     city_code:'',
                     area_code:''
-                }
+                },
+                areaList:areaList
             }
         },
         filters:{
@@ -218,6 +223,18 @@
             chooseCity(){
                 this.SelectCity = true
             },
+            CitySelected(data){
+                this.showCity.province = data[0].name
+                this.PushObject.province_code = data[0].code
+                this.showCity.city = data[1].name
+                this.PushObject.city_code = data[1].code
+                this.showCity.area = data[2].name
+                this.PushObject.area_code = data[2].code
+                this.SelectCity =false
+            },
+            CityCancel(){
+                this.SelectCity =false
+            },
             onSelected(data) {
                 //  alert(data.province + ' | ' + data.city + ' | ' + data.area)
                 //        var city = new Object()
@@ -247,6 +264,7 @@
                 }
                 this.PushObject.resUrl = resUrl.toString()
                 console.log(this.PushObject)
+                var _this = this
                 this.$axios.post('/user/user_edit',{
                     province_code:this.PushObject.province_code,
                     city_code:this.PushObject.city_code,
@@ -265,7 +283,9 @@
                             position: 'middle',
                             duration: 4000
                         });
-                        this.$route.push('/other/UserInfo')
+                        setTimeout(function () {
+                            _this.$router.push('/other/UserInfo')
+                        },800)
                         }
                         else{
                             Toast({

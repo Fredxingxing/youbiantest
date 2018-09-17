@@ -84,6 +84,10 @@
                     </div>
                 </div>
              </li>
+                <div class="CheckMore" v-if="OrderListshow.length > 5 ">
+                    <div style="font-size: 0.32rem; margin-bottom: 0.25rem;">{{CheckMore}}</div>
+                    <i class="iconfont icon-More"></i>
+                </div>
             </ul>
         </div>
     </div>
@@ -123,7 +127,8 @@
                 loading:false,
                 AllList:[],
                 i:0,
-                OrderListshow:[]
+                OrderListshow:[],
+                CheckMore:'查看更多'
             }
         },
         mounted() {
@@ -252,6 +257,15 @@
 </script>
 
 <style scoped>
+ .CheckMore{
+        height: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 0.2rem;
+        margin-top: 0.5rem;
+        color: #747577;
+    }
 .Order{
     display: flex;
     flex-direction: column;
