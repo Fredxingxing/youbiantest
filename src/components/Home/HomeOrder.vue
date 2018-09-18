@@ -5,12 +5,13 @@
           <div class="orderdetail" >
                 <div class="detailText">
                     <div class="orderTitle">
-                        <div style="overflow: hidden;margin-right: 0.1rem;text-overflow:ellipsis;white-space: nowrap;">{{Order.title}}</div>
+                        <div style="overflow: hidden;margin-right: 0.1rem;text-overflow:ellipsis;white-space: nowrap;">{{Order.title|title}}</div>
                         <img v-if="Order.order_type==2" style="width: .3rem;" src="../../assets/goodorder.png">
                         <img v-if="Order.encryption==1" style="width: .3rem;" src="../../assets/secret.png">
                     </div>
                     <div class="orderContent">
-                        <div class="orderLeftBox">
+                        <div class="orderLeftBox" style=" width: 70%;">
+                            <div class="orderDescribe">{{Order.describe}}</div>
                             <div class="orderInfo">
                                 <div class="orderCate">
                                     <i class="iconfont icon-cate FontSize"></i>
@@ -44,7 +45,7 @@
              </div>
          </div>
          </li>
-            <div class="CheckMore" v-if="OrderListshow.length >= 3||show">
+            <div class="CheckMore" v-show="ShowCheckMore" >
                 <div style="font-size: 0.32rem; margin-bottom: 0.25rem;">{{CheckMore}}</div>
                 <i class="iconfont icon-More"></i>
             </div>
@@ -64,7 +65,12 @@
                 i:0,
                 OrderListshow:[],
                 CheckMore:'查看更多',
-                show:true
+                ShowCheckMore:true
+            }
+        },
+        filters:{
+            title :function (val) {
+                return val.substring(0,20)
             }
         },
         created(){
@@ -72,6 +78,35 @@
             this.$store.dispatch('getOrderList',Getobject)
             console.log('HomeOrder')
             console.log(this.$store.state.OrderList)
+            var _this = this
+                window.onscroll = function () {
+                    //变量scrollTop是滚动条滚动时，距离顶部的距离
+                    var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                    //变量windowHeight是可视区的高度
+                    var windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
+                    //变量scrollHeight是滚动条的总高度
+                    var scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+                    //滚动条到底部的条件
+                    if(_this.$route.path==='/Home'||_this.$route.path.substring(0.9)==='/OrderDetail') {
+                    if (scrollTop + windowHeight == scrollHeight) {
+                        //写后台加载数据的函数
+                        if (_this.loading == true && _this.ShowCheckMore ==true) {
+                            // console.log("距顶部" + scrollTop + "可视区高度" + windowHeight + "滚动条总高度" + scrollHeight);
+                            setTimeout(function () {
+                                Toast({
+                                    message: '没有更多',
+                                    position: 'bottom',
+                                    duration: 2000
+                                });
+                            }, 800)
+                            _this.CheckMore = '已全部加载'
+                            setTimeout(function () {
+                                _this.ShowCheckMore = false
+                            }, 1100)
+                        }
+                    }
+                }
+            }
         },
         mounted() {
             this.i = 0;
@@ -88,15 +123,8 @@
             i:function (val) {
                 if(val>this.AllList.length||val==this.AllList.length){
                     this.loading = true;
-                    setTimeout(function () {
-                        Toast({
-                            message: '没有更多订单',
-                            position: 'bottom',
-                            duration: 4000
-                        });
-                    },1000)
-                         this.CheckMore = '已全部加载'
-                }
+
+               }
             }
         },
         computed:{
@@ -160,14 +188,13 @@
     margin-left: .2rem;
 }
 .detailText{
-    margin-left: 0.3rem;
     text-align: left;
     width: 100%;
     display: flex;
     flex-direction: column;
 }
 .orderdetail{
-    width: 100%;
+    padding-left: 0.3rem;
     height: 1.63rem;
     /*box-shadow: 0rem .02rem 0rem 0rem #bbbbbb;*/
     display: flex;
@@ -187,13 +214,13 @@
     font-size: .45rem;
 }
 .orderTitle{
-    font-size: .26rem;
-    margin-top: .25rem;
+    font-size: .3rem;
+    margin-top: .1rem;
     margin-bottom: .05rem;
     font-weight: bold;
     display: flex;
     flex-direction: row;
-    height: .3rem;
+    height: .4rem;
     margin-right: .45rem;
     width: 6.5rem;
 }
@@ -202,8 +229,14 @@
     flex-direction: row;
     justify-content: space-between;
 }
+.orderDescribe{
+    font-size: 0.24rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 .orderInfo{
-    margin-top: .08rem;
+    margin-top: .05rem;
     margin-left: -.05rem;
     display: flex;
     /*width: 4.40rem;*/
@@ -231,7 +264,7 @@
 .orderIntegral{
     font-size: .27rem;
     color: #DD5519;
-    margin-top: .12rem;
+    margin-top: .05rem;
     text-align: left;
 }
 .detailNumberBorder{

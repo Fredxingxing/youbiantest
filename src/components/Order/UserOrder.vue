@@ -29,12 +29,13 @@
                      <div class="orderdetail">
                          <div class="detailText">
                              <div class="orderTitle">
-                                 <div style="overflow: hidden;margin-right: 0.1rem;text-overflow:ellipsis;white-space: nowrap;">{{Order.title}}</div>
+                                 <div style="overflow: hidden;margin-right: 0.1rem;text-overflow:ellipsis;white-space: nowrap;">{{Order.title|title}}</div>
                                  <img v-if="Order.order_type==2" style="width: .3rem;" src="../../assets/goodorder.png">
                                  <img v-if="Order.encryption==1" style="width: .3rem;" src="../../assets/secret.png">
                              </div>
                              <div class="orderContent">
-                                 <div class="orderLeftBox">
+                                 <div class="orderLeftBox" style=" width: 70%;">
+                                     <div class="orderDescribe">{{Order.describe}}</div>
                                      <div class="orderInfo">
                                          <div class="orderCate">
                                              <i class="iconfont icon-cate FontSize"></i>
@@ -89,6 +90,9 @@
         filters:{
             update_time:function (val) {
              return val.slice(0,10)
+            },
+            title :function (val) {
+              return val.substring(0,20)
             }
         },
         created(){
@@ -213,6 +217,7 @@
         height: .5rem;
         line-height: .5rem;
         transition: .5s;
+        border: 0.02rem solid #C4C5C7;
     }
     .defualtBtn{
         flex: 1;
@@ -222,7 +227,7 @@
         border-radius: .2rem;
         height: .5rem;
         line-height: .5rem;
-        border: 0.01rem solid #C4C5C7;
+        border: 0.02rem solid #C4C5C7;
         transition: .5s;
     }
     .order{
@@ -246,14 +251,13 @@
         margin-left: .2rem;
     }
     .detailText{
-        margin-left: 0.3rem;
         text-align: left;
         width: 100%;
         display: flex;
         flex-direction: column;
     }
     .orderdetail{
-        width: 100%;
+        padding-left: 0.3rem;
         height: 1.63rem;
         /*box-shadow: 0rem .02rem 0rem 0rem #bbbbbb;*/
         display: flex;
@@ -273,13 +277,13 @@
         font-size: .45rem;
     }
     .orderTitle{
-        font-size: .26rem;
-        margin-top: .25rem;
+        font-size: .3rem;
+        margin-top: .1rem;
         margin-bottom: .05rem;
         font-weight: bold;
         display: flex;
         flex-direction: row;
-        height: .3rem;
+        height: .4rem;
         margin-right: .45rem;
         width: 6.5rem;
     }
@@ -288,8 +292,14 @@
         flex-direction: row;
         justify-content: space-between;
     }
+    .orderDescribe{
+        font-size: 0.24rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
     .orderInfo{
-        margin-top: .08rem;
+        margin-top: .05rem;
         margin-left: -.05rem;
         display: flex;
         /*width: 4.40rem;*/
@@ -317,7 +327,7 @@
     .orderIntegral{
         font-size: .27rem;
         color: #DD5519;
-        margin-top: .12rem;
+        margin-top: .05rem;
         text-align: left;
     }
     .detailNumberBorder{

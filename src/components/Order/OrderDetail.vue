@@ -1,5 +1,24 @@
 <template>
     <div class="Order">
+        <!--<van-popup v-model="show">-->
+            <!--<div class="ShareContent">-->
+                <!--<div>分享至</div>-->
+                <!--<div class="ContentBox">-->
+                  <!--<div class="ShareItem" @click.stop="ShareTo(0)">-->
+                     <!--<i class="iconfont icon-qq ShareIcon" ></i>-->
+                      <!--QQ-->
+                  <!--</div>-->
+                  <!--<div class="ShareItem" @click.stop="ShareTo(1)">-->
+                    <!--<i class="iconfont icon-weixin ShareIcon" ></i>-->
+                      <!--微信-->
+                  <!--</div>-->
+                      <!--<a  class="ShareItem" href="http://service.weibo.com/share/share.php?appkey=&title=&url=&searchPic=false&style=simple" target="_blank">-->
+                          <!--<i class="iconfont icon-weibo ShareIcon" ></i>-->
+                          <!--微博-->
+                      <!--</a>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</van-popup>-->
         <div class="TopBar"  v-on:click="Back()">
                 <i class="iconfont icon-Left Back TopSize" ></i>
                 <div class="TopSize" >&nbsp详情</div>
@@ -51,10 +70,10 @@
                             <i class="iconfont icon-download" style="font-size: 0.37rem;line-height: 0.37rem;margin-right: 0.1rem;"></i>
                             下载附件
                         </a>
-                        <div class="Share" @click="Share()">
-                            <i class="iconfont icon-share"></i>
-                            分享订单
-                        </div>
+                        <!--<div class="Share" @click="Share()">-->
+                            <!--<i class="iconfont icon-share"></i>-->
+                            <!--分享订单-->
+                        <!--</div>-->
                     </div>
                 </div>
                 <div v-if="OrderDetail.img">
@@ -86,9 +105,11 @@
     </div>
 </template>
 
-<script>
+<script >
     import { Toast } from 'mint-ui';
     import { mapState } from 'vuex'
+    // import Txshare from '../../util/TXshare'
+    // require('../../util/TXshare')
     export default {
         name: "OrderDetail",
         data(){
@@ -100,7 +121,8 @@
                 i:0,
                 AllList:[],
                 CommentsListshow:[],
-                DownloadFile:{}
+                DownloadFile:{},
+                // show:false
             }
         },
         mounted(){
@@ -222,8 +244,38 @@
                 }
             },
             Share:function(){
-                console.log('Share')
+                this.show = true
             },
+            ColseShare:function(){
+                this.show= false
+            },
+            // ShareTo:function(index){
+            //     switch (index){
+            //         case 0://QQ
+            //             console.log('分享至QQ')
+            //               setShareInfo({
+            //                     title:          '优便，带来便捷生活',
+            //                     summary:        '好友给你分享了一条优便订单，快打开看看吧',
+            //                     pic:            '../../assets/logo.png',
+            //                     url:            'http://www.youbian.link/mobile/#/OrderDetail?OrderId='+this.OrderDetail.id,
+            //                     WXconfig:       {
+            //                         swapTitleInWX: true,
+            //                         appId: '',
+            //                         timestamp:'',
+            //                         nonceStr: '',
+            //                         signature: ''
+            //                     }
+            //                 });
+            //             console.log(this.OrderDetail.img[0])
+            //             break;
+            //         case 1://微信
+            //             console.log('分享至微信')
+            //             break;
+            //         case 2: //微博
+            //             console.log('分享至微博')
+            //             break;
+            //     }
+            // },
             loadMore:function() {
                 console.log("im in")
                 this.loading = true;
@@ -335,6 +387,31 @@
     color: #E68763;
     margin-left: 0.2rem;
 }
+.ShareContent{
+    width: 5rem;
+    height: 3rem;
+    align-items: center;
+    justify-content: space-around;
+    display: flex;
+    flex-direction: column;
+}
+.ContentBox{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    height: 70%;
+    align-items: center;
+}
+.ShareItem{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    color: #555;
+}
+.ShareIcon{
+    color: #555;
+    font-size: 0.65rem;
+}
 .InfoPicture{
     width: 100%;
 }
@@ -412,11 +489,14 @@
     margin-left: .25rem;
 }
 .detailText{
-    margin-left: 0.1rem;
     text-align: left;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 .orderdetail{
-    width: 7.50rem;
+    padding-left: 0.3rem;
+    height: 1.63rem;
     /*box-shadow: 0rem .02rem 0rem 0rem #bbbbbb;*/
     display: flex;
     justify-content: space-between;

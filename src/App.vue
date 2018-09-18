@@ -1,6 +1,6 @@
 <template>
-  <div id="app">
-    <div id="nav" user-scalable=0>
+  <div id="app" >
+    <div id="nav" user-scalable=0 >
       <router-link to="/Home"></router-link>
     </div>
     <router-view/>
@@ -14,7 +14,7 @@
     }
 </script>
 <style lang="less">
-  @import "http://at.alicdn.com/t/font_792290_76p8nmzv9yd.css";
+  @import "http://at.alicdn.com/t/font_792290_s2xf53iqs0b.css";
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

@@ -33,6 +33,7 @@
                             周期：一个月
                         </div>
                     </div>
+                    <div class="inforightbottom">{{item.create_time}}</div>
                 </div>
                 <div class="operate">
                     <span style='display:inline-block;width:2.5rem;margin-left:.4rem;margin-right:2.5rem' v-if="item.status==0" class='state color-5C5C5C'>等待对方完成</span>
@@ -59,6 +60,8 @@
             return {
                 tabs:5
             }
+        },
+        filters:{
         },
         methods:{
             changeTab(num){
@@ -128,7 +131,7 @@
                 this.$router.push({path:'/OrderDetail',query:{OrderId:this.bjsd[index].goods_id}})
             },
             GotoUser:function(index){
-                var user = this.bjsd[index].get_order.get_user.id
+                var user = this.bjsd[index].get_user.id
                 this.$router.push({path:'/UserOrder',query:{UserId:user}})
             },
             dialog(order_no,get_user){
@@ -282,6 +285,14 @@
                     .num{
                         background-color: #FEF1E1;
                     }
+                }
+                .inforightbottom{
+                    width: 3rem;
+                    height: 0.5rem;
+                    float: right;
+                    margin-top: 0.2rem;
+                    text-align: center;
+                    color: #A5A5A5;
                 }
             }
             .operate{

@@ -8,9 +8,7 @@
         </div>
         <HomePopular/>
         <HomeOrder/>
-        <div>
           <bottomBar/>
-        </div>
         </div>
     </div>
 </template>
@@ -24,6 +22,7 @@
     import HomeOrder from './HomeOrder'
     import HomePopular from './HomePopular'
     import { mapState } from 'vuex'
+    import { Indicator } from 'mint-ui';
     export default {
         name: "Home",
         components:{
@@ -35,10 +34,14 @@
             bottomBar,
             HomePopular
         },
+
         watch: {
             TopBarCityShow: function (val) {
                 //do method again
             },
+        },
+        mounted(){
+
         },
         computed:{
             ...mapState({

@@ -33,6 +33,7 @@
                             周期：{{item.cycle}}
                         </div>
                     </div>
+                    <!--<div class="inforightbottom">{{item.create_time}}</div>-->
                 </div>
                 <div class="operate" v-if='item.type==0||item.type==2'>
                     <button class='del' @click.stop='del(item.id)'>删除订单</button>
@@ -195,6 +196,14 @@
                         background-color: #FEF1E1;
                     }
                 }
+                /*.inforightbottom{*/
+                    /*width: 3rem;*/
+                    /*height: 0.5rem;*/
+                    /*float: right;*/
+                    /*margin-top: 0.2rem;*/
+                    /*text-align: center;*/
+                    /*color: #A5A5A5;*/
+                /*}*/
             }
             .operate{
                 height: 0.8rem;

@@ -33,6 +33,7 @@
                             周期：一个月
                         </div>
                     </div>
+                    <div class="inforightbottom">{{item.create_time}}</div>
                 </div>
                 <div class="operate">
                     <span style='margin-right:3.8rem;margin-left:.4rem' v-if="item.status==0">已接单</span>
@@ -333,6 +334,14 @@
                     .num{
                         background-color: #FEF1E1;
                     }
+                }
+                .inforightbottom{
+                    width: 3rem;
+                    height: 0.5rem;
+                    float: right;
+                    margin-top: 0.2rem;
+                    text-align: center;
+                    color: #A5A5A5;
                 }
             }
             .operate{
