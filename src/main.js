@@ -10,6 +10,11 @@ import 'mint-ui/lib/style.css'
 import VDistpicker from 'v-distpicker'
 import Vant from 'vant'
 import 'vant/lib/vant-css/index.css';
+
+import Share from 'vue-social-share'
+Vue.use(Share)
+import 'vue-social-share/dist/client.css';
+
 Vue.config.productionTip = false
 Vue.component('v-distpicker',VDistpicker)
 const VueUploadComponent = require('vue-upload-component')

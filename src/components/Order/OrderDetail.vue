@@ -1,24 +1,34 @@
 <template>
     <div class="Order">
-        <!--<van-popup v-model="show">-->
-            <!--<div class="ShareContent">-->
-                <!--<div>分享至</div>-->
-                <!--<div class="ContentBox">-->
+        <van-popup v-model="show">
+            <div class="ShareContent">
+                <div>分享至</div>
+                <div class="ContentBox">
+                    <!--<a class="ShareItem" href="http://connect.qq.com/widget/shareqq/index.html?url={{config.url}}&amp;title=优便开启新生活&amp;source=youbiantest&amp;desc=&amp;pics=" target="_blank">-->
+                        <!--<i class="iconfont icon-qq ShareIcon" ></i>-->
+                        <!--QQ-->
+                    <!--</a>-->
+
+                    <share :config="config" style="  width: 90%;justify-content: space-around;display: flex;   text-align: center;  align-items: center;"></share>
+
                   <!--<div class="ShareItem" @click.stop="ShareTo(0)">-->
                      <!--<i class="iconfont icon-qq ShareIcon" ></i>-->
                       <!--QQ-->
                   <!--</div>-->
+                    <!--<a class="social-share-icon icon-qzone" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http%3A%2F%2Flocalhost%3A8081%2F%23%2FOrderDetail%3FOrderId%3D5&amp;title=优便开启新生活&amp;desc=&amp;summary=&amp;site=youbiantest" target="_blank">-->
+
+                    <!--</a>-->
                   <!--<div class="ShareItem" @click.stop="ShareTo(1)">-->
                     <!--<i class="iconfont icon-weixin ShareIcon" ></i>-->
                       <!--微信-->
                   <!--</div>-->
-                      <!--<a  class="ShareItem" href="http://service.weibo.com/share/share.php?appkey=&title=&url=&searchPic=false&style=simple" target="_blank">-->
+                    <!--<a class="ShareItem" href="http://service.weibo.com/share/share.php?url=http%3A%2F%2Flocalhost%3A8081%2F%23%2FOrderDetail%3FOrderId%3D5&amp;title=优便开启新生活&amp;pic=&amp;appkey=" target="_blank">-->
                           <!--<i class="iconfont icon-weibo ShareIcon" ></i>-->
                           <!--微博-->
                       <!--</a>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</van-popup>-->
+                </div>
+            </div>
+        </van-popup>
         <div class="TopBar"  v-on:click="Back()">
                 <i class="iconfont icon-Left Back TopSize" ></i>
                 <div class="TopSize" >&nbsp详情</div>
@@ -62,28 +72,27 @@
         </div>
             <div class="DetailInfo">
                 <div class="InfoTitle">详细信息</div>
+                <div v-html="OrderDetail.describe" class="InfoDescription" v-if="OrderDetail.describe!=''">
+                    {{OrderDetail.describe}}
+                </div>
                 <embed v-if="OrderDetail.video_url" frameborder="0" :src="OrderDetail.video_url" allowFullScreen="true" align="middle" style="width: 100%;height: 5rem;margin-bottom: 0.5rem;">
                 <div class="UrlBox">
-
-                    <div class="DownloadShare" v-if="OrderDetail.file">
-                        <a class="Download" :herf="DownloadFile" @click="Download()" download="附件">
-                            <i class="iconfont icon-download" style="font-size: 0.37rem;line-height: 0.37rem;margin-right: 0.1rem;"></i>
-                            下载附件
-                        </a>
-                        <!--<div class="Share" @click="Share()">-->
-                            <!--<i class="iconfont icon-share"></i>-->
-                            <!--分享订单-->
-                        <!--</div>-->
-                    </div>
                 </div>
                 <div v-if="OrderDetail.img">
                     <div   v-for="img in OrderDetail.img">
                         <img  class="InfoPicture" :src="img">
                     </div>
                 </div>
-                <div v-html="OrderDetail.describe" class="InfoDescription" v-if="OrderDetail.describe!=''">
-                   {{OrderDetail.describe}}
-                </div>
+                    <div class="DownloadShare" >
+                        <a class="Download" v-if="OrderDetail.file" :herf="DownloadFile" @click="Download()" download="附件">
+                            <i class="iconfont icon-download" style="font-size: 0.37rem;line-height: 0.37rem;margin-right: 0.1rem;"></i>
+                            下载附件
+                        </a>
+                        <div class="Share" @click="Share()">
+                            <i class="iconfont icon-share"></i>
+                            分享订单
+                        </div>
+                    </div>
             </div>
             <div class="DetailComment">
                 <div class="CommentTopBar">全部评论({{OrderComments.length}})</div>
@@ -108,6 +117,7 @@
 <script >
     import { Toast } from 'mint-ui';
     import { mapState } from 'vuex'
+
     // import Txshare from '../../util/TXshare'
     // require('../../util/TXshare')
     export default {
@@ -122,8 +132,23 @@
                 AllList:[],
                 CommentsListshow:[],
                 DownloadFile:{},
-                // show:false
+                config: {
+                    url:'http://www.youbian.link/mobile/#/OrderDetail?OrderId=',
+                    title:'优便开启新生活',
+                    source              : '', // 来源（QQ空间会用到）, 默认读取head标签：<meta name="site" content="http://overtrue" />
+                    description         : '', // 描述, 默认读取head标签：<meta name="description" content="PHP弱类型的实现原理分析" />
+                    image               : '', // 图片, 默认取网页中第一个img标签
+                  //  sites: ['qzone', 'qq', 'weibo','wechat'], // 启用的站点
+                    disabled: ['google', 'facebook', 'twitter','diandian','linkedin','douban','tencent'], // 禁用的站点
+                    wechatQrcodeTitle   : '微信扫一扫：分享', // 微信二维码提示文字
+                    wechatQrcodeHelper  : '<p>微信里点“发现”，扫一下</p><p>二维码便可将本文分享至朋友圈。</p>'
+
+                },
+                show:false
             }
+        },
+        created(){
+            this.config.url = this.config.url + this.$route.query.OrderId
         },
         mounted(){
           //  console.log(this.$route)
@@ -388,8 +413,8 @@
     margin-left: 0.2rem;
 }
 .ShareContent{
-    width: 5rem;
-    height: 3rem;
+    width: 5.5rem;
+    height: 5rem;
     align-items: center;
     justify-content: space-around;
     display: flex;
@@ -414,13 +439,15 @@
 }
 .InfoPicture{
     width: 100%;
+    margin-bottom: 0.3rem;
 }
 .InfoDescription{
     display: flex;
     flex-direction: column;
     background: #ffff;
-    padding: 1.5rem 0.3rem 0.5rem 0.3rem;
+    padding: .3rem 0.3rem 0.6rem 0.3rem;
     color: #4D4D4D;
+    font-size: 0.26rem;
 }
 .DetailComment{
     display: flex;

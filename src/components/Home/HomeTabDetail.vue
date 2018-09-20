@@ -14,7 +14,7 @@
                 <div class="TabDetailContainer">
                     <div class="DetailClass" v-for="(menudetail,titleindex) in HomeDetail">
                         <div class="DetailTitle BtnTitle ">
-                            <!--<div style="width: 0.06rem;margin-top: 0.2rem;height: 0.2rem;background: rgb(221, 85, 25);margin-right: 0.2rem;"></div>-->
+                            <div style=" width: 3%; margin-top: 0.15rem; height: 0.28rem;background: rgb(221, 85, 25); margin-right: 0.2rem;"></div>
                             <div>{{menudetail.name}}</div>
                         </div>
                         <div class="DetailContentContainer">
@@ -162,8 +162,8 @@
     font-weight: bold;
     border-radius: 0.15rem;
     margin: 0.15rem 0 0.15rem 0;
-    /*display: flex;*/
-    background: #F6F5F0;
+    display: flex;
+    /*background: #F6F5F0;*/
 }
 .Btn{
     height: .6rem;

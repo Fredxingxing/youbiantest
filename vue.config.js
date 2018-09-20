@@ -77,8 +77,18 @@
     // webpack配置
     // see https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
     chainWebpack: () => {},
-    configureWebpack: () => {},
-    // vue-loader 配置项
+    //     configureWebpack: {
+    //         plugins: [
+    //             new webpack.optimize.UglifyJsPlugin({
+    //                 compress:{
+    //                     warnings: false,
+    //                     drop_debugger: true,
+    //                     drop_console: true
+    //                 }
+    //             })
+    //         ]
+    //     },
+    // // vue-loader 配置项
     // https://vue-loader.vuejs.org/en/options.html
     // 生产环境是否生成 sourceMap 文件
     productionSourceMap: true,

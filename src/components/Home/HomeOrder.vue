@@ -6,8 +6,8 @@
                 <div class="detailText">
                     <div class="orderTitle">
                         <div style="overflow: hidden;margin-right: 0.1rem;text-overflow:ellipsis;white-space: nowrap;">{{Order.title|title}}</div>
-                        <img v-if="Order.order_type==2" style="width: .3rem;" src="../../assets/goodorder.png">
-                        <img v-if="Order.encryption==1" style="width: .3rem;" src="../../assets/secret.png">
+                        <img v-if="Order.order_type==2" style="width: .3rem;height: 0.3rem;" src="../../assets/goodorder.png">
+                        <img v-if="Order.encryption==1" style="width: .3rem;height: 0.3rem;" src="../../assets/secret.png">
                     </div>
                     <div class="orderContent">
                         <div class="orderLeftBox" style=" width: 70%;">
@@ -235,7 +235,7 @@
     font-size: .45rem;
 }
 .orderTitle{
-    font-size: .3rem;
+    font-size: .28rem;
     margin-top: .1rem;
     margin-bottom: .05rem;
     font-weight: bold;
