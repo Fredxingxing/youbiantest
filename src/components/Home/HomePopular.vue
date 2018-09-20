@@ -74,11 +74,11 @@
 }
 .PopularImg{
      width: 2.15rem;
-    height: 100%;
+    height:2rem;
 }
 .PopularSons{
     width: 68%;
-    height: 100%;
+    height: 2rem;
     display: flex;
     flex-wrap: wrap;
     align-content: baseline;

@@ -13,7 +13,10 @@
                 </div>
                 <div class="TabDetailContainer">
                     <div class="DetailClass" v-for="(menudetail,titleindex) in HomeDetail">
-                        <div class="DetailTitle BtnTitle ">{{menudetail.name}}</div>
+                        <div class="DetailTitle BtnTitle ">
+                            <!--<div style="width: 0.06rem;margin-top: 0.2rem;height: 0.2rem;background: rgb(221, 85, 25);margin-right: 0.2rem;"></div>-->
+                            <div>{{menudetail.name}}</div>
+                        </div>
                         <div class="DetailContentContainer">
                             <router-link :to="{path:'/OrderList',query:{level_one:TabId,level_two:menudetail.id,level_three:content.id}}"
                                          tag="span"    class="DetailContent" v-for="(content,contentindex) in menudetail.sons">
@@ -56,6 +59,10 @@
                 //do method again
             },
             HomeDetail:function (val) {
+                for(var a in val){
+                val[a].sons = val[a].sons.slice(0,15)
+                }
+                return val
             }
         },
         created:function () {
@@ -151,11 +158,12 @@
     line-height: 0.6rem;
     height: .6rem;
     color: #737373;
-    background: #F6F5F0;
     font-size: .28rem;
     font-weight: bold;
     border-radius: 0.15rem;
     margin: 0.15rem 0 0.15rem 0;
+    /*display: flex;*/
+    background: #F6F5F0;
 }
 .Btn{
     height: .6rem;

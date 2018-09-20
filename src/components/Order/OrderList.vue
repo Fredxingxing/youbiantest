@@ -86,9 +86,12 @@
                     </div>
                 </div>
              </li>
-                <div class="CheckMore" v-if="OrderListshow.length > 5 && ShowCheckMore">
-                    <div style="font-size: 0.32rem; margin-bottom: 0.25rem;">{{CheckMore}}</div>
-                    <i class="iconfont icon-More"></i>
+                <div class="CheckMore" v-show="OrderListshow.length > 5 && ShowCheckMore">
+                    <div v-show="LoadingWord" style=" text-align: center;">
+                        <div style="font-size: 0.32rem; margin-bottom: 0.25rem;">{{CheckMore}}</div>
+                        <i class="iconfont icon-More"></i>
+                    </div>
+                    <mt-spinner type="snake" color="#DD5519" :size="20" v-show="LoadingSpinner"></mt-spinner>
                 </div>
             </ul>
         </div>
@@ -119,7 +122,7 @@
                 TypeSelected:"",
                 Getobject:{},
                 TypeList:["OrderSelector","PriceSelector"," DateSelector","StatusSelector"],
-                SortSelect:-1,
+                SortSelect:0,
                 SortName:["综合","价格","完成时间","发布数量",],
                 OrderSelNum:'',
                 PriceSelNum:'',
@@ -131,7 +134,9 @@
                 i:0,
                 OrderListshow:[],
                 CheckMore:'查看更多',
-                ShowCheckMore:true
+                ShowCheckMore:true,
+                LoadingWord:true,
+                LoadingSpinner:false,
             }
         },
         filters:{
@@ -214,11 +219,18 @@
                 if(val > this.AllList.length||val==this.AllList.length){
                     this.loading = true;
                     if(val > 5) {
-                        Toast({
-                            message: '没有更多了',
-                            position: 'bottom',
-                            duration: 4000
-                        });
+                        setTimeout(function () {
+                            Toast({
+                                message: '没有更多',
+                                position: 'bottom',
+                                duration: 2000
+                            });
+                        }, 800)
+                        this.CheckMore = '已全部加载'
+                        var _this = this
+                        setTimeout(function () {
+                            _this.ShowCheckMore=false
+                        },1500)
                     }
                 }
             }
@@ -276,19 +288,22 @@
             },
             loadMore:function() {
                 console.log("im in")
-                this.loading = true;
+                var _this = this
+                _this.LoadingWord = false
+                _this.LoadingSpinner = true
+                _this.loading = true
                 setTimeout(() => {
-                    var PushList = this.AllList.slice(this.i, this.i + 5)
-                    console.log(PushList)
+                    var PushList = _this.AllList.slice(_this.i, _this.i + 5)
                     for(var j in PushList){
-                        this.OrderListshow.push(PushList[j])
+                        _this.OrderListshow.push(PushList[j])
                     }
-                    this.i = this.i + 5
-                    console.log('this.OrderListshow')
-                    console.log(this.OrderListshow)
-                    this.loading = false;
-                }, 500);
-            }
+                    _this.i = _this.i + 5
+                    console.log(_this.OrderListshow)
+                    _this.loading = false;
+                    _this.LoadingWord = true
+                    _this.LoadingSpinner = false
+                }, 1800);
+            },
         }
     }
 </script>

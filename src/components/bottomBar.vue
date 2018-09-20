@@ -81,7 +81,6 @@
     bottom: .5rem;
     border-radius: 1rem;
     width: .9rem;
-    border-top: .03rem solid #fff;
 }
 
 </style>

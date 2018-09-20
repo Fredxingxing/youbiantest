@@ -15,7 +15,7 @@
     </div>
       <div class="Search">
           <mt-search  class="Searchcontainer" v-model="InputSearch">
-              <mt-cell v-for="(item,index) in SearchResult" :title="item.title" :value="item.price+'积分'"
+              <mt-cell v-show="InputSearch" v-for="(item,index) in SearchResult" :title="item.title" :value="item.price+'积分'"
               v-on:click.native="GoToOrder(index)">
               </mt-cell>
           </mt-search>

@@ -4,7 +4,7 @@
        <div class="Basic">
            <div class="BasicInfo">
                <div class="BasicName">基本信息</div>
-               <div class="ImportantIcon">*</div>
+               <!--<div class="ImportantIcon">*</div>-->
            </div>
            <div class="BasicContainer">
              <div class="BasicCate">
@@ -49,28 +49,31 @@
                      <img class="Pic" src="../../assets/Push/price.png">
                      <div>价格</div>
                  </div>
-                 <input placeholder="请输入价格" class="Input" v-model="PushObject.price">
+                 <input placeholder="请输入价格（积分）" class="Input" v-model="PushObject.price" onkeyup="value=value.replace(/[^\d\.]/g,'')" onblur="value=value.replace(/[^\d\.]/g,'')">
              </div>
              <div class="BasicTimes">
                  <div class="Name">
                      <img class="Pic" src="../../assets/Push/times.png">
                      <div>次数</div>
                  </div>
-                 <input placeholder="请输入次数" class="Input" v-model="PushObject.number">
+                 <input placeholder="请输入次数" class="Input" v-model="PushObject.number" onkeyup="value=value.replace(/[^\d\.]/g,'')" onblur="value=value.replace(/[^\d\.]/g,'')">
              </div>
              <div class="BasicCycle">
                  <div class="Name">
                      <img class="Pic" src="../../assets/Push/cycle.png">
                      <div>周期</div>
                  </div>
-                 <input placeholder="请输入完成（如：1天）" class="Input" v-model="PushObject.cycle">
+                 <input placeholder="请输入完成周期" class="Input" v-model="PushObject.cycle" onkeyup="value=value.replace(/[^\d\.]/g,'')" onblur="value=value.replace(/[^\d\.]/g,'')">
+                 <select class="Cate" v-model="CycleSelect">
+                     <option v-for=" Cycle in CycleType" v-bind:value="Cycle">{{Cycle}}</option>
+                 </select>
              </div>
            </div>
        </div>
        <div class="Extra">
            <div class="ExtraInfo">
                <div class="ExtraName">信息补充</div>
-               <div class="ImportantIcon">*</div>
+               <!--<div class="ImportantIcon">*</div>-->
            </div>
            <div class="ExtraVideo">
                <div class="Name">
@@ -108,7 +111,7 @@
        <div class="Describe">
            <div class="DescribeInfo">
                <div class="DescribeName">详情描述</div>
-               <div class="ImportantIcon">*</div>
+               <!--<div class="ImportantIcon">*</div>-->
            </div>
            <textarea placeholder="请输入描述" class="DescribeWord" v-model="PushObject.describe"></textarea>
            <div class="DescribePic" style="display: flex;flex-direction: column-reverse;">
@@ -159,6 +162,7 @@
                 CateSelectTwo:'',
                 TwoCate:[],
                 CateSelectThree:'',
+                CycleSelect:'天',
                 ThreeCate:[],
                 actions:[
                     {
@@ -173,6 +177,7 @@
                 Showencryption:false,
                 files:[],
                 images:[],
+                CycleType:['分钟','小时','天','月']
             }
         },
         mounted(){
@@ -331,7 +336,7 @@
                         title: this.PushObject.title,
                         price: this.PushObject.price,
                         number: this.PushObject.number,
-                        cycle: this.PushObject.cycle,
+                        cycle: this.PushObject.cycle+this.CycleSelect,
                         describe: this.PushObject.describe,
                         province_code: this.PushObject.province_code,
                         city_code: this.PushObject.city_code,

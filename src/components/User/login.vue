@@ -32,7 +32,7 @@ import { Toast } from 'mint-ui';
                     '/member/login',
                     data
                 ).then(res=>{
-                    console.log(res)
+                    //console.log(res)
                     if(res.data.code==200){
                         console.log(res.data)
                         Toast({

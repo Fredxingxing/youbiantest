@@ -33,14 +33,14 @@
                         </div>
                     </div>
                     <div class="ProtraitUser">
-                        <div class="normalWidth" v-if="PublishList[1] !=undefined && Listselected==1">{{PublishList[1].get_user.name}}</div>
+                        <div class="normalWidth" v-if="PublishList[1] !=undefined && Listselected==1 && PublishList[1].get_user.img">{{PublishList[1].get_user.name}}</div>
                         <div class="normalWidth" v-else>虚位以待</div>
-                        <div class="firstWidth" v-if="PublishList[0] !=undefined && Listselected==1">
+                        <div class="firstWidth" v-if="PublishList[0] !=undefined && Listselected==1 && PublishList[0].get_user.img">
                             <div>{{PublishList[0].get_user.name}}</div>
                             <div>发布数：{{PublishList[0].sum}}</div>
                         </div>
                         <div class="firstWidth" v-else>虚位以待</div>
-                        <div class="normalWidth" v-if="PublishList[2] !=undefined && Listselected==1">{{PublishList[2].get_user.name}}</div>
+                        <div class="normalWidth" v-if="PublishList[2] !=undefined && Listselected==1 && PublishList[2].get_user.img">{{PublishList[2].get_user.name}}</div>
                         <div class="normalWidth" v-else>虚位以待</div>
                     </div>
                 </div>
@@ -63,7 +63,7 @@
                         <div class="ListItem">发布订单</div>
                         <div class="ListItem">用户名称</div>
                     </div>
-                    <div class="ListTopUser"  v-for="(users,index) in PublishList">
+                    <div class="ListTopUser" v-if="users.sum||users.get_user.name"  v-for="(users,index) in PublishList">
                         <div class="ListItem" v-bind:class=" index < 3 ? 'ListTop3 img':'ListTop7'">
                             {{index+1}}
                         </div>
@@ -108,9 +108,11 @@
                     <div class="DateBox">
                         <img class="DateBtn" @click="ClickTime(1)" :src="Listtype===1 ? DayShow : Day">
                     </div>
+                    <div class="ListTimeLine">____</div>
                     <div  class="DateBox">
                         <img class="DateBtn" @click="ClickTime(2)" :src="Listtype===2 ? WeekShow : Week">
                     </div>
+                    <div class="ListTimeLine">____</div>
                     <div  class="DateBox">
                         <img class="DateBtn" @click="ClickTime(3)" :src="Listtype===3 ? MonthShow : Month">
                     </div>

@@ -10,19 +10,25 @@
             <div class="left">
                 <span class='color-FCA62F'>*</span> 旧密码：
             </div>
+            <div class="right">
             <input type="password" placeholder="请输入旧密码" v-model="password">
+            </div>
         </div>
         <div class="iptbox">
             <div class="left">
                 <span class='color-FCA62F'>*</span>新密码：
             </div>
+            <div class="right">
             <input type="password" placeholder="请输新密码" v-model="password2">
+            </div>
         </div>
         <div class="iptbox">
             <div class="left">
                 <span class='color-FCA62F'>*</span>确认新密码：
             </div>
+            <div class="right">
             <input type="password" placeholder="请确认新密码" v-model="password2_confirm">
+            </div>
         </div>
         <button class="reset" @click="setpwd">保存</button>
     </div>
@@ -91,10 +97,15 @@
     .iptbox{
         height: 0.8rem;
         line-height: .8rem;
+        display: flex;
+        align-items: baseline;
         .left{
             display: inline-block;
             text-align: right;
-            width: 2.4rem;
+            width: 40%;
+        }
+        .right{
+            width: 60%;
         }
         input{
             height: 0.6rem;

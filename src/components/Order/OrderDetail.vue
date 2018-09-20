@@ -419,7 +419,7 @@
     display: flex;
     flex-direction: column;
     background: #ffff;
-    padding: 1.5rem 0 0.5rem 0.3rem;
+    padding: 1.5rem 0.3rem 0.5rem 0.3rem;
     color: #4D4D4D;
 }
 .DetailComment{
@@ -504,7 +504,7 @@
 .Btndetail{
     /*background: #DD5519;*/
     color: #E2744E;
-    width: 1.56rem;
+    width: 22%;
     height: .48rem;
     font-size: .25rem;
     border-radius: .15rem;
@@ -524,7 +524,7 @@
     margin-left: -.05rem;
     display: flex;
     /*width: 4.40rem;*/
-    justify-content: space-around;
+    /*justify-content: space-around;*/
     align-items: baseline;
     font-size: .15rem;
 }
@@ -559,7 +559,7 @@
     /*width: 1.80rem;*/
     height: .9rem;
     margin-left: .15rem;
-    width: 20%;
+    width: 30%;
     margin-top: 0.4rem;
 }
 .detailNum{

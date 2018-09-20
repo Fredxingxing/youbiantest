@@ -35,7 +35,8 @@
             <input style="height: .4rem;" placeholder="请输入真实姓名" v-model="Name">
         </div>
         <div  class="changebox">
-            <div style="width:1.6rem;text-align: right;">身份证号：</div>
+            <!--style="width:1.6rem;text-align: right;"-->
+            <div>身份证号：</div>
             <input style="height: .4rem;" placeholder="请输入身份证号码" v-model="Idnum">
         </div>
         <div class="ChangeInfo" @click='CommitInfo()'>

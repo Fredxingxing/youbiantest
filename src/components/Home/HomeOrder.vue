@@ -1,6 +1,6 @@
 <template>
     <div style="display: flex;flex-direction: column;height: 100%;width: 100%;">
-        <ul style="height: 100%;width: 100%;" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
+        <ul style="height: 100%;width: 100%;" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="0">
          <li class="order" v-for="(Order,Orderindex) in OrderListshow" v-on:click="GoToDetail(Orderindex)">
           <div class="orderdetail" >
                 <div class="detailText">
@@ -45,9 +45,12 @@
              </div>
          </div>
          </li>
-            <div class="CheckMore" v-show="ShowCheckMore" >
-                <div style="font-size: 0.32rem; margin-bottom: 0.25rem;">{{CheckMore}}</div>
-                <i class="iconfont icon-More"></i>
+            <div class="CheckMore" v-show="ShowCheckMore">
+                <div v-show="LoadingWord" style=" text-align: center;">
+                  <div style="font-size: 0.32rem; margin-bottom: 0.25rem;">{{CheckMore}}</div>
+                  <i class="iconfont icon-More"></i>
+                </div>
+                <mt-spinner type="snake" color="#DD5519" :size="20" v-show="LoadingSpinner"></mt-spinner>
             </div>
         </ul>
     </div>
@@ -65,7 +68,9 @@
                 i:0,
                 OrderListshow:[],
                 CheckMore:'查看更多',
-                ShowCheckMore:true
+                ShowCheckMore:true,
+                LoadingWord:true,
+                LoadingSpinner:false,
             }
         },
         filters:{
@@ -78,35 +83,35 @@
             this.$store.dispatch('getOrderList',Getobject)
             console.log('HomeOrder')
             console.log(this.$store.state.OrderList)
-            var _this = this
-                window.onscroll = function () {
-                    //变量scrollTop是滚动条滚动时，距离顶部的距离
-                    var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-                    //变量windowHeight是可视区的高度
-                    var windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
-                    //变量scrollHeight是滚动条的总高度
-                    var scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
-                    //滚动条到底部的条件
-                    if(_this.$route.path==='/Home'||_this.$route.path.substring(0.9)==='/OrderDetail') {
-                    if (scrollTop + windowHeight == scrollHeight) {
-                        //写后台加载数据的函数
-                        if (_this.loading == true && _this.ShowCheckMore ==true) {
-                            // console.log("距顶部" + scrollTop + "可视区高度" + windowHeight + "滚动条总高度" + scrollHeight);
-                            setTimeout(function () {
-                                Toast({
-                                    message: '没有更多',
-                                    position: 'bottom',
-                                    duration: 2000
-                                });
-                            }, 800)
-                            _this.CheckMore = '已全部加载'
-                            setTimeout(function () {
-                                _this.ShowCheckMore = false
-                            }, 1100)
-                        }
-                    }
-                }
-            }
+            // var _this = this
+            //     window.onscroll = function () {
+            //         //变量scrollTop是滚动条滚动时，距离顶部的距离
+            //         var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            //         //变量windowHeight是可视区的高度
+            //         var windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
+            //         //变量scrollHeight是滚动条的总高度
+            //         var scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+            //         //滚动条到底部的条件
+            //         if(_this.$route.path==='/Home'||_this.$route.path.substring(0.9)==='/OrderDetail') {
+            //         if (scrollTop + windowHeight == scrollHeight) {
+            //             //写后台加载数据的函数
+            //             if (_this.loading == true && _this.ShowCheckMore ==true) {
+            //                 // console.log("距顶部" + scrollTop + "可视区高度" + windowHeight + "滚动条总高度" + scrollHeight);
+            //                 setTimeout(function () {
+            //                     Toast({
+            //                         message: '没有更多',
+            //                         position: 'bottom',
+            //                         duration: 2000
+            //                     });
+            //                 }, 800)
+            //                 _this.CheckMore = '已全部加载'
+            //                 setTimeout(function () {
+            //                     _this.ShowCheckMore = false
+            //                 }, 1100)
+            //             }
+            //         }
+            //     }
+            // }
         },
         mounted() {
             this.i = 0;
@@ -123,7 +128,18 @@
             i:function (val) {
                 if(val>this.AllList.length||val==this.AllList.length){
                     this.loading = true;
-
+                    setTimeout(function () {
+                                 Toast({
+                                         message: '没有更多',
+                                         position: 'bottom',
+                                         duration: 2000
+                                            });
+                                   }, 800)
+                     this.CheckMore = '已全部加载'
+                     var _this = this
+                      setTimeout(function () {
+                            _this.ShowCheckMore=false
+                            },1500)
                }
             }
         },
@@ -138,16 +154,21 @@
             },
             loadMore:function() {
                 console.log("im in")
-                this.loading = true;
+                var _this = this
+                _this.LoadingWord = false
+                _this.LoadingSpinner = true
+                _this.loading = true
                 setTimeout(() => {
-                    var PushList = this.AllList.slice(this.i, this.i + 3)
+                    var PushList = _this.AllList.slice(_this.i, _this.i + 3)
                      for(var j in PushList){
-                         this.OrderListshow.push(PushList[j])
+                         _this.OrderListshow.push(PushList[j])
                      }
-                        this.i = this.i + 3
-                    console.log(this.OrderListshow)
-                    this.loading = false;
-                }, 800);
+                    _this.i = _this.i + 3
+                    console.log(_this.OrderListshow)
+                    _this.loading = false;
+                    _this.LoadingWord = true
+                    _this.LoadingSpinner = false
+                }, 1800);
             },
             GotoUser:function(index){
                 var user = this.OrderListshow[index].user_id
@@ -204,7 +225,7 @@
 .Btndetail{
     background: #DD5519;
     color: #ffff;
-    width: 1.56rem;
+    width: 22%;
     height: .48rem;
     font-size: .25rem;
     border-radius: .15rem;

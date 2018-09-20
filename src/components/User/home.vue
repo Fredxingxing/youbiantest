@@ -10,8 +10,8 @@
                     <div class="username" v-if="user.name" style="   display: flex; justify-content: space-between;">
                         用户名：{{user.name}}
                         <div style="height: 1rem;margin-right: 0.5rem;">
-                            <div style=" font-size:0.1rem;height:0.4rem;">接单：{{user.receive_num1}}</div>
-                            <div style=" font-size:0.1rem;height:0.4rem;">发单：{{user.release_num1}}</div>
+                            <div style=" font-size:0.24rem;height:0.4rem;">接单：{{user.receive_num1}}</div>
+                            <div style=" font-size:0.24rem;height:0.4rem;">发单：{{user.release_num1}}</div>
                         </div>
                     </div>
                     <div class="username" v-else="username">
@@ -82,14 +82,14 @@
                     </span>
                     <span><i class='iconfont icon-right'></i></span>
                 </router-link>
-                <li>
+                <li @click="ClickService">
                     <!--<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=491275464&site=qq&menu=yes" style="width: 100%;display: flex;justify-content: space-between;color: #2C3E50;">-->
-                    <a :href="ServicePhone" style="width: 100%;display: flex;justify-content: space-between;color: #2C3E50;">
+                    <!--<a :href="ServicePhone" style="width: 100%;display: flex;justify-content: space-between;color: #2C3E50;">-->
                     <span>
                          <img class='icon' src="../../assets/img/icon-lxkf.png" alt="">联系客服
                     </span>
                     <span><i class='iconfont icon-right'></i></span>
-                    </a>
+                    <!--</a>-->
                 </li>
              </ul>
         </div>
@@ -97,6 +97,25 @@
             退出登录
         </div>
         <bottom-bar />
+        <van-popup v-model="ShowPop">
+        <div class="ShareContent">
+          <div style="margin-top: 0.1rem;">联系客服</div>
+          <div class="ContentBox">
+          <div class="ShareItem">
+              <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=491275464&site=qq&menu=yes" style="width: 100%;display: flex;justify-content: space-between;color: #2C3E50;flex-direction: column;">
+          <i class="iconfont icon-qq ShareIcon" ></i>
+           QQ
+              </a>
+          </div>
+          <div class="ShareItem">
+              <a :href="ServicePhone" style="width: 100%;display: flex;justify-content: space-between;color: #2C3E50;flex-direction: column;">
+          <i class="iconfont icon-dianhua ShareIcon" ></i>
+         电话
+              </a>
+         </div>
+        </div>
+       </div>
+        </van-popup>
     </div>
 </template>
 <script>
@@ -107,7 +126,8 @@
             return {
                 username:window.sessionStorage.getItem('username'),
                 img:window.sessionStorage.getItem('img'),
-                point:window.sessionStorage.getItem('point')
+                point:window.sessionStorage.getItem('point'),
+                ShowPop:false
             }
         },
         methods:{
@@ -115,7 +135,10 @@
                 window.sessionStorage.clear();
                 this.$router.push('/other/login')
                 this.$store.commit('setUser',{})
-            }
+            },
+            ClickService(){
+                this.ShowPop = true
+            },
         },
         computed:{
             user:function(){
@@ -132,7 +155,6 @@
             if(window.sessionStorage.getItem('token')){
                 this.$store.dispatch('getUser')
             }
-
         }
         
     }
@@ -145,6 +167,37 @@
     margin-right:.1rem;
 }
 .main{
+    padding-bottom: 2rem;
+    .Share{
+        color: #E68763;
+        margin-left: 0.2rem;
+    }
+    .ShareContent{
+        width: 5rem;
+        height: 3rem;
+        align-items: center;
+        justify-content: space-around;
+        display: flex;
+        flex-direction: column;
+    }
+    .ContentBox{
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        height: 70%;
+        align-items: center;
+    }
+    .ShareItem{
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        color: #555;
+    }
+    .ShareIcon{
+        color: #555;
+        font-size: 0.65rem;
+    }
+
     .userinfo{
         height: 2.6rem;
         width: 100%;

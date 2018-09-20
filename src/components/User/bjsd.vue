@@ -239,7 +239,7 @@
                     width: 3.6rem;
                     overflow: hidden;
                     .title{
-                        width: 4.6rem;
+                        width: 4rem;
                         font-size:.28rem;
                         white-space: nowrap;
                         text-overflow: ellipsis;

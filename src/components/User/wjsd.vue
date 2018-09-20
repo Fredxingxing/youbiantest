@@ -9,9 +9,9 @@
         </ul>
         <ul class="orderlist">
             <li v-for="(item,key) in wjsd" :key="key"  @click="GotoDetail(key)">
-                <div class="time-state" v-on:click.stop="GotoUser(key)">
+                <div class="time-state">
                     <span class='time'>发布人</span>
-                    <span class='state'>
+                    <span class='state' v-on:click.stop="GotoUser(key)">
                         <img v-if="item.get_order.get_user.img !=undefined" :src="item.get_order.get_user.img " class="txbox">
                         <i  v-else  class="iconfont icon-icon_user" style="margin-left: 0.4rem;font-size: 0.45rem;"></i>
                         {{item.get_order.get_user.name}}
@@ -36,18 +36,29 @@
                     <div class="inforightbottom">{{item.create_time}}</div>
                 </div>
                 <div class="operate">
-                    <span style='margin-right:3.8rem;margin-left:.4rem' v-if="item.status==0">已接单</span>
-                    <span style='margin-right:3.8rem;margin-left:.4rem' v-if="item.status==1" class='color-ea910f'>待确认</span>
-                    <span style='margin-right:3.8rem;margin-left:.4rem' v-if="item.status==2" class='color-f00'>未通过</span>
-                    <span style='margin-right:3.8rem;margin-left:.4rem' v-if="item.status==3||item.status==4">已通过</span>
-                    <span style='margin-right:3.8rem;margin-left:.4rem' v-if="item.status==5||item.status==7" class='color-5cce5c'>已评价</span>
-                    <!--  -->
-                    <span v-if="item.status==0"><span class='wancheng' @click.stop='complate(item.order_no)'>确认完成</span><span class='del' @click="del(item.order_no)">删除</span></span>
-                    <span v-if="item.status==1"><span>等待确认</span><span class='del' @click.stop="del(item.order_no)">删除</span></span>
-                    <span v-if="item.status==2"><span class='cxwc' @click.stop='cxwc(item.order_no)'>重新完成</span><span class='del' @click.stop="del(item.order_no)">删除</span></span>
-                    <span v-if="item.status==3||item.status==4"><span class='pingjia' @click.stop='dialog(item.order_no,item.get_order.get_user)'>评价</span></span>
+                    <span style='margin-left: 5%;    flex: 1;' v-if="item.status==0">已接单</span>
+                    <span style='margin-left: 5%;    flex: 1;' v-if="item.status==1" class='color-ea910f'>待确认</span>
+                    <span style='margin-left: 5%;    flex: 1;' v-if="item.status==2" class='color-f00'>未通过</span>
+                    <span style='margin-left: 5%;    flex: 1;' v-if="item.status==3||item.status==4">已通过</span>
+                    <span style='margin-left: 5%;    flex: 1;' v-if="item.status==5||item.status==7" class='color-5cce5c'>已评价</span>
+
+                    <span v-if="item.status==0">
+                        <span class='wancheng' @click.stop='complate(item.order_no)'>确认完成</span><span class='del' @click="del(item.order_no)">删除</span>
+
+                    </span>
+                    <span v-if="item.status==1" style=" display: flex; justify-content: space-around; align-items: center; margin-right: 5%;flex: 0.5;">
+                        <span>等待确认</span><span class='del' @click.stop="del(item.order_no)">删除</span>
+                    </span>
+                    <span v-if="item.status==2" style=" display: flex; justify-content: space-around; align-items: center; margin-right: 5%;flex: 0.5;">
+                        <span class='cxwc' @click.stop='cxwc(item.order_no)'>重新完成</span><span class='del' @click.stop="del(item.order_no)">删除</span>
+                    </span>
+                    <span v-if="item.status==3||item.status==4" style=" display: flex; justify-content: space-around; align-items: center; margin-right: 5%;flex: 0.5;">
+                        <span class='pingjia' @click.stop='dialog(item.order_no,item.get_order.get_user)'>评价</span>
+                    </span>
                         <!-- <span v-if="item.status==5"><span>等待确认</span><span class='del' @click="del(item.order_no)">删除</span></span> -->
-                    <span v-if="item.status==5||item.status==7"><span class='color-5cce5c'></span></span>
+                    <span v-if="item.status==5||item.status==7" style=" display: flex; justify-content: space-around; align-items: center; margin-right: 5%;flex: 0.5;">
+                        <span class='color-5cce5c'></span>
+                    </span>
                 </div>
             </li>
         </ul>
@@ -288,7 +299,7 @@
                     float: left;
                     width: 3.6rem;
                     .title{
-                        width: 4.6rem;
+                        width: 4rem;
                         font-size:.28rem;
                         white-space: nowrap;
                         text-overflow: ellipsis;
@@ -348,6 +359,8 @@
                 height: 0.8rem;
                 line-height: .8rem;
                 border-top:.02rem solid #eaeaea;
+                width: 100%;
+                display: flex;
                 .state{
                     margin-left:.4rem;
                 }

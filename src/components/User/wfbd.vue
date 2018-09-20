@@ -149,7 +149,7 @@
                     float: left;
                     width: 4.6rem;
                     .title{
-                        width: 4.6rem;
+                        width: 4rem;
                         font-size:.28rem;
                         white-space: nowrap;
                         text-overflow: ellipsis;
