@@ -181,6 +181,7 @@ export default new Vuex.Store({
             .then(function (response) {
                 var HomeCate = []
                 var CateRes = response.data.data.cate
+                context.commit('setAllCate',CateRes)
                 for(var i in CateRes){
                     HomeCate.push({Name:CateRes[i].name,Image:CateRes[i].id + '.png',SecCate:CateRes[i].son,Id:CateRes[i].id})
                 }
@@ -205,7 +206,6 @@ export default new Vuex.Store({
                 var phone = response.data.data.phone
                 context.commit('setHomeBanner',Banner)
                 context.commit("setHomePopular",Popular)
-                context.commit("setAllCate",Cate)
                 context.commit('setServicePhone',phone)
             })
             .catch(function (error) {

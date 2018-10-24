@@ -10,7 +10,9 @@
              <div class="BasicCate">
               <div class="Name">
                   <img class="Pic" src="../../assets/Push/cate.png">
-                  <div>分类</div>
+                  <div style="display: flex">分类
+                      <div style="color: red;line-height: 20px;margin-top: 0.05rem;margin-left: 0.1rem;">*</div>
+                  </div>
               </div>
                  <select class="Cate" v-model="CateSelectOne" >
                      <option disabled value="">一级分类</option>
@@ -28,7 +30,9 @@
              <div class="BasicArea">
                  <div class="Name">
                      <img class="Pic" src="../../assets/Push/area.png">
-                     <div>地区</div>
+                     <div style="display: flex">地区
+                         <div v-show="AreaMust" style="color: red;line-height: 20px;margin-left: 0.1rem; margin-top: 0.05rem;">*</div>
+                     </div>
                  </div>
                  <div class="cityName"  v-on:click="chooseCity">{{showCity.province}} {{showCity.city}} {{showCity.area}}
                    <div v-if="!SelectCity" v-on:click="chooseCity" style="color: #757575;">点击选择省市区</div>
@@ -40,28 +44,36 @@
              <div class="BasicTitle">
                  <div class="Name">
                      <img class="Pic" src="../../assets/Push/title.png">
-                     <div>标题</div>
+                     <div style="display: flex">标题
+                         <div style="color: red;line-height: 20px;margin-left: 0.1rem; margin-top: 0.05rem;">*</div>
+                     </div>
                  </div>
                  <input placeholder="请输入标题" class="InputBig" v-model="PushObject.title">
              </div>
              <div class="BasicPrice">
                  <div class="Name">
                      <img class="Pic" src="../../assets/Push/price.png">
-                     <div>价格</div>
+                     <div  style="display: flex">价格
+                       <div style="    color: red;line-height: 20px;margin-left: 0.1rem;    margin-top: 0.05rem;">*</div>
+                     </div>
                  </div>
                  <input placeholder="请输入价格（积分）" class="Input" v-model="PushObject.price" onkeyup="value=value.replace(/[^\d\.]/g,'')" onblur="value=value.replace(/[^\d\.]/g,'')">
              </div>
              <div class="BasicTimes">
                  <div class="Name">
                      <img class="Pic" src="../../assets/Push/times.png">
-                     <div>次数</div>
+                     <div style="display: flex">次数
+                         <div style="    color: red;line-height: 20px;margin-left: 0.1rem;    margin-top: 0.05rem;">*</div>
+                     </div>
                  </div>
                  <input placeholder="请输入次数" class="Input" v-model="PushObject.number" onkeyup="value=value.replace(/[^\d\.]/g,'')" onblur="value=value.replace(/[^\d\.]/g,'')">
              </div>
              <div class="BasicCycle">
                  <div class="Name">
                      <img class="Pic" src="../../assets/Push/cycle.png">
-                     <div>周期</div>
+                     <div style="display: flex">周期
+                         <div style="    color: red;line-height: 20px;margin-left: 0.1rem;    margin-top: 0.05rem;">*</div>
+                     </div>
                  </div>
                  <input placeholder="请输入完成周期" class="Input" v-model="PushObject.cycle" onkeyup="value=value.replace(/[^\d\.]/g,'')" onblur="value=value.replace(/[^\d\.]/g,'')">
                  <select class="Cate" v-model="CycleSelect">
@@ -110,7 +122,9 @@
        </div>
        <div class="Describe">
            <div class="DescribeInfo">
-               <div class="DescribeName">详情描述</div>
+               <div class="DescribeName" style="display: flex;">详情描述
+                   <div style="    color: red;line-height: 20px;margin-left: 0.1rem;margin-top: 0.15rem;">*</div>
+               </div>
                <!--<div class="ImportantIcon">*</div>-->
            </div>
            <textarea placeholder="请输入描述" class="DescribeWord" v-model="PushObject.describe"></textarea>
@@ -164,6 +178,7 @@
                 CateSelectThree:'',
                 CycleSelect:'天',
                 ThreeCate:[],
+                AreaMust:false,
                 actions:[
                     {
                        name:"拍照",
@@ -192,6 +207,9 @@
                 this.TwoCate = this.AllCate[val-1].son
                 this.PushObject.level_one = val
                 this.ThreeCate = ''
+                if(val == 10){
+                    this.AreaMust = true
+                }
             },
             CateSelectTwo:function(val){
                 console.log(val)
@@ -318,6 +336,7 @@
             },
             ConfirmPush:function () {
                 var Token = window.sessionStorage.getItem('token')
+                if(this.CateSelectOne==10&&this.showCity.province){
                 if (Token) {
                     console.log(this.images)
                     var resUrl = []
@@ -377,6 +396,14 @@
                         this.$router.push('/other/login')
                     },500)
                 }
+                }
+                else{
+                    Toast({
+                        message: '请填写省市区',
+                        position: 'middle',
+                        duration: 4000
+                    });
+                }
             }
         },
     }
@@ -403,6 +430,7 @@
 }
 .Name{
     display: flex;
+    width: 20%;
 }
 .cityName{
         height: 60%;

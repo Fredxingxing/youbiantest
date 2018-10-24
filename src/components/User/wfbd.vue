@@ -9,9 +9,9 @@
             <li v-for='(item,key) in wfbd' :key=key @click="GotoDetail(key)">
                 <div class="time-state">
                     <span class='time'>{{item.update_time}}</span>
-                    <span class='state color-FCA62F' v-if="item.type==0">待接单</span>
-                    <span class='state color-FCA62F' v-if="item.type==1">进行中</span>
-                    <span class='state color-FCA62F' v-if="item.type==2">已完成</span>
+                    <span class='state ' v-if="item.status==0">未审核</span>
+                    <span class='state color-FCA62F' v-if="item.status==1">已审核</span>
+                    <span class='state color-f00' v-if="item.status==2">审核不通过</span>
                 </div>
                 <div class="info">
                     <div class="infoleft">
@@ -36,7 +36,10 @@
                     <!--<div class="inforightbottom">{{item.create_time}}</div>-->
                 </div>
                 <div class="operate" v-if='item.type==0||item.type==2'>
-                    <button class='del' @click.stop='del(item.id)'>删除订单</button>
+                    <span class='state color-FCA62F' v-if="item.type==0">待接单</span>
+                    <span class='state color-dd5519' v-if="item.type==1">进行中</span>
+                    <span class='state color-5cce5c' v-if="item.type==2">已完成</span>
+                    <button v-if="item.type==0&&item.status==1" class='del' @click.stop='del(item.id)'>删除订单</button>
                 </div>
             </li>
         </ul>
@@ -209,6 +212,10 @@
                 height: 0.8rem;
                 line-height: .8rem;
                 border-top:.02rem solid #eaeaea;
+                .state{
+                    float: left;
+                    margin-left:.4rem;
+                }
                 .del{
                     border:.02rem solid #727272;
                     background-color: #fff;
