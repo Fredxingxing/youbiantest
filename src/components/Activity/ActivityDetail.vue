@@ -55,7 +55,10 @@
               //  document.documentElement.scrollTop = 0
               var time = setInterval(function () {
                     console.log("定时循环回到顶部")
-                    var top = document.body.scrollTop || document.documentElement.scrollTop;
+                    //桌面端浏览器不能使用document.body.scrollTop获取浏览器窗体的滚动高度
+                    //移动端不能使用document.documentElement.scrollTop获取浏览器窗体的滚动高度
+                    //但都支持window.pageYOffset（ie9以上才支持）
+                    var top = document.body.scrollTop || document.documentElement.scrollTop || window.pageYOffset;
                     console.log(top)
                     var speed = top / 4;
                     console.log(speed)
